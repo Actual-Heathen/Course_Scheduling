@@ -1,0 +1,4 @@
+﻿  Manager.cpp
+C:\Users\henry\Documents\University of Alabama in Huntsville\CS 499-01\Course_Scheduling\Manager.cpp(49,2): error C2280: 'std::basic_ostream<char,std::char_traits<char>>::basic_ostream(const std::basic_ostream<char,std::char_traits<char>> &)': attempting to reference a deleted function
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.35.32215\include\ostream(59,24): message : see declaration of 'std::basic_ostream<char,std::char_traits<char>>::basic_ostream'
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.35.32215\include\ostream(59,24): message : 'std::basic_ostream<char,std::char_traits<char>>::basic_ostream(const std::basic_ostream<char,std::char_traits<char>> &)': function was explicitly deleted
