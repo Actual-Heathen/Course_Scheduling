@@ -51,3 +51,16 @@ void DayTime::setOccupied(string days, string hours, bool status) {
 
 	if (row != -1 && column != -1) times[row][column] = status;
 }
+
+bool DayTime::getOccupied(string days, string hours) {
+	int row, column;
+
+	row = stringToDays(days);
+	column = stringToHour(hours);
+
+	if (row != -1 && column != -1) {
+		return times[row][column];
+	}
+
+	return true;
+}
