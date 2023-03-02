@@ -5,3 +5,6 @@
 #include "../headers/resourceManager.h"
 #include "../headers/room.h"
 
+int main() {
+	return 1;
+}

@@ -6,6 +6,9 @@
 #include <vector>
 using namespace std;
 
-vector<Course> courseList;
-vector<Instructor> instructiorList;
-vector<RoomInfo> roomList;
+class Content {
+public:
+	vector<Course> courseList;
+	vector<Instructor> instructiorList;
+	vector<RoomInfo> roomList;
+};

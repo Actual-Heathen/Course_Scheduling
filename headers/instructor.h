@@ -5,15 +5,24 @@ using namespace std;
 
 class Instructor {
 private:
-	string instructor;
+	string firstName;
+	string lastName;
+	int priority;
+	string preferredClass;
 	bool conflict = false;
 	DayTime schedule;
 
 public:
-	void setName(string input);
+	void setFirstName(string input);
+	void setLastName(string input);
+	void setPriority(int input);
+	void setPreferredClass(string input);
 	void setConflict(bool input);
-	void setOccupied(string days, string hours, bool status);
-	string getName();
+	void setOccupied(int days, int hours, bool status);
+	string getFirstName();
+	string getLastName();
+	int getPriority();
+	string getPreferredClass();
 	bool getConflict();
-	bool getOccupied(string days, string hours);
+	bool getOccupied(int days, int hours);
 };

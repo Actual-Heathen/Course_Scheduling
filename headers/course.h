@@ -5,7 +5,7 @@ using namespace std;
 
 class Course {
 private:
-	char sectionType = 'ß';
+	char sectionType = ' ';
 	int crn = 0;
 	string courseNumber = "";
 	string sectionNumber = "";
@@ -24,7 +24,7 @@ public:
 	void setCredit(double input);
 	void setMaxEnroll(int input);
 	void setConflict(bool input);
-	void setOccupied(string days, string hours, bool status);
+	void setOccupied(int days, int hours, bool status);
 	char getSectionType();
 	int getCRN();
 	string getCourseNumber();
@@ -33,5 +33,5 @@ public:
 	double getCredit();
 	int getMaxEnroll();
 	bool getConflict();
-	bool getOccupied(string days, string hours);
+	bool getOccupied(int days, int hours);
 };

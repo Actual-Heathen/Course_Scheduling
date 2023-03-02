@@ -32,7 +32,7 @@ void Course::setConflict(bool input) {
 	conflict = input;
 }
 
-void Course::setOccupied(string days, string hours, bool status) {
+void Course::setOccupied(int days, int hours, bool status) {
 	schedule.setOccupied(days, hours, status);
 }
 
@@ -68,6 +68,6 @@ bool Course::getConflict() {
 	return conflict;
 }
 
-bool Course::getOccupied(string days, string hours) {
+bool Course::getOccupied(int days, int hours) {
 	return schedule.getOccupied(days, hours);
 }
