@@ -9,6 +9,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    ui->SaveButton->hide();
+
+    ui->PrintButton->hide();
+
 }
 
 
@@ -139,6 +143,11 @@ void MainWindow::on_RoomsButton_clicked()
 void MainWindow::on_GenerateButton_clicked()
 {
 
+    display_Generated_Schedule(generatedFilePath);
+
+    ui->SaveButton->show();
+
+    ui->PrintButton->show();
 
 
 }

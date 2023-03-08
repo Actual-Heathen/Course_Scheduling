@@ -16,6 +16,8 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+    QString generatedFilePath;
+
 public:
 
     MainWindow(QWidget *parent = nullptr);

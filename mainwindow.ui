@@ -275,7 +275,7 @@ border: 1px solid black;
          <string>Print</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="Save">
+       <widget class="QPushButton" name="SaveButton">
         <property name="geometry">
          <rect>
           <x>930</x>
@@ -285,8 +285,16 @@ border: 1px solid black;
          </rect>
         </property>
         <property name="styleSheet">
-         <string notr="true">color: black;
-border: 1px solid black;
+         <string notr="true">QPushButton {	
+	color: black;
+	border: 1px solid black;
+}
+
+QPushButton::pressed {
+	background-color: grey;
+	color: white;
+	border: 1px solid black;
+}
 </string>
         </property>
         <property name="text">
@@ -315,7 +323,7 @@ border: 1px solid black;
        <zorder>DepartmentButton</zorder>
        <zorder>scheduleText</zorder>
        <zorder>PrintButton</zorder>
-       <zorder>Save</zorder>
+       <zorder>SaveButton</zorder>
        <zorder>GenerateButton</zorder>
       </widget>
      </widget>
