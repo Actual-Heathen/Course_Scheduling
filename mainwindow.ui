@@ -57,8 +57,8 @@ background-color: rgb(255, 255, 255);
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1477</width>
-         <height>890</height>
+         <width>1483</width>
+         <height>900</height>
         </rect>
        </property>
        <property name="layoutDirection">
@@ -328,7 +328,7 @@ border: 1px solid black;
      <x>0</x>
      <y>0</y>
      <width>1495</width>
-     <height>21</height>
+     <height>17</height>
     </rect>
    </property>
   </widget>
