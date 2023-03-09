@@ -6,7 +6,7 @@
 #include <vector>
 using namespace std;
 
-class Content {
+class Department {
 public:
 	vector<Course> courseList;
 	vector<Instructor> instructiorList;
