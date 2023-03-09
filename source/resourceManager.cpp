@@ -1,9 +1,9 @@
-#include "../headers/course.h"
-#include "../headers/department.h"
-#include "../headers/engine.h"
-#include "../headers/instructor.h"
-#include "../headers/room.h"
-#include "../headers/mainwindow.h"
+#include "../Course_Scheduling/header/course.h"
+#include "../Course_Scheduling/header/department.h"
+#include "../Course_Scheduling/header/engine.h"
+#include "../Course_Scheduling/header/instructor.h"
+#include "../Course_Scheduling/header/room.h"
+#include "../Course_Scheduling/header/mainwindow.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])

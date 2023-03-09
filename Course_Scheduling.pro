@@ -16,8 +16,10 @@ SOURCES += \
     source/engine.cpp
     source/instructor.cpp
     source/room.cpp
+    source/resourceManager.cpp
 
 HEADERS += \
+    header/course.h \
     header/mainwindow.h
     header/resourceManager.h
     header/department.h
