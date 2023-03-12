@@ -26,3 +26,4 @@ public:
 	bool getConflict();
 	bool getOccupied(int days, int hours);
 };
+
