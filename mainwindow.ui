@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1495</width>
+    <height>951</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Course Scheduler</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>uah.ico</normaloff>
+    <normalon>uah.ico</normalon>
+    <disabledoff>uah.ico</disabledoff>
+    <disabledon>uah.ico</disabledon>
+    <activeoff>uah.ico</activeoff>
+    <activeon>uah.ico</activeon>
+    <selectedoff>uah.ico</selectedoff>
+    <selectedon>uah.ico</selectedon>uah.ico</iconset>
+  </property>
+  <property name="layoutDirection">
+   <enum>Qt::LeftToRight</enum>
+  </property>
+  <property name="iconSize">
+   <size>
+    <width>25</width>
+    <height>25</height>
+   </size>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QScrollArea" name="scrollArea">
+      <property name="styleSheet">
+       <string notr="true">border: 0px;
+
+background-color: rgb(255, 255, 255);
+</string>
+      </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::AdjustToContents</enum>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>1477</width>
+         <height>890</height>
+        </rect>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <widget class="QPushButton" name="DepartmentButton">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>30</y>
+          <width>101</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {	
+	color: black;
+	border: 1px solid black;
+}
+
+QPushButton::pressed {
+	background-color: grey;
+	color: white;
+	border: 1px solid black;
+}</string>
+        </property>
+        <property name="text">
+         <string>Add Department</string>
+        </property>
+       </widget>
+       <widget class="QFrame" name="inputFrame">
+        <property name="geometry">
+         <rect>
+          <x>230</x>
+          <y>10</y>
+          <width>1071</width>
+          <height>61</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border-color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QLineEdit" name="RoomsLine">
+         <property name="geometry">
+          <rect>
+           <x>950</x>
+           <y>20</y>
+           <width>111</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string>color: black;
+border: 1px solid black;
+</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="RoomsButton">
+         <property name="geometry">
+          <rect>
+           <x>850</x>
+           <y>20</y>
+           <width>80</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {	
+	color: black;
+	border: 1px solid black;
+}
+
+QPushButton::pressed {
+	background-color: grey;
+	color: white;
+	border: 1px solid black;
+}</string>
+         </property>
+         <property name="text">
+          <string>Choose File</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="InstructorLine">
+         <property name="geometry">
+          <rect>
+           <x>620</x>
+           <y>20</y>
+           <width>111</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string>color: black;
+border: 1px solid black;
+</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="InstructorButton">
+         <property name="geometry">
+          <rect>
+           <x>520</x>
+           <y>20</y>
+           <width>80</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {	
+	color: black;
+	border: 1px solid black;
+}
+
+QPushButton::pressed {
+	background-color: grey;
+	color: white;
+	border: 1px solid black;
+}</string>
+         </property>
+         <property name="text">
+          <string>Choose File</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="CourseLine">
+         <property name="geometry">
+          <rect>
+           <x>290</x>
+           <y>20</y>
+           <width>111</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: black;
+border: 1px solid black;
+</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="CourseButton">
+         <property name="geometry">
+          <rect>
+           <x>190</x>
+           <y>20</y>
+           <width>80</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {	
+	color: black;
+	border: 1px solid black;
+}
+
+QPushButton::pressed {
+	background-color: grey;
+	color: white;
+	border: 1px solid black;
+}</string>
+         </property>
+         <property name="text">
+          <string>Choose File</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit">
+         <property name="geometry">
+          <rect>
+           <x>5</x>
+           <y>20</y>
+           <width>151</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: black;
+border: 1px solid black;
+</string>
+         </property>
+         <property name="text">
+          <string>Department Name</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QPlainTextEdit" name="scheduleText">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>130</y>
+          <width>1251</width>
+          <height>541</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string>color: black;
+border: 1px solid black;
+</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="PrintButton">
+        <property name="geometry">
+         <rect>
+          <x>1210</x>
+          <y>690</y>
+          <width>80</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {	
+	color: black;
+	border: 1px solid black;
+}
+
+QPushButton::pressed {
+	background-color: grey;
+	color: white;
+	border: 1px solid black;
+}</string>
+        </property>
+        <property name="text">
+         <string>Print</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="SaveButton">
+        <property name="geometry">
+         <rect>
+          <x>1110</x>
+          <y>690</y>
+          <width>80</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {	
+	color: black;
+	border: 1px solid black;
+}
+
+QPushButton::pressed {
+	background-color: grey;
+	color: white;
+	border: 1px solid black;
+}
+</string>
+        </property>
+        <property name="text">
+         <string>Save</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="GenerateButton">
+        <property name="geometry">
+         <rect>
+          <x>1180</x>
+          <y>90</y>
+          <width>111</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {	
+	color: black;
+	border: 1px solid black;
+}
+
+QPushButton::pressed {
+	background-color: grey;
+	color: white;
+	border: 1px solid black;
+}</string>
+        </property>
+        <property name="text">
+         <string>Generate Schedule</string>
+        </property>
+       </widget>
+       <zorder>inputFrame</zorder>
+       <zorder>DepartmentButton</zorder>
+       <zorder>scheduleText</zorder>
+       <zorder>PrintButton</zorder>
+       <zorder>SaveButton</zorder>
+       <zorder>GenerateButton</zorder>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1495</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
