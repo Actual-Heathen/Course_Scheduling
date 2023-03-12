@@ -1,9 +1,10 @@
-#include "header/course.h"
-#include "header/department.h"
-#include "header/engine.h"
-#include "header/instructor.h"
-#include "header/room.h"
-#include "header/mainwindow.h"
+#include "../header/mainwindow.h"
+#include "../headers/course.h"
+#include "../headers/department.h"
+#include "../headers/engine.h"
+#include "../headers/instructor.h"
+#include "../headers/resourceManager.h"
+#include "../headers/room.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
@@ -13,3 +14,4 @@ int main(int argc, char *argv[])
     w.show();
     return a.exec();
 }
+
