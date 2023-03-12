@@ -145,9 +145,61 @@ void MainWindow::on_GenerateButton_clicked()
 
     display_Generated_Schedule(generatedFilePath);
 
+    ui->scheduleText->setPlainText("WIP");
+
     ui->SaveButton->show();
 
     ui->PrintButton->show();
+
+
+}
+
+
+void MainWindow::on_SaveButton_clicked()
+{
+
+    QString filePath = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "/", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+
+    filePath = filePath + "/schedule.txt";
+
+    QString fileContent = ui->scheduleText->toPlainText();
+
+    QFile file(filePath);
+
+    if(file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+
+        QTextStream stream(&file);
+
+        stream << fileContent;
+
+    }
+
+    file.close();
+
+
+}
+
+
+void MainWindow::on_PrintButton_clicked()
+{
+
+    QString filePath = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "/", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+
+    filePath = filePath + "/schedule.txt";
+
+    QString fileContent = ui->scheduleText->toPlainText();
+
+    QFile file(filePath);
+
+    if(file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+
+        QTextStream stream(&file);
+
+        stream << fileContent;
+
+    }
+
+    file.close();
 
 
 }

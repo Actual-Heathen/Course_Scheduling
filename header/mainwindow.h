@@ -34,6 +34,10 @@ private slots:
 
     void on_GenerateButton_clicked(); //grabs filepaths from department(s) and uploads them to array for storage
 
+    void on_SaveButton_clicked();
+
+    void on_PrintButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
