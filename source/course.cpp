@@ -71,3 +71,4 @@ bool Course::getConflict() {
 bool Course::getOccupied(int days, int hours) {
 	return schedule.getOccupied(days, hours);
 }
+

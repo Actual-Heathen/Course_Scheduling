@@ -12,3 +12,4 @@ public:
 	vector<Instructor> instructiorList;
 	vector<RoomInfo> roomList;
 };
+
