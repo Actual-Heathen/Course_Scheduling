@@ -57,8 +57,8 @@ background-color: rgb(255, 255, 255);
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1477</width>
-         <height>890</height>
+         <width>1483</width>
+         <height>900</height>
         </rect>
        </property>
        <property name="layoutDirection">
@@ -133,6 +133,15 @@ QPushButton::pressed {
 border: 1px solid black;
 </string>
          </property>
+         <property name="text">
+          <string>Room File</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
         </widget>
         <widget class="QPushButton" name="RoomsButton">
          <property name="geometry">
@@ -184,6 +193,15 @@ QPushButton::pressed {
           <string>color: black;
 border: 1px solid black;
 </string>
+         </property>
+         <property name="text">
+          <string>Instructor File</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
          </property>
         </widget>
         <widget class="QPushButton" name="InstructorButton">
@@ -237,6 +255,15 @@ QPushButton::pressed {
 border: 1px solid black;
 </string>
          </property>
+         <property name="text">
+          <string>Course File</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
         </widget>
         <widget class="QPushButton" name="CourseButton">
          <property name="geometry">
@@ -263,7 +290,7 @@ QPushButton::pressed {
           <string>Choose File</string>
          </property>
         </widget>
-        <widget class="QLineEdit" name="lineEdit">
+        <widget class="QLineEdit" name="DepartmentLine">
          <property name="geometry">
           <rect>
            <x>5</x>
@@ -399,7 +426,7 @@ QPushButton::pressed {
      <x>0</x>
      <y>0</y>
      <width>1495</width>
-     <height>21</height>
+     <height>17</height>
     </rect>
    </property>
   </widget>

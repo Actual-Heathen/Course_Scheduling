@@ -1,12 +1,22 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
+#include "../Course_Scheduling/header/mainwindow.h"
+#include "../Course_Scheduling/header/course.h"
+#include "../Course_Scheduling/header/department.h"
+#include "../Course_Scheduling/header/engine.h"
+#include "../Course_Scheduling/header/instructor.h"
+#include "../Course_Scheduling/header/resourceManager.h"
+#include "../Course_Scheduling/header/room.h"
 
+#include <QApplication>
+#include <QMainWindow>
 #include <QFile>
 #include <QFileDialog>
 #include <QTextStream>
 #include <QIcon>
+#include <string>
+#include <fstream>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -16,14 +26,20 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    QString generatedFilePath;
+    QString generatedSchedulePath;
+
+    QString fileStoragePath;
 
 public:
+
+    int departmentCounter;
+
+    bool populated;
 
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void display_Generated_Schedule(QString& filePath);
+    void display_Generated_Schedule();
 
 private slots:
     void on_CourseButton_clicked();
@@ -37,6 +53,8 @@ private slots:
     void on_SaveButton_clicked();
 
     void on_PrintButton_clicked();
+
+    void on_DepartmentButton_clicked();
 
 private:
     Ui::MainWindow *ui;
