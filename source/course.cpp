@@ -1,4 +1,4 @@
-#include "../headers/course.h"
+#include "./Course_Scheduling/header/course.h"
 
 void Course::setSectionType(char input) {
 	sectionType = input;

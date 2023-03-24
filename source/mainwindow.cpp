@@ -1,6 +1,17 @@
 #include "../header/mainwindow.h"
 #include "./ui_mainwindow.h"
 
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+
+    MainWindow w;
+
+    w.show();
+
+    return a.exec();
+
+}
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -13,6 +24,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->PrintButton->hide();
 
+    generatedSchedulePath = "../Course_Scheduling/generatedSchedule.txt";
+
+    fileStoragePath = "../Course_Scheduling/filePathStorage.txt";
+
+    departmentCounter = 1;
+
+    populated = false;
+
 }
 
 
@@ -22,10 +41,12 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::display_Generated_Schedule(QString& filePath)
+void MainWindow::display_Generated_Schedule()
 {
 
     QString fileContent;
+
+    QString filePath = generatedSchedulePath;
 
     if (filePath.isEmpty())
         return;
@@ -39,9 +60,9 @@ void MainWindow::display_Generated_Schedule(QString& filePath)
         return;
     }
 
-    QTextStream in(&file);
+    QTextStream stream(&file);
 
-    fileContent = in.readAll();
+    fileContent = stream.readAll();
 
     file.close();
 
@@ -69,9 +90,9 @@ void MainWindow::on_CourseButton_clicked()
         return;
     }
 
-    QTextStream in(&file);
+    QTextStream stream(&file);
 
-    fileContent = in.readAll();
+    fileContent = stream.readAll();
 
     file.close();
 
@@ -99,9 +120,9 @@ void MainWindow::on_InstructorButton_clicked()
         return;
     }
 
-    QTextStream in(&file);
+    QTextStream stream(&file);
 
-    fileContent = in.readAll();
+    fileContent = stream.readAll();
 
     file.close();
 
@@ -129,9 +150,9 @@ void MainWindow::on_RoomsButton_clicked()
         return;
     }
 
-    QTextStream in(&file);
+    QTextStream stream(&file);
 
-    fileContent = in.readAll();
+    fileContent = stream.readAll();
 
     file.close();
 
@@ -143,9 +164,45 @@ void MainWindow::on_RoomsButton_clicked()
 void MainWindow::on_GenerateButton_clicked()
 {
 
-    display_Generated_Schedule(generatedFilePath);
+    QString filePath = fileStoragePath;
 
-    ui->scheduleText->setPlainText("WIP");
+    QFile file(filePath);
+
+    if(file.open(QIODevice::ReadWrite | QIODevice::Text | QIODevice::Truncate)) {
+
+        QTextStream stream(&file);
+
+        for(int i = 0; i < departmentCounter; i++) {
+
+            stream << ui->DepartmentLine->text() << "\n";
+
+            ui->DepartmentLine->clear();
+
+            stream << ui->CourseLine->text() << "\n";
+
+            ui->CourseLine->clear();
+
+            stream << ui->InstructorLine->text() << "\n";
+
+            ui->InstructorLine->clear();
+
+            stream << ui->RoomsLine->text() << "\n";
+
+            ui->RoomsLine->clear();
+
+        }
+
+        populated = true;
+
+    }
+
+    file.close();
+
+    resourceManager(populated, departmentCounter, fileStoragePath.toStdString(), generatedSchedulePath.toStdString());
+
+    populated = false;
+
+    display_Generated_Schedule();
 
     ui->SaveButton->show();
 
@@ -201,6 +258,14 @@ void MainWindow::on_PrintButton_clicked()
 
     file.close();
 
+
+}
+
+
+void MainWindow::on_DepartmentButton_clicked()
+{
+
+    //departmentCounter++; THIS WILL BE ENABLED LATER!!!
 
 }
 

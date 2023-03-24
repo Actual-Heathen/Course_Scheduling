@@ -1,4 +1,8 @@
 #pragma once
-#include "department.h"
+
 #include <string>
+#include <fstream>
+
 using namespace std;
+
+void resourceManager(bool populated, int departmentCounter, string fileStoragePath, string generatedSchedulePath);
