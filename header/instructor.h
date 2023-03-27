@@ -20,7 +20,7 @@ public:
 	void setPriority(int input);
 	void setPreferredClass(string input);
     void setConflict(bool input);
-    void setOccupied(int days, int hours, bool status);
+    void setOccupied(int days, int hours, int status);
     void setSchedule(DayTime input);
 	string getFirstName();
 	string getLastName();

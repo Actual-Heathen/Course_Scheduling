@@ -24,7 +24,7 @@ void Instructor::setConflict(bool input) {
 	conflict = input;
 }
 
-void Instructor::setOccupied(int days, int hours, bool status) {
+void Instructor::setOccupied(int days, int hours, int status) {
 	schedule.setOccupied(days, hours, status);
 }
 

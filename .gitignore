@@ -1,0 +1,94 @@
+# This file is used to ignore files which are generated
+# ----------------------------------------------------------------------------
+
+*~
+*.autosave
+*.a
+*.core
+*.moc
+*.o
+*.obj
+*.orig
+*.rej
+*.so
+*.so.*
+*_pch.h.cpp
+*_resource.rc
+*.qm
+.#*
+*.*#
+core
+!core/
+tags
+.DS_Store
+.directory
+*.debug
+Makefile*
+*.prl
+*.app
+moc_*.cpp
+ui_*.h
+qrc_*.cpp
+Thumbs.db
+*.res
+*.rc
+/.qmake.cache
+/.qmake.stash
+
+# qtcreator generated files
+*.pro.user*
+CMakeLists.txt.user*
+
+# xemacs temporary files
+*.flc
+
+# Vim temporary files
+.*.swp
+
+# Visual Studio generated files
+*.ib_pdb_index
+*.idb
+*.ilk
+*.pdb
+*.sln
+*.suo
+*.vcproj
+*vcproj.*.*.user
+*.ncb
+*.sdf
+*.opensdf
+*.vcxproj
+*vcxproj.*
+
+# MinGW generated files
+*.Debug
+*.Release
+
+# Python byte code
+*.pyc
+
+# Binaries
+# --------
+*.dll
+*.exe
+
+x64/Debug/Course_Scheduling.log
+x64/Debug/Course_S.f659544c.tlog/unsuccessfulbuild
+x64/Debug/Course_S.f659544c.tlog/Course_Scheduling.lastbuildstate
+x64/Debug/Course_S.f659544c.tlog/CL.write.1.tlog
+x64/Debug/Course_S.f659544c.tlog/CL.read.1.tlog
+x64/Debug/Course_S.f659544c.tlog/CL.command.1.tlog
+generatedSchedule.txt
+filePathStorage.txt
+Example CSV Input - Rooms.csv - Shortcut.lnk
+Example CSV Input - Instructor.csv - Shortcut.lnk
+Example CSV Input - Course.csv - Shortcut.lnk
+.vs/Course_Scheduling/v17/Browse.VC.db
+.vs/Course_Scheduling/v17/ipch/AutoPCH/225ab6faffdb51c/DEPARTMENT.ipch
+.vs/Course_Scheduling/v17/ipch/AutoPCH/5b1a4a22548d88bf/COURSE.ipch
+.vs/Course_Scheduling/v17/ipch/AutoPCH/8d598dc920a8e51b/RESOURCEMANAGER.ipch
+.vs/Course_Scheduling/v17/ipch/AutoPCH/9883f11a8a09c029/ROOM.ipch
+.vs/Course_Scheduling/v17/ipch/AutoPCH/9d2cab14da990bb8/ENGINE.ipch
+.vs/Course_Scheduling/v17/ipch/AutoPCH/be2cce8a41613879/DEPARTMENT.ipch
+.vs/Course_Scheduling/v17/ipch/AutoPCH/c5ce46c4e02843e9/INSTRUCTOR.ipch
+.vs/Course_Scheduling/v17/ipch/AutoPCH/e58a73d06cf0abfb/DAYTIME.ipch
