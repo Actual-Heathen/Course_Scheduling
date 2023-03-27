@@ -4,9 +4,9 @@ using namespace std;
 
 class DayTime {
 private:
-	bool times[2][7] = { {false, false, false, false, false, false, false}, {false, false, false, false, false, false, false} };
+    int times[2][7] = { {0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0} };
 
 public:
-	void setOccupied(int days, int hours, bool status);
+	void setOccupied(int days, int hours, int status);
 	bool getOccupied(int days, int hours);
 };

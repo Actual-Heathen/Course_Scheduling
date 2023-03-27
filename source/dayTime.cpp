@@ -1,7 +1,7 @@
-#include "../headers/dayTime.h"
+#include "../header/dayTime.h"
 #include <iostream>
 
-void DayTime::setOccupied(int days, int hours, bool status) {
+void DayTime::setOccupied(int days, int hours, int status) {
 	if (days != -1 && hours != -1) times[days][hours] = status;
 }
 
@@ -11,5 +11,5 @@ bool DayTime::getOccupied(int days, int hours) {
 		return times[days][hours];
 	}
 
-	return true;
+    return 1;
 }
