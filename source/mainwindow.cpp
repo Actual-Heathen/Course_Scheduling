@@ -32,6 +32,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     populated = false;
 
+    darkMode = false;
+
 }
 
 
@@ -266,6 +268,37 @@ void MainWindow::on_DepartmentButton_clicked()
 {
 
     //departmentCounter++; THIS WILL BE ENABLED LATER!!!
+
+}
+
+
+void MainWindow::on_darkModeAction_triggered()
+{
+
+    if(!darkMode) {
+
+        ui->centralWidget->setStyleSheet("background: black; border-style: outset; border-color: dimgrey; color: gainsboro;");
+        ui->scrollAreaWidgetContents->setStyleSheet("QPushButton{border-width: 1px; color: white; background-color: dimgrey;}"
+                                                    "QPushButton::Pressed{border-width: 2px; color: gainsboro; background-color: black}"
+                                                    "QPlainTextEdit{border-width: 2px;}");
+        ui->inputFrame->setStyleSheet("QLineEdit{border-width:2px; color: gainsboro; background-color: black};");
+        ui->menuBar->setStyleSheet("background: dimgrey; border-style: outset; border-color: dimgrey; color: gainsboro;");
+        ui->menuView->setStyleSheet("background: black;");
+
+        darkMode = true;
+
+    } else {
+
+        ui->centralWidget->setStyleSheet("background: white; border-style: outset; border-color: black; color: black;");
+        ui->scrollAreaWidgetContents->setStyleSheet("QPushButton{border-width: 1px; color: black; background-color: white;}"
+                                                    "QPushButton::Pressed{border-width: 2px; color: gainsboro; background-color: black}"
+                                                    "QPlainTextEdit{border-width: 1px;}");
+        ui->inputFrame->setStyleSheet("QLineEdit{border-width:1px; color: black; background-color: white};");
+        ui->menuBar->setStyleSheet("background: white; border-style: outset; border-color: black; color: black;");
+        ui->menuView->setStyleSheet("background: white;");
+
+        darkMode = false;
+    }
 
 }
 
