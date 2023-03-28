@@ -58,6 +58,8 @@ private slots:
 
     void on_darkModeAction_triggered();
 
+    void initialize_table(int rows);
+
 private:
     Ui::MainWindow *ui;
 };

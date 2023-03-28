@@ -69,8 +69,8 @@ background-color: black;</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1477</width>
-         <height>890</height>
+         <width>1483</width>
+         <height>900</height>
         </rect>
        </property>
        <property name="layoutDirection">
@@ -381,7 +381,7 @@ QPlainTextEdit{border-width: 1px;}</string>
          </rect>
         </property>
         <property name="styleSheet">
-         <string notr="true">border-color: black; border-width: 1px;</string>
+         <string notr="true"/>
         </property>
        </widget>
        <zorder>inputFrame</zorder>
@@ -401,7 +401,7 @@ QPlainTextEdit{border-width: 1px;}</string>
      <x>0</x>
      <y>0</y>
      <width>1495</width>
-     <height>21</height>
+     <height>17</height>
     </rect>
    </property>
    <property name="styleSheet">

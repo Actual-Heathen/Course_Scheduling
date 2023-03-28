@@ -3,10 +3,10 @@
 void resourceManager(bool populated, int departmentCounter, string fileStoragePath, string generatedFilePath) {
 
     string generatedSchedule; //TEMPORARY STRING USED FOR TESTING, MUST BE REPLACED WITH ACTUAL GENERATED SCHEDULE (MOST LIKELY IN DIF FORMAT)
-    string department[10];
-    string course[10];
-    string instructor[10];
-    string room[10];
+    string department[departmentCounter];
+    string course[departmentCounter];
+    string instructor[departmentCounter];
+    string room[departmentCounter];
 
     fstream file;
 

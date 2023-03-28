@@ -34,6 +34,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     darkMode = false;
 
+    initialize_table(17);
+
 }
 
 
@@ -68,7 +70,7 @@ void MainWindow::display_Generated_Schedule()
 
     file.close();
 
-    ui->scheduleTable; //ADD EXCEL SPREADSHEET DISPLAY HERE
+    //ui->scheduleTable; ADD EXCEL SPREADSHEET DISPLAY HERE
 
 }
 
@@ -283,8 +285,8 @@ void MainWindow::on_darkModeAction_triggered() //Needs rework to simplify!!
                                                     "QPlainTextEdit{border-width: 2px;}");
         ui->inputFrame->setStyleSheet("QLineEdit{border-width:2px; color: gainsboro; background-color: black};");
         ui->menuBar->setStyleSheet("background: dimgrey; border-style: outset; border-color: dimgrey; color: gainsboro;");
-        ui->menuView->setStyleSheet("background: black;");
-        ui->scheduleTable->setStyleSheet("border-color: dimgrey; border-width: 2px;");
+        ui->menuView->setStyleSheet("background-color: black;");
+        ui->scheduleTable->setStyleSheet("QHeaderView::section{background-color: black; border-width: 0px; color: gainsboro;} QTableCornerButton::section{background-color: black; border-color: dimgray; border-width: 2px;}");
 
         darkMode = true;
 
@@ -297,10 +299,34 @@ void MainWindow::on_darkModeAction_triggered() //Needs rework to simplify!!
         ui->inputFrame->setStyleSheet("QLineEdit{border-width:1px; color: black; background-color: white};");
         ui->menuBar->setStyleSheet("background: white; border-style: outset; border-color: black; color: black;");
         ui->menuView->setStyleSheet("background: white;");
-        ui->scheduleTable->setStyleSheet("border-color: black; border-width: 1px;");
+        ui->scheduleTable->setStyleSheet("QHeaderView::section{background-color: white; border-width: 0px; color: black;} QTableCornerButton::section{background-color: white; border-color: black; border-width: 1px;}");
 
         darkMode = false;
     }
 
 }
 
+void MainWindow::initialize_table(int rows) {
+
+    const int columns = 17;
+
+    auto table = ui->scheduleTable;
+
+    table->setRowCount(rows); //row number will be provided dynamically based on how many departments are scheduled
+
+    table->setColumnCount(columns);
+
+    QString headerRow[columns] = {"Section Type", "CRN", "Course", "Title", "Credit", "Max Enrollment", "Enrolled", "Available", "Wait List", "MTYP", "Days", "Start", "End", "Building", "Room", "Instructor", "Conflict"};
+
+    for(int i = 0; i < columns; i++) {
+
+        auto item = new QTableWidgetItem;
+
+        item->setText(headerRow[i]);
+
+        table->setHorizontalHeaderItem(i, item);
+
+    }
+
+
+}
