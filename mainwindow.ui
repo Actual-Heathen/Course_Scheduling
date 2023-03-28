@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -15,17 +18,21 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>uah.ico</normaloff>
-    <normalon>uah.ico</normalon>
-    <disabledoff>uah.ico</disabledoff>
-    <disabledon>uah.ico</disabledon>
-    <activeoff>uah.ico</activeoff>
-    <activeon>uah.ico</activeon>
-    <selectedoff>uah.ico</selectedoff>
-    <selectedon>uah.ico</selectedon>uah.ico</iconset>
+    <normaloff>icon.ico</normaloff>icon.ico</iconset>
+  </property>
+  <property name="windowOpacity">
+   <double>1.000000000000000</double>
   </property>
   <property name="layoutDirection">
    <enum>Qt::LeftToRight</enum>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QPushButton::Pressed{border-width: 2px; color: gainsboro; background-color: black};
+
+background-color: black;</string>
   </property>
   <property name="iconSize">
    <size>
@@ -33,15 +40,20 @@
     <height>25</height>
    </size>
   </property>
-  <widget class="QWidget" name="centralwidget">
+  <widget class="QWidget" name="centralWidget">
+   <property name="styleSheet">
+    <string notr="true">background: white; border-style: outset; border-color: black; color: black; 
+
+        </string>
+   </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="QScrollArea" name="scrollArea">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="styleSheet">
-       <string notr="true">border: 0px;
-
-background-color: rgb(255, 255, 255);
-</string>
+       <string notr="true"/>
       </property>
       <property name="sizeAdjustPolicy">
        <enum>QAbstractScrollArea::AdjustToContents</enum>
@@ -64,6 +76,13 @@ background-color: rgb(255, 255, 255);
        <property name="layoutDirection">
         <enum>Qt::LeftToRight</enum>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton{border-width: 1px; color: black; background-color: white}
+
+QPushButton::Pressed{border-width: 2px; color: gainsboro; background-color: black}
+
+QPlainTextEdit{border-width: 1px;}</string>
+       </property>
        <widget class="QPushButton" name="DepartmentButton">
         <property name="geometry">
          <rect>
@@ -80,19 +99,13 @@ background-color: rgb(255, 255, 255);
          </sizepolicy>
         </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton {	
-	color: black;
-	border: 1px solid black;
-}
-
-QPushButton::pressed {
-	background-color: grey;
-	color: white;
-	border: 1px solid black;
-}</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>Add Department</string>
+        </property>
+        <property name="shortcut">
+         <string>Ctrl+A</string>
         </property>
        </widget>
        <widget class="QFrame" name="inputFrame">
@@ -105,7 +118,7 @@ QPushButton::pressed {
          </rect>
         </property>
         <property name="styleSheet">
-         <string notr="true">border-color: rgb(255, 255, 255);</string>
+         <string notr="true">QLineEdit{border-width:1px; color: black; background-color: white};</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
@@ -114,6 +127,9 @@ QPushButton::pressed {
          <enum>QFrame::Raised</enum>
         </property>
         <widget class="QLineEdit" name="RoomsLine">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="geometry">
           <rect>
            <x>950</x>
@@ -128,19 +144,23 @@ QPushButton::pressed {
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="mouseTracking">
+          <bool>false</bool>
+         </property>
          <property name="styleSheet">
-          <string>color: black;
-border: 1px solid black;
-</string>
+          <string notr="true"/>
          </property>
          <property name="text">
-          <string>Room File</string>
+          <string/>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
          <property name="readOnly">
           <bool>true</bool>
+         </property>
+         <property name="placeholderText">
+          <string>Room File</string>
          </property>
         </widget>
         <widget class="QPushButton" name="RoomsButton">
@@ -159,22 +179,16 @@ border: 1px solid black;
           </sizepolicy>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton {	
-	color: black;
-	border: 1px solid black;
-}
-
-QPushButton::pressed {
-	background-color: grey;
-	color: white;
-	border: 1px solid black;
-}</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Choose File</string>
          </property>
         </widget>
         <widget class="QLineEdit" name="InstructorLine">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="geometry">
           <rect>
            <x>620</x>
@@ -190,18 +204,19 @@ QPushButton::pressed {
           </sizepolicy>
          </property>
          <property name="styleSheet">
-          <string>color: black;
-border: 1px solid black;
-</string>
+          <string notr="true"/>
          </property>
          <property name="text">
-          <string>Instructor File</string>
+          <string/>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
          <property name="readOnly">
           <bool>true</bool>
+         </property>
+         <property name="placeholderText">
+          <string>Instructor File</string>
          </property>
         </widget>
         <widget class="QPushButton" name="InstructorButton">
@@ -220,22 +235,16 @@ border: 1px solid black;
           </sizepolicy>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton {	
-	color: black;
-	border: 1px solid black;
-}
-
-QPushButton::pressed {
-	background-color: grey;
-	color: white;
-	border: 1px solid black;
-}</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Choose File</string>
          </property>
         </widget>
         <widget class="QLineEdit" name="CourseLine">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="geometry">
           <rect>
            <x>290</x>
@@ -251,18 +260,19 @@ QPushButton::pressed {
           </sizepolicy>
          </property>
          <property name="styleSheet">
-          <string notr="true">color: black;
-border: 1px solid black;
-</string>
+          <string notr="true"/>
          </property>
          <property name="text">
-          <string>Course File</string>
+          <string/>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
          <property name="readOnly">
           <bool>true</bool>
+         </property>
+         <property name="placeholderText">
+          <string>Course File</string>
          </property>
         </widget>
         <widget class="QPushButton" name="CourseButton">
@@ -275,16 +285,7 @@ border: 1px solid black;
           </rect>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton {	
-	color: black;
-	border: 1px solid black;
-}
-
-QPushButton::pressed {
-	background-color: grey;
-	color: white;
-	border: 1px solid black;
-}</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Choose File</string>
@@ -300,15 +301,16 @@ QPushButton::pressed {
           </rect>
          </property>
          <property name="styleSheet">
-          <string notr="true">color: black;
-border: 1px solid black;
-</string>
+          <string notr="true"/>
          </property>
          <property name="text">
-          <string>Department Name</string>
+          <string/>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
+         </property>
+         <property name="placeholderText">
+          <string>Department Name</string>
          </property>
         </widget>
        </widget>
@@ -328,9 +330,7 @@ border: 1px solid black;
          </sizepolicy>
         </property>
         <property name="styleSheet">
-         <string>color: black;
-border: 1px solid black;
-</string>
+         <string notr="true"/>
         </property>
        </widget>
        <widget class="QPushButton" name="PrintButton">
@@ -343,19 +343,13 @@ border: 1px solid black;
          </rect>
         </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton {	
-	color: black;
-	border: 1px solid black;
-}
-
-QPushButton::pressed {
-	background-color: grey;
-	color: white;
-	border: 1px solid black;
-}</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>Print</string>
+        </property>
+        <property name="shortcut">
+         <string>Ctrl+P</string>
         </property>
        </widget>
        <widget class="QPushButton" name="SaveButton">
@@ -368,20 +362,13 @@ QPushButton::pressed {
          </rect>
         </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton {	
-	color: black;
-	border: 1px solid black;
-}
-
-QPushButton::pressed {
-	background-color: grey;
-	color: white;
-	border: 1px solid black;
-}
-</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>Save</string>
+        </property>
+        <property name="shortcut">
+         <string>Ctrl+S</string>
         </property>
        </widget>
        <widget class="QPushButton" name="GenerateButton">
@@ -394,19 +381,13 @@ QPushButton::pressed {
          </rect>
         </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton {	
-	color: black;
-	border: 1px solid black;
-}
-
-QPushButton::pressed {
-	background-color: grey;
-	color: white;
-	border: 1px solid black;
-}</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>Generate Schedule</string>
+        </property>
+        <property name="shortcut">
+         <string>Ctrl+G</string>
         </property>
        </widget>
        <zorder>inputFrame</zorder>
@@ -420,7 +401,7 @@ QPushButton::pressed {
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menubar">
+  <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -429,8 +410,37 @@ QPushButton::pressed {
      <height>17</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background: white; border-style: outset; border-color: black; border-width: 0px; color: black; 
+
+        </string>
+   </property>
+   <widget class="QMenu" name="menuView">
+    <property name="styleSheet">
+     <string notr="true">background-color: white;</string>
+    </property>
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="darkModeAction"/>
+   </widget>
+   <addaction name="menuView"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="darkModeAction">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Dark Mode</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
