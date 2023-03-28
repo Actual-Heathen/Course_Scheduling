@@ -69,8 +69,8 @@ background-color: black;</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1483</width>
-         <height>900</height>
+         <width>1477</width>
+         <height>890</height>
         </rect>
        </property>
        <property name="layoutDirection">
@@ -314,25 +314,6 @@ QPlainTextEdit{border-width: 1px;}</string>
          </property>
         </widget>
        </widget>
-       <widget class="QPlainTextEdit" name="scheduleText">
-        <property name="geometry">
-         <rect>
-          <x>40</x>
-          <y>130</y>
-          <width>1251</width>
-          <height>541</height>
-         </rect>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-       </widget>
        <widget class="QPushButton" name="PrintButton">
         <property name="geometry">
          <rect>
@@ -390,12 +371,25 @@ QPlainTextEdit{border-width: 1px;}</string>
          <string>Ctrl+G</string>
         </property>
        </widget>
+       <widget class="QTableWidget" name="scheduleTable">
+        <property name="geometry">
+         <rect>
+          <x>45</x>
+          <y>130</y>
+          <width>1251</width>
+          <height>541</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border-color: black; border-width: 1px;</string>
+        </property>
+       </widget>
        <zorder>inputFrame</zorder>
        <zorder>DepartmentButton</zorder>
-       <zorder>scheduleText</zorder>
        <zorder>PrintButton</zorder>
        <zorder>SaveButton</zorder>
        <zorder>GenerateButton</zorder>
+       <zorder>scheduleTable</zorder>
       </widget>
      </widget>
     </item>
@@ -407,7 +401,7 @@ QPlainTextEdit{border-width: 1px;}</string>
      <x>0</x>
      <y>0</y>
      <width>1495</width>
-     <height>17</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">

@@ -1,4 +1,4 @@
-#include "../Course_Scheduling/header/resourceManager.h"
+#include "../header/resourceManager.h"
 
 void resourceManager(bool populated, int departmentCounter, string fileStoragePath, string generatedFilePath) {
 

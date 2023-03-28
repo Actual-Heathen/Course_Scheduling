@@ -68,7 +68,7 @@ void MainWindow::display_Generated_Schedule()
 
     file.close();
 
-    ui->scheduleText->setPlainText(fileContent);
+    ui->scheduleTable; //ADD EXCEL SPREADSHEET DISPLAY HERE
 
 }
 
@@ -214,14 +214,14 @@ void MainWindow::on_GenerateButton_clicked()
 }
 
 
-void MainWindow::on_SaveButton_clicked()
+void MainWindow::on_SaveButton_clicked() //WILL NEED REWORK WITH IMPLEMENTATION OF CSVs
 {
 
     QString filePath = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "/", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
     filePath = filePath + "/schedule.txt";
 
-    QString fileContent = ui->scheduleText->toPlainText();
+    QString fileContent = "Place holder until CSV implementation";
 
     QFile file(filePath);
 
@@ -239,14 +239,14 @@ void MainWindow::on_SaveButton_clicked()
 }
 
 
-void MainWindow::on_PrintButton_clicked()
+void MainWindow::on_PrintButton_clicked() //WILL NEED REWORK WITH IMPLEMENTATION OF CSVs
 {
 
     QString filePath = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "/", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
     filePath = filePath + "/schedule.txt";
 
-    QString fileContent = ui->scheduleText->toPlainText();
+    QString fileContent = "Place holder until CSV implementation";
 
     QFile file(filePath);
 
@@ -272,7 +272,7 @@ void MainWindow::on_DepartmentButton_clicked()
 }
 
 
-void MainWindow::on_darkModeAction_triggered()
+void MainWindow::on_darkModeAction_triggered() //Needs rework to simplify!!
 {
 
     if(!darkMode) {
@@ -284,6 +284,7 @@ void MainWindow::on_darkModeAction_triggered()
         ui->inputFrame->setStyleSheet("QLineEdit{border-width:2px; color: gainsboro; background-color: black};");
         ui->menuBar->setStyleSheet("background: dimgrey; border-style: outset; border-color: dimgrey; color: gainsboro;");
         ui->menuView->setStyleSheet("background: black;");
+        ui->scheduleTable->setStyleSheet("border-color: dimgrey; border-width: 2px;");
 
         darkMode = true;
 
@@ -296,6 +297,7 @@ void MainWindow::on_darkModeAction_triggered()
         ui->inputFrame->setStyleSheet("QLineEdit{border-width:1px; color: black; background-color: white};");
         ui->menuBar->setStyleSheet("background: white; border-style: outset; border-color: black; color: black;");
         ui->menuView->setStyleSheet("background: white;");
+        ui->scheduleTable->setStyleSheet("border-color: black; border-width: 1px;");
 
         darkMode = false;
     }

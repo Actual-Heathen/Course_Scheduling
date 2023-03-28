@@ -1,4 +1,4 @@
-#include "../headers/instructor.h"
+#include "../header/instructor.h"
 
 void Instructor::setFirstName(string input) {
 	firstName = input;

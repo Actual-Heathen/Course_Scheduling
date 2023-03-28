@@ -1,4 +1,4 @@
-#include "../headers/dayTime.h"
+#include "../header/dayTime.h"
 #include <iostream>
 
 void DayTime::setOccupied(int days, int hours, bool status) {

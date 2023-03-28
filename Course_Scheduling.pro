@@ -11,8 +11,14 @@ CONFIG += c++17
 RC_ICONS = uah.ico
 
 SOURCES += \
+    source/course.cpp \
+    source/dayTime.cpp \
+    source/department.cpp \
+    source/engine.cpp \
+    source/instructor.cpp \
     source/resourceManager.cpp \
-    source/mainwindow.cpp
+    source/mainwindow.cpp \
+    source/room.cpp
     source/course.cpp
     source/department.cpp
     source/engine.cpp
@@ -22,7 +28,13 @@ SOURCES += \
 
 HEADERS += \
     header/course.h \
-    header/mainwindow.h
+    header/dayTime.h \
+    header/department.h \
+    header/engine.h \
+    header/instructor.h \
+    header/mainwindow.h \
+    header/resourceManager.h \
+    header/room.h
     header/resourceManager.h
     header/department.h
     header/engine.h
@@ -37,3 +49,7 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    README.md \
+    uah.ico
