@@ -24,6 +24,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->PrintButton->hide();
 
+    ui->ConflictLine->hide();
+
+    ui->ValidateButton->hide();
+
     generatedSchedulePath = "../Course_Scheduling/generatedSchedule.txt";
 
     fileStoragePath = "../Course_Scheduling/filePathStorage.txt";
@@ -34,6 +38,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     darkMode = false;
 
+    generated = false;
+
+    validated = false;
+
     initialize_table(17);
 
 }
@@ -41,36 +49,38 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+
     delete ui;
+
 }
 
 
 void MainWindow::display_Generated_Schedule()
 {
 
-    QString fileContent;
+    //ADD EXCEL SPREADSHEET DISPLAY HERE
 
-    QString filePath = generatedSchedulePath;
+    if(generated || validated) {
 
-    if (filePath.isEmpty())
-        return;
+        ui->SaveButton->show();
 
-    QFile file(filePath);
+        ui->PrintButton->show();
 
-    if (!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
+        ui->ConflictLine->show();
 
-        //insert error box here
+        generated = false;
 
-        return;
+        validated = false;
+
     }
 
-    QTextStream stream(&file);
+    if(conflictCounter > 0) {
 
-    fileContent = stream.readAll();
+        ui->ValidateButton->show();
 
-    file.close();
+        ui->ConflictLine->setText(QString("Conflicts: %1").arg(conflictCounter));
 
-    //ui->scheduleTable; ADD EXCEL SPREADSHEET DISPLAY HERE
+    }
 
 }
 
@@ -168,6 +178,8 @@ void MainWindow::on_RoomsButton_clicked()
 void MainWindow::on_GenerateButton_clicked()
 {
 
+    generated = true;
+
     QString filePath = fileStoragePath;
 
     QFile file(filePath);
@@ -200,18 +212,13 @@ void MainWindow::on_GenerateButton_clicked()
 
     }
 
-    file.close();
+    conflictCounter = resourceManager(populated, departmentCounter, fileStoragePath.toStdString(), generatedSchedulePath.toStdString());
 
-    resourceManager(populated, departmentCounter, fileStoragePath.toStdString(), generatedSchedulePath.toStdString());
+    file.close();
 
     populated = false;
 
     display_Generated_Schedule();
-
-    ui->SaveButton->show();
-
-    ui->PrintButton->show();
-
 
 }
 
@@ -237,7 +244,6 @@ void MainWindow::on_SaveButton_clicked() //WILL NEED REWORK WITH IMPLEMENTATION 
 
     file.close();
 
-
 }
 
 
@@ -262,7 +268,6 @@ void MainWindow::on_PrintButton_clicked() //WILL NEED REWORK WITH IMPLEMENTATION
 
     file.close();
 
-
 }
 
 
@@ -279,34 +284,44 @@ void MainWindow::on_darkModeAction_triggered() //Needs rework to simplify!!
 
     if(!darkMode) {
 
-        ui->centralWidget->setStyleSheet("background: black; border-style: outset; border-color: dimgrey; color: gainsboro;");
+        ui->centralWidget->setStyleSheet("QWidget{background: black; border-style: outset; border-color: dimgrey; color: gainsboro;};"
+                                         "QLineEdit{border-width:2px; color: gainsboro; background-color: black};");
         ui->scrollAreaWidgetContents->setStyleSheet("QPushButton{border-width: 1px; color: white; background-color: dimgrey;}"
                                                     "QPushButton::Pressed{border-width: 2px; color: gainsboro; background-color: black}"
                                                     "QPlainTextEdit{border-width: 2px;}");
-        ui->inputFrame->setStyleSheet("QLineEdit{border-width:2px; color: gainsboro; background-color: black};");
+        ui->inputFrame->setStyleSheet("");
         ui->menuBar->setStyleSheet("background: dimgrey; border-style: outset; border-color: dimgrey; color: gainsboro;");
         ui->menuView->setStyleSheet("background-color: black;");
-        ui->scheduleTable->setStyleSheet("QHeaderView::section{background-color: black; border-width: 0px; color: gainsboro;} QTableCornerButton::section{background-color: black; border-color: dimgray; border-width: 2px;}");
+        ui->scheduleTable->setStyleSheet("QTableWidget{border-color: dimgrey; border-width: 2px;}"
+                                         "QHeaderView::section{background-color: black; color: gainsboro;}"
+                                         "QTableCornerButton::section{background-color: black; border-color: dimgray; border-width: 2px;}"
+                                         "QTableWidget {alternate-background-color: dimgrey; gridline-color: white;}");
 
         darkMode = true;
 
     } else {
 
-        ui->centralWidget->setStyleSheet("background: white; border-style: outset; border-color: black; color: black;");
+        ui->centralWidget->setStyleSheet("QWidget{background: white; border-style: outset; border-color: black; color: black;}"
+                                         "QLineEdit{border-width:1px; color: black; background-color: white};");
         ui->scrollAreaWidgetContents->setStyleSheet("QPushButton{border-width: 1px; color: black; background-color: white;}"
                                                     "QPushButton::Pressed{border-width: 2px; color: gainsboro; background-color: black}"
                                                     "QPlainTextEdit{border-width: 1px;}");
-        ui->inputFrame->setStyleSheet("QLineEdit{border-width:1px; color: black; background-color: white};");
+        ui->inputFrame->setStyleSheet("");
         ui->menuBar->setStyleSheet("background: white; border-style: outset; border-color: black; color: black;");
         ui->menuView->setStyleSheet("background: white;");
-        ui->scheduleTable->setStyleSheet("QHeaderView::section{background-color: white; border-width: 0px; color: black;} QTableCornerButton::section{background-color: white; border-color: black; border-width: 1px;}");
+        ui->scheduleTable->setStyleSheet("QTableWidget{border-color: black; border-width: 1px;}"
+                                         "QHeaderView::section{background-color: white; color: black;}"
+                                         "QTableCornerButton::section{background-color: white; border-color: black; border-width: 1px;}"
+                                         "QTableWidget {alternate-background-color: lightgrey; gridline-color: black;}");
 
         darkMode = false;
     }
 
 }
 
-void MainWindow::initialize_table(int rows) {
+
+void MainWindow::initialize_table(int rows)
+{
 
     const int columns = 17;
 
@@ -328,5 +343,23 @@ void MainWindow::initialize_table(int rows) {
 
     }
 
+}
+
+
+void MainWindow::on_ValidateButton_clicked()
+{
+
+    validated = true;
+
+    //add function call here to resourceManager to validate changes made to schedule: i.e. create new CSV and scan it, then print it back out
+
+    ui->SaveButton->hide();
+
+    ui->PrintButton->hide();
+
+    ui->ValidateButton->hide();
+
+    display_Generated_Schedule();
 
 }
+

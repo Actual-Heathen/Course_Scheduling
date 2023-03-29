@@ -32,9 +32,9 @@ class MainWindow : public QMainWindow
 
 public:
 
-    int departmentCounter;
+    int departmentCounter, conflictCounter;
 
-    bool populated, darkMode;
+    bool populated, darkMode, generated, validated;
 
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -59,6 +59,8 @@ private slots:
     void on_darkModeAction_triggered();
 
     void initialize_table(int rows);
+
+    void on_ValidateButton_clicked();
 
 private:
     Ui::MainWindow *ui;
