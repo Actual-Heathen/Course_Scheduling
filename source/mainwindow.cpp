@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    ui->GenerateButton->hide();
+
     ui->SaveButton->hide();
 
     ui->PrintButton->hide();
@@ -32,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     fileStoragePath = "../Course_Scheduling/filePathStorage.txt";
 
-    departmentCounter = 1;
+    departmentCounter = 0;
 
     populated = false;
 
@@ -85,96 +87,6 @@ void MainWindow::display_Generated_Schedule()
 }
 
 
-void MainWindow::on_CourseButton_clicked()
-{
-
-    QString fileContent;
-
-    QString fileName = QFileDialog::getOpenFileName(this, "Choose File");
-
-    if (fileName.isEmpty())
-        return;
-
-    QFile file(fileName);
-
-    if (!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
-
-        //insert error box here
-
-        return;
-    }
-
-    QTextStream stream(&file);
-
-    fileContent = stream.readAll();
-
-    file.close();
-
-    ui->CourseLine->setText(fileName);
-
-}
-
-
-void MainWindow::on_InstructorButton_clicked()
-{
-
-    QString fileContent;
-
-    QString fileName = QFileDialog::getOpenFileName(this, "Choose File");
-
-    if (fileName.isEmpty())
-        return;
-
-    QFile file(fileName);
-
-    if (!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
-
-        //insert error box here
-
-        return;
-    }
-
-    QTextStream stream(&file);
-
-    fileContent = stream.readAll();
-
-    file.close();
-
-    ui->InstructorLine->setText(fileName);
-
-}
-
-
-void MainWindow::on_RoomsButton_clicked()
-{
-
-    QString fileContent;
-
-    QString filePath = QFileDialog::getOpenFileName(this, "Choose File");
-
-    if (filePath.isEmpty())
-        return;
-
-    QFile file(filePath);
-
-    if (!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
-
-        //insert error box here
-
-        return;
-    }
-
-    QTextStream stream(&file);
-
-    fileContent = stream.readAll();
-
-    file.close();
-
-    ui->RoomsLine->setText(filePath);
-
-}
-
-
 void MainWindow::on_GenerateButton_clicked()
 {
 
@@ -188,23 +100,39 @@ void MainWindow::on_GenerateButton_clicked()
 
         QTextStream stream(&file);
 
-        for(int i = 0; i < departmentCounter; i++) {
+        QHash<QWidget*, QHBoxLayout*>::Iterator index;
 
-            stream << ui->DepartmentLine->text() << "\n";
+        for(index = DepartmentLayoutMap.begin(); index != DepartmentLayoutMap.end(); index++) { //BUG - Iterates through the entire hash map (even though only one department)
 
-            ui->DepartmentLine->clear();
+            QHBoxLayout* DepartmentLayout = DepartmentLayoutMap.value(index.key());
 
-            stream << ui->CourseLine->text() << "\n";
+            QWidget* Widget = DepartmentLayout->itemAt(1)->widget();
 
-            ui->CourseLine->clear();
+            QLineEdit* DepartmentName = qobject_cast<QLineEdit*>(Widget);
 
-            stream << ui->InstructorLine->text() << "\n";
+            Widget = DepartmentLayout->itemAt(3)->widget();
 
-            ui->InstructorLine->clear();
+            QLineEdit* CourseFile = qobject_cast<QLineEdit*>(Widget);
 
-            stream << ui->RoomsLine->text() << "\n";
+            Widget = DepartmentLayout->itemAt(5)->widget();
 
-            ui->RoomsLine->clear();
+            QLineEdit* InstructorFile = qobject_cast<QLineEdit*>(Widget);
+
+            Widget = DepartmentLayout->itemAt(7)->widget();
+
+            QLineEdit* RoomFile = qobject_cast<QLineEdit*>(Widget);
+
+            if(!DepartmentName->text().isEmpty())
+                stream << DepartmentName->text() << "\n";
+
+            if(!CourseFile->text().isEmpty())
+                stream << CourseFile->text() << "\n";
+
+            if(!InstructorFile->text().isEmpty())
+                stream << InstructorFile->text() << "\n";
+
+            if(!RoomFile->text().isEmpty())
+                stream << RoomFile->text() << "\n";
 
         }
 
@@ -273,8 +201,141 @@ void MainWindow::on_PrintButton_clicked() //WILL NEED REWORK WITH IMPLEMENTATION
 
 void MainWindow::on_DepartmentButton_clicked()
 {
+    ui->GenerateButton->show();
 
-    //departmentCounter++; THIS WILL BE ENABLED LATER!!!
+    departmentCounter++;
+
+    ui->DepartmentFrame->setFixedSize(ui->DepartmentFrame->width(), ui->DepartmentFrame->height()+40);
+
+    QVBoxLayout* Layout = qobject_cast<QVBoxLayout*>(ui->additionalDepartmentLayout->layout());
+
+    QHBoxLayout* DepartmentLayout = new QHBoxLayout(ui->DepartmentFrame);
+
+    QPushButton* RemoveButton = new QPushButton(("Remove Department"), ui->DepartmentFrame);
+
+    QPushButton* CourseButton = new QPushButton("Choose File", ui->DepartmentFrame);
+
+    QPushButton* InstructorButton = new QPushButton("Choose File", ui->DepartmentFrame);
+
+    QPushButton* RoomButton = new QPushButton("Choose File", ui->DepartmentFrame);
+
+    QLineEdit* DepartmentLine = new QLineEdit(ui->DepartmentFrame);
+
+    QLineEdit* CourseLine = new QLineEdit(ui->DepartmentFrame);
+
+    QLineEdit* InstructorLine = new QLineEdit(ui->DepartmentFrame);
+
+    QLineEdit* RoomLine = new QLineEdit(ui->DepartmentFrame);
+
+    DepartmentLayout->addWidget(RemoveButton);
+
+    DepartmentLayout->addWidget(DepartmentLine);
+
+    DepartmentLayout->addWidget(CourseButton);
+
+    DepartmentLayout->addWidget(CourseLine);
+
+    DepartmentLayout->addWidget(InstructorButton);
+
+    DepartmentLayout->addWidget(InstructorLine);
+
+    DepartmentLayout->addWidget(RoomButton);
+
+    DepartmentLayout->addWidget(RoomLine);
+
+    Layout->insertLayout(0, DepartmentLayout);
+
+    DepartmentLayoutMap.insert(RemoveButton, DepartmentLayout);
+
+    DepartmentLayoutMap.insert(CourseButton, DepartmentLayout);
+
+    DepartmentLayoutMap.insert(InstructorButton, DepartmentLayout);
+
+    DepartmentLayoutMap.insert(RoomButton, DepartmentLayout);
+
+    DepartmentLayoutMap.insert(DepartmentLine, DepartmentLayout);
+
+    DepartmentLayoutMap.insert(CourseLine, DepartmentLayout);
+
+    DepartmentLayoutMap.insert(InstructorLine, DepartmentLayout);
+
+    DepartmentLayoutMap.insert(RoomLine, DepartmentLayout);
+
+    QObject::connect(RemoveButton, &QPushButton::clicked, this, &MainWindow::on_RemoveButton_clicked);
+
+    QObject::connect(CourseButton, &QPushButton::clicked, this, &MainWindow::findFilePath);
+
+    QObject::connect(InstructorButton, &QPushButton::clicked, this, &MainWindow::findFilePath);
+
+    QObject::connect(RoomButton, &QPushButton::clicked, this, &MainWindow::findFilePath);
+
+}
+
+
+void MainWindow::on_RemoveButton_clicked()
+{
+
+    departmentCounter--;
+
+    QPushButton* RemoveButton = qobject_cast<QPushButton*>(sender());
+
+    QHBoxLayout* DepartmentLayout = DepartmentLayoutMap.value(RemoveButton);
+
+    while (DepartmentLayout->count() != 0) {
+
+        QLayoutItem* Item = DepartmentLayout->takeAt(0);
+
+        delete Item->widget();
+
+        delete Item;
+
+    }
+
+    delete DepartmentLayout;
+
+}
+
+
+void MainWindow::findFilePath()
+{
+
+    QPushButton* FileButton1 = qobject_cast<QPushButton*>(sender());
+
+    QHBoxLayout* DepartmentLayout = DepartmentLayoutMap.value(FileButton1);
+
+    for(int i = 0; i < DepartmentLayout->count(); i++) {
+
+        QWidget* Widget = DepartmentLayout->itemAt(i)->widget();
+
+        QPushButton* FileButton2 = qobject_cast<QPushButton*>(Widget);
+
+        if (FileButton1 == FileButton2) {
+
+            QWidget* Widget2 = DepartmentLayout->itemAt(i+1)->widget();
+
+            QLineEdit* LineEdit = qobject_cast<QLineEdit*>(Widget2);
+
+            QString filePath = QFileDialog::getOpenFileName(this, "Choose File");
+
+            QFile file(filePath);
+
+            if (!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
+
+                LineEdit->setText("File Not Found!");
+
+            }else {
+
+                LineEdit->setText(filePath);
+
+            }
+
+            file.close();
+
+            i = DepartmentLayout->count();
+
+        }
+
+    }
 
 }
 
@@ -289,13 +350,11 @@ void MainWindow::on_darkModeAction_triggered() //Needs rework to simplify!!
         ui->scrollAreaWidgetContents->setStyleSheet("QPushButton{border-width: 1px; color: white; background-color: dimgrey;}"
                                                     "QPushButton::Pressed{border-width: 2px; color: gainsboro; background-color: black}"
                                                     "QPlainTextEdit{border-width: 2px;}");
-        ui->inputFrame->setStyleSheet("");
         ui->menuBar->setStyleSheet("background: dimgrey; border-style: outset; border-color: dimgrey; color: gainsboro;");
         ui->menuView->setStyleSheet("background-color: black;");
-        ui->scheduleTable->setStyleSheet("QTableWidget{border-color: dimgrey; border-width: 2px;}"
+        ui->scheduleTable->setStyleSheet("QTableWidget{border-color: dimgrey; border-width: 2px; alternate-background-color: dimgrey; gridline-color: white;}"
                                          "QHeaderView::section{background-color: black; color: gainsboro;}"
-                                         "QTableCornerButton::section{background-color: black; border-color: dimgray; border-width: 2px;}"
-                                         "QTableWidget {alternate-background-color: dimgrey; gridline-color: white;}");
+                                         "QTableCornerButton::section{background-color: black; border-color: dimgray; border-width: 2px;}");
 
         darkMode = true;
 
@@ -306,13 +365,11 @@ void MainWindow::on_darkModeAction_triggered() //Needs rework to simplify!!
         ui->scrollAreaWidgetContents->setStyleSheet("QPushButton{border-width: 1px; color: black; background-color: white;}"
                                                     "QPushButton::Pressed{border-width: 2px; color: gainsboro; background-color: black}"
                                                     "QPlainTextEdit{border-width: 1px;}");
-        ui->inputFrame->setStyleSheet("");
         ui->menuBar->setStyleSheet("background: white; border-style: outset; border-color: black; color: black;");
         ui->menuView->setStyleSheet("background: white;");
-        ui->scheduleTable->setStyleSheet("QTableWidget{border-color: black; border-width: 1px;}"
+        ui->scheduleTable->setStyleSheet("QTableWidget{border-color: black; border-width: 1px; alternate-background-color: lightgrey; gridline-color: black;}"
                                          "QHeaderView::section{background-color: white; color: black;}"
-                                         "QTableCornerButton::section{background-color: white; border-color: black; border-width: 1px;}"
-                                         "QTableWidget {alternate-background-color: lightgrey; gridline-color: black;}");
+                                         "QTableCornerButton::section{background-color: white; border-color: black; border-width: 1px;}");
 
         darkMode = false;
     }
@@ -362,4 +419,5 @@ void MainWindow::on_ValidateButton_clicked()
     display_Generated_Schedule();
 
 }
+
 
