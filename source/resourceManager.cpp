@@ -1,12 +1,14 @@
-#include "../Course_Scheduling/header/resourceManager.h"
+#include "../header/resourceManager.h"
 
-void resourceManager(bool populated, int departmentCounter, string fileStoragePath, string generatedFilePath) {
+int resourceManager(bool populated, int departmentCounter, string fileStoragePath, string generatedFilePath) {
 
     string generatedSchedule; //TEMPORARY STRING USED FOR TESTING, MUST BE REPLACED WITH ACTUAL GENERATED SCHEDULE (MOST LIKELY IN DIF FORMAT)
-    string department[10];
-    string course[10];
-    string instructor[10];
-    string room[10];
+    string department[departmentCounter];
+    string course[departmentCounter];
+    string instructor[departmentCounter];
+    string room[departmentCounter];
+
+    int conflictCounter = 1; //used to count the number of conflicts recorded during generation/validation of the schedule.
 
     fstream file;
 
@@ -44,7 +46,11 @@ void resourceManager(bool populated, int departmentCounter, string fileStoragePa
 
         file.close();
 
+        return conflictCounter;
+
     }
+
+    return 0;
 
 }
 
