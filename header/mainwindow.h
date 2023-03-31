@@ -34,7 +34,7 @@ public:
 
     int departmentCounter;
 
-    bool populated;
+    bool populated, darkMode;
 
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -55,6 +55,8 @@ private slots:
     void on_PrintButton_clicked();
 
     void on_DepartmentButton_clicked();
+
+    void on_darkModeAction_triggered();
 
 private:
     Ui::MainWindow *ui;
