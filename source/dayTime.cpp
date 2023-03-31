@@ -1,14 +1,14 @@
 #include "../header/dayTime.h"
 #include <iostream>
 
-void DayTime::setOccupied(int days, int hours, int status) {
+void DayTime::setAvailability(int days, int hours, int status) {
 	if (days != -1 && hours != -1) times[days][hours] = status;
 }
 
-bool DayTime::getOccupied(int days, int hours) {
+bool DayTime::getAvailability(int daysInput, int hoursInput) {
 
-	if (days != -1 && hours != -1) {
-		return times[days][hours];
+	if (daysInput != -1 && hoursInput != -1 && daysInput <= days && hoursInput <= hours) {
+		return times[daysInput][hoursInput];
 	}
 
     return 1;

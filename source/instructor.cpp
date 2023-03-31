@@ -12,6 +12,14 @@ void Instructor::setMaxCourses(int input) {
 	maxCourses = input;
 }
 
+void Instructor::increaseClassesTaught() {
+	++currentlyTeaching;
+}
+
+void Instructor::decreaseClassesTaught() {
+	--currentlyTeaching;
+}
+
 void Instructor::setPriority(int input) {
 	priority = input;
 }
@@ -20,20 +28,8 @@ void Instructor::setPreferredClass(string input) {
 	preferredClass = input;
 }
 
-void Instructor::setConflict(bool input) {
-	conflict = input;
-}
-
-void Instructor::setOccupied(int days, int hours, int status) {
-	schedule.setOccupied(days, hours, status);
-}
-
-void Instructor::setSchedule(DayTime input) {
-	for (int days = 0; days < 2; ++days) {
-		for (int hours = 0; hours < 7; ++hours) {
-			schedule.setOccupied(days, hours, input.getOccupied(days, hours));
-		}
-	}
+void Instructor::setAvailability(int days, int hours, int status) {
+	schedule.setAvailability(days, hours, status);
 }
 
 string Instructor::getFirstName() {
@@ -48,6 +44,10 @@ int Instructor::getMaxCourses() {
 	return maxCourses;
 }
 
+int Instructor::getCurrentlyTeaching() {
+    return currentlyTeaching;
+}
+
 int Instructor::getPriority() {
 	return priority;
 }
@@ -56,14 +56,6 @@ string Instructor::getPreferredClass() {
 	return preferredClass;
 }
 
-bool Instructor::getConflict() {
-	return conflict;
-}
-
-bool Instructor::getOccupied(int days, int hours) {
-	return schedule.getOccupied(days, hours);
-}
-
-DayTime Instructor::getSchedule() {
-	return DayTime();
+bool Instructor::getAvailability(int days, int hours) {
+	return schedule.getAvailability(days, hours);
 }

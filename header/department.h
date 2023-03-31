@@ -10,6 +10,6 @@ class Department {
 public:
 	vector<Course> courseList;
     vector<Instructor> instructorList;
-	vector<RoomInfo> roomList;
+	vector<string> roomList;
 };
 

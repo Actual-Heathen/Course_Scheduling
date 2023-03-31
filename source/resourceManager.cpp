@@ -1,6 +1,7 @@
 #include "../header/resourceManager.h"
 #include <iostream>
 #include<sstream>
+#include <map>
 
 void resourceManager(bool populated, int departmentCounter, string fileStoragePath, string generatedFilePath) {
 
@@ -9,9 +10,8 @@ void resourceManager(bool populated, int departmentCounter, string fileStoragePa
     string course[10];
     string instructor[10];
     string room[10];
-    vector<Course> courseList;
-    vector<Instructor> instructorList;
-    vector<RoomInfo> roomList;
+	map<string, RoomInfo> roomMap;
+    vector<Department> departmentList;
     Department departmentObject;
 
     fstream file;
@@ -52,49 +52,56 @@ void resourceManager(bool populated, int departmentCounter, string fileStoragePa
 
     }
 
-    // Populate courseList
-	file.open(course[0], fstream::in);
-	if (file.is_open()) {
-		string data;
-        getline(file, data);    // Skip title header
+	// Create a Department object and map rooms for each entry
+    for (int entry = 0; entry < departmentCounter; ++entry) {
+		// Populate courseList
+		file.open(course[entry], fstream::in);
+		if (file.is_open()) {
+			string data;
+			getline(file, data);    // Skip title header
 
-		while (getline(file, data)) {
-			courseList.push_back(createCourse(data));
-        }
+			while (getline(file, data)) {
+				departmentObject.courseList.push_back(createCourse(data));
+			}
 
-        file.close();
-    }
-
-	// Populate instructorList
-	file.open(instructor[0], fstream::in);
-	if (file.is_open()) {
-		string data;
-		getline(file, data);    // Skip title header
-
-		while (getline(file, data)) {
-			instructorList.push_back(createInstructor(data));
+			file.close();
 		}
 
-		file.close();
+		// Populate instructorList
+		file.open(instructor[entry], fstream::in);
+		if (file.is_open()) {
+			string data;
+			getline(file, data);    // Skip title header
+
+			while (getline(file, data)) {
+				departmentObject.instructorList.push_back(createInstructor(data));
+			}
+
+			file.close();
+		}
+
+        // Populate roomList and roomMap
+		file.open(room[entry], fstream::in);
+		if (file.is_open()) {
+			string data;
+            string roomName;
+			getline(file, data);    // Skip title header
+
+			while (getline(file, data)) {
+				RoomInfo roomObject = createRoom(data);
+				roomName.append(roomObject.getBuildingName());
+				roomName.append(" ");
+				roomName.append(roomObject.getRoomNumber());
+				departmentObject.roomList.push_back(roomName);
+
+				roomMap.insert(pair<string, RoomInfo>(roomName, roomObject));
+			}
+
+			file.close();
+		}
+
+		departmentList.push_back(departmentObject);
 	}
-
-	// Populate roomList
-	file.open(room[0], fstream::in);
-	if (file.is_open()) {
-		string data;
-		getline(file, data);    // Skip title header
-
-		while (getline(file, data)) {
-			roomList.push_back(createRoom(data));
-		}
-
-		file.close();
-    }
-
-	// Create Department object
-    departmentObject.courseList = courseList;
-    departmentObject.instructorList = instructorList;
-    departmentObject.roomList = roomList;
 }
 
 Instructor createInstructor(string data) {
@@ -125,10 +132,10 @@ Instructor createInstructor(string data) {
     // Transform vector of strings into schedule
 	try {
 		for (int i = 5; i < 12; ++i) {
-			instructorObject.setOccupied(0, i - 5, stoi(splitData[i]));
+			instructorObject.setAvailability(0, i - 5, stoi(splitData[i]));
 		}
 		for (int i = 12; i < 19; ++i) {
-			instructorObject.setOccupied(1, i - 12, stoi(splitData[i]));
+			instructorObject.setAvailability(1, i - 12, stoi(splitData[i]));
 		}
 	}
 	catch (...) { cout << "ERROR: Schedule not set to a number" << endl; }
@@ -190,10 +197,10 @@ RoomInfo createRoom(string data){
 	// Transform vector of strings into schedule
 	try {
 		for (int i = 3; i < 10; ++i) {
-			roomObject.setOccupied(0, i - 3, stoi(splitData[i]));
+			roomObject.setAvailability(0, i - 3, stoi(splitData[i]));
 		}
 		for (int i = 10; i < 17; ++i) {
-			roomObject.setOccupied(1, i - 10, stoi(splitData[i]));
+			roomObject.setAvailability(1, i - 10, stoi(splitData[i]));
 		}
 	}
 	catch (...) { cout << "ERROR: Schedule not set to a number" << endl; }
