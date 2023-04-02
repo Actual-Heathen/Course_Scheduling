@@ -1,13 +1,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "../header/mainwindow.h"
-#include "../header/course.h"
-#include "../header/department.h"
-#include "../header/engine.h"
-#include "../header/instructor.h"
-#include "../header/resourceManager.h"
-#include "../header/room.h"
+#include "ui_mainwindow.h"
+#include "course.h"
+#include "department.h"
+#include "engine.h"
+#include "instructor.h"
+#include "resourceManager.h"
+#include "room.h"
 
 #include <QApplication>
 #include <QMainWindow>
@@ -32,9 +32,9 @@ class MainWindow : public QMainWindow
 
 public:
 
-    int departmentCounter;
+    int departmentCounter, conflictCounter;
 
-    bool populated, darkMode;
+    bool populated, darkMode, generated, validated;
 
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -42,11 +42,6 @@ public:
     void display_Generated_Schedule();
 
 private slots:
-    void on_CourseButton_clicked();
-
-    void on_InstructorButton_clicked();
-
-    void on_RoomsButton_clicked();
 
     void on_GenerateButton_clicked(); //grabs filepaths from department(s) and uploads them to array for storage
 
@@ -56,10 +51,21 @@ private slots:
 
     void on_DepartmentButton_clicked();
 
+    void on_RemoveButton_clicked();
+
     void on_darkModeAction_triggered();
+
+    void initialize_table(int rows);
+
+    void on_ValidateButton_clicked();
+
+    void findFilePath();
 
 private:
     Ui::MainWindow *ui;
+
+    QHash<QWidget*, QHBoxLayout*> DepartmentLayoutMap;
+
 };
 #endif // MAINWINDOW_H
 

@@ -3,16 +3,18 @@
 #include<sstream>
 #include <map>
 
-void resourceManager(bool populated, int departmentCounter, string fileStoragePath, string generatedFilePath) {
+int resourceManager(bool populated, int departmentCounter, string fileStoragePath, string generatedFilePath) {
 
     string generatedSchedule; //TEMPORARY STRING USED FOR TESTING, MUST BE REPLACED WITH ACTUAL GENERATED SCHEDULE (MOST LIKELY IN DIF FORMAT)
-    string department[10];
-    string course[10];
-    string instructor[10];
-    string room[10];
-	map<string, RoomInfo> roomMap;
+    string department[departmentCounter];
+    string course[departmentCounter];
+    string instructor[departmentCounter];
+    string room[departmentCounter];
+    map<string, RoomInfo> roomMap;
     vector<Department> departmentList;
     Department departmentObject;
+
+    int conflictCounter = 1; //used to count the number of conflicts recorded during generation/validation of the schedule.
 
     fstream file;
 
@@ -49,6 +51,8 @@ void resourceManager(bool populated, int departmentCounter, string fileStoragePa
             file << generatedSchedule;
 
         file.close();
+
+        return conflictCounter;
 
     }
 
@@ -102,6 +106,8 @@ void resourceManager(bool populated, int departmentCounter, string fileStoragePa
 
 		departmentList.push_back(departmentObject);
 	}
+
+    return 0;
 }
 
 Instructor createInstructor(string data) {
