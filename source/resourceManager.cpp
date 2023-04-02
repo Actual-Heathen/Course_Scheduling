@@ -5,6 +5,8 @@
 
 int resourceManager(bool populated, int departmentCounter, string fileStoragePath, string generatedFilePath) {
 
+    cout<<"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"<<endl;
+
     string generatedSchedule; //TEMPORARY STRING USED FOR TESTING, MUST BE REPLACED WITH ACTUAL GENERATED SCHEDULE (MOST LIKELY IN DIF FORMAT)
     string department[departmentCounter];
     string course[departmentCounter];
@@ -51,9 +53,6 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
             file << generatedSchedule;
 
         file.close();
-
-        return conflictCounter;
-
     }
 
 	// Create a Department object and map rooms for each entry
@@ -105,9 +104,9 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
 		}
 
 		departmentList.push_back(departmentObject);
-	}
+    }
 
-    return 0;
+    return conflictCounter;
 }
 
 Instructor createInstructor(string data) {
