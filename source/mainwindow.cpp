@@ -44,8 +44,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     validated = false;
 
-    initialize_table(17);
-
 }
 
 
@@ -60,7 +58,7 @@ MainWindow::~MainWindow()
 void MainWindow::display_Generated_Schedule()
 {
 
-    //ADD EXCEL SPREADSHEET DISPLAY HERE
+    initialize_table();
 
     if(generated || validated) {
 
@@ -100,9 +98,9 @@ void MainWindow::on_GenerateButton_clicked()
 
         QTextStream stream(&file);
 
-        QHash<QWidget*, QHBoxLayout*>::Iterator index;
+        QMap<QWidget*, QHBoxLayout*>::iterator index;
 
-        for(index = DepartmentLayoutMap.begin(); index != DepartmentLayoutMap.end(); index++) { //BUG - Iterates through the entire hash map (even though only one department)
+        for(index = DepartmentLayoutMap.begin(); index != DepartmentLayoutMap.end(); index++) {
 
             QHBoxLayout* DepartmentLayout = DepartmentLayoutMap.value(index.key());
 
@@ -133,6 +131,10 @@ void MainWindow::on_GenerateButton_clicked()
 
             if(!RoomFile->text().isEmpty())
                 stream << RoomFile->text() << "\n";
+
+            index++;
+            index++;
+            index++;
 
         }
 
@@ -253,14 +255,6 @@ void MainWindow::on_DepartmentButton_clicked()
 
     DepartmentLayoutMap.insert(RoomButton, DepartmentLayout);
 
-    DepartmentLayoutMap.insert(DepartmentLine, DepartmentLayout);
-
-    DepartmentLayoutMap.insert(CourseLine, DepartmentLayout);
-
-    DepartmentLayoutMap.insert(InstructorLine, DepartmentLayout);
-
-    DepartmentLayoutMap.insert(RoomLine, DepartmentLayout);
-
     QObject::connect(RemoveButton, &QPushButton::clicked, this, &MainWindow::on_RemoveButton_clicked);
 
     QObject::connect(CourseButton, &QPushButton::clicked, this, &MainWindow::findFilePath);
@@ -377,26 +371,74 @@ void MainWindow::on_darkModeAction_triggered() //Needs rework to simplify!!
 }
 
 
-void MainWindow::initialize_table(int rows)
+void MainWindow::initialize_table() //Consider moving to within the generate schedule button
 {
-
-    const int columns = 17;
 
     auto table = ui->scheduleTable;
 
-    table->setRowCount(rows); //row number will be provided dynamically based on how many departments are scheduled
+    QStringList cellData;
 
-    table->setColumnCount(columns);
+    QString filePath = "../Course_Scheduling/example.csv";
 
-    QString headerRow[columns] = {"Section Type", "CRN", "Course", "Title", "Credit", "Max Enrollment", "Enrolled", "Available", "Wait List", "MTYP", "Days", "Start", "End", "Building", "Room", "Instructor", "Conflict"};
+    QString headerRow[] = {"Section Type", "CRN", "Course", "Title", "Credit", "Max Enrollment", "Enrolled", "Available", "Wait List", "MTYP", "Days", "Start", "End", "Building", "Room", "Instructor", "Conflict"};
 
-    for(int i = 0; i < columns; i++) {
+    QString data;
 
-        auto item = new QTableWidgetItem;
+    QFile file(filePath);
 
-        item->setText(headerRow[i]);
+    table->setColumnCount(numColumns);
 
-        table->setHorizontalHeaderItem(i, item);
+    if (file.open(QFile::ReadOnly)) {
+
+        for(int i = 0; i < numColumns; i++) { //Establish the Header Row
+
+            auto item = new QTableWidgetItem;
+
+            item->setText(headerRow[i]);
+
+            table->setHorizontalHeaderItem(i, item);
+
+        }
+
+        while (getline(file, data)) { //get next row of data
+
+            table->insertRow(table->rowCount());
+
+            cellData = data.split(",");
+
+            for (int x = 0; x < cellData.size(); x++) {
+
+                table->setItem(table->rowCount(), x, new QTableWidgetItem(cellData[x]));
+
+            }
+
+            /*for (int x = 0; x < rowOfData.size(); x++) {  //rowOfData.size() gives the number of row
+
+                table->insertRow(x);
+
+                rowData = rowOfData.at(x).split(";");  //Number of column
+
+                int r = rowOfData.size()-2;  //idk why but there is a lag of two
+
+                qDebug()<<r;
+
+                for (int y = 0; y < rowData.size(); y++) {
+
+                    table->setRowCount(r);
+
+                    table->setItem(x-1,y,new QTableWidgetItem(rowData[y].trimmed()));
+
+                    cellData.clear();
+
+                }
+
+            }*/
+
+            cellData.clear();
+
+        }
+
+        file.close();
 
     }
 

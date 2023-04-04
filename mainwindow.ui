@@ -118,8 +118,8 @@ QLineEdit{border-width:1px; color: black; background-color: white};</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>1332</width>
-            <height>907</height>
+            <width>1338</width>
+            <height>923</height>
            </rect>
           </property>
           <property name="layoutDirection">
@@ -250,7 +250,7 @@ QTableWidget{border-color: black; border-width: 1px; alternate-background-color:
            <widget class="QPushButton" name="GenerateButton">
             <property name="geometry">
              <rect>
-              <x>1210</x>
+              <x>1240</x>
               <y>10</y>
               <width>111</width>
               <height>24</height>
@@ -376,7 +376,7 @@ QTableWidget{border-color: black; border-width: 1px; alternate-background-color:
      <x>0</x>
      <y>0</y>
      <width>1608</width>
-     <height>21</height>
+     <height>17</height>
     </rect>
    </property>
    <property name="styleSheet">

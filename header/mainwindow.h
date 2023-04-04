@@ -22,6 +22,8 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+const int numColumns = 13;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -55,7 +57,7 @@ private slots:
 
     void on_darkModeAction_triggered();
 
-    void initialize_table(int rows);
+    void initialize_table();
 
     void on_ValidateButton_clicked();
 
@@ -64,7 +66,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    QHash<QWidget*, QHBoxLayout*> DepartmentLayoutMap;
+    QMap<QWidget*, QHBoxLayout*> DepartmentLayoutMap;
 
 };
 #endif // MAINWINDOW_H
