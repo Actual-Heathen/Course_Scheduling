@@ -8,6 +8,10 @@
 #include "instructor.h"
 #include "resourceManager.h"
 #include "room.h"
+#include "comboboxDelegate.h"
+#include "comboboxDelegate2.h"
+#include "comboboxDelegate3.h"
+#include "comboboxDelegate4.h"
 
 #include <QApplication>
 #include <QMainWindow>
@@ -17,6 +21,7 @@
 #include <QIcon>
 #include <string>
 #include <fstream>
+#include <QStyledItemDelegate>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -29,8 +34,6 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
     QString fileStoragePath, generatedCSVPath, generatedXLSXPath;
-
-
 
 public:
 
@@ -78,6 +81,3 @@ private:
 
 };
 #endif // MAINWINDOW_H
-
-
-// NEED A DEPARTMENT COUNTER TO READ IN EVERY DEPARTMENTS FILES

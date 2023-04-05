@@ -11,6 +11,10 @@ CONFIG += c++17
 RC_ICONS = uah.ico
 
 SOURCES += \
+    source/comboboxDelegate.cpp \
+    source/comboboxDelegate2.cpp \
+    source/comboboxDelegate3.cpp \
+    source/comboboxDelegate4.cpp \
     source/course.cpp \
     source/dayTime.cpp \
     source/department.cpp \
@@ -27,6 +31,10 @@ SOURCES += \
     source/resourceManager.cpp
 
 HEADERS += \
+    header/comboboxDelegate.h \
+    header/comboboxDelegate2.h \
+    header/comboboxDelegate3.h \
+    header/comboboxDelegate4.h \
     header/course.h \
     header/dayTime.h \
     header/department.h \

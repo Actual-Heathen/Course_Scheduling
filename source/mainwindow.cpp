@@ -64,8 +64,6 @@ void MainWindow::on_GenerateButton_clicked()
 
     QStringList rowData;
 
-    QString data;
-
     QString filePath = fileStoragePath;
 
     QFile file(filePath);
@@ -484,11 +482,29 @@ void MainWindow::initialize_Table(int numRows)
 
     auto table = ui->scheduleTable;
 
+    ComboBoxDelegate* comboSecType = new ComboBoxDelegate(table);
+
+    ComboBoxDelegate2* comboDay = new ComboBoxDelegate2(table);
+
+    ComboBoxDelegate3* comboStart = new ComboBoxDelegate3(table);
+
+    ComboBoxDelegate4* comboEnd = new ComboBoxDelegate4(table);
+
     table->setRowCount(numRows-1); //number of rows -1 to prevent inclusion of header row of csv
 
     table->setColumnCount(numColumns);
 
-    QString headerRow[numColumns] = {"Conflict", "Section Type", "CRN", "Course", "Title", "Credit", "Max Enrollment", "Days", "Start", "End", "Building", "Room", "Instructor", };
+    table->setItemDelegateForColumn(1, comboSecType);
+
+    table->setItemDelegateForColumn(7, comboDay);
+
+    table->setItemDelegateForColumn(8, comboStart);
+
+    table->setItemDelegateForColumn(9, comboEnd);
+
+    table->setColumnCount(numColumns);
+
+    QString headerRow[numColumns] = {"Conflict", "Section Type", "CRN", "Course", "Title", "Credit", "Max Enrollment", "Days", "Start", "End", "Building", "Room", "Instructor"};
 
     for(int y = 0; y < numColumns; y++) { //columns
 
@@ -503,6 +519,12 @@ void MainWindow::initialize_Table(int numRows)
             auto cell = new QTableWidgetItem;
 
             table->setItem(x, y, cell);
+
+            if (y == 0) {
+
+                cell->setFlags(cell->flags() & ~Qt::ItemIsEnabled);
+
+            }
 
         }
 
