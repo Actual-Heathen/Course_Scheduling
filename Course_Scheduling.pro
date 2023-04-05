@@ -54,4 +54,5 @@ DISTFILES += \
     README.md \
     filePathStorage.txt \
     schedule.csv \
+    schedule.xlsx \
     uah.ico

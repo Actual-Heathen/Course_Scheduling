@@ -28,7 +28,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    QString fileStoragePath, generatedCSVPath;
+    QString fileStoragePath, generatedCSVPath, generatedXLSXPath;
 
 
 
@@ -37,6 +37,8 @@ public:
     int departmentCounter, conflictCounter;
 
     bool populated, darkMode, scheduleGenerated, scheduleValidated, scheduleHidden;
+
+    QStringList keys;
 
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -72,7 +74,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    QMap<QWidget*, QHBoxLayout*> DepartmentLayoutMap;
+    QMultiMap<QHBoxLayout*, QWidget*> DepartmentMap;
 
 };
 #endif // MAINWINDOW_H

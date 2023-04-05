@@ -36,9 +36,7 @@
    <bool>true</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true">QPushButton::Pressed{border-width: 2px; color: gainsboro; background-color: black}
-
-QLineEdit{border-width:1px; color: black; background-color: white};</string>
+   <string notr="true"/>
   </property>
   <property name="iconSize">
    <size>
@@ -54,9 +52,15 @@ QLineEdit{border-width:1px; color: black; background-color: white};</string>
     </sizepolicy>
    </property>
    <property name="styleSheet">
-    <string notr="true">background: white; border-style: outset; border-color: black; color: black; 
-
-        </string>
+    <string notr="true">QWidget{background: white; border-style: outset; border-color: black; color: black;}
+QLineEdit{border-width:1px; color: black; background-color: white}
+QPushButton{border-width: 1px; color: black; background-color: white;}
+QPushButton::Pressed{border-width: 2px; color: gainsboro; background-color: black}
+QPlainTextEdit{border-width: 1px;}
+QTableWidget{border-color: black; border-width: 1px; alternate-background-color: lightgrey; gridline-color: black;}
+QHeaderView::section{background-color: white; color: black;}
+QTableCornerButton::section{background-color: white; border-color: black; border-width: 1px;}
+</string>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
@@ -126,11 +130,7 @@ QLineEdit{border-width:1px; color: black; background-color: white};</string>
            <enum>Qt::LeftToRight</enum>
           </property>
           <property name="styleSheet">
-           <string notr="true">QPushButton{border-width: 1px; color: black; background-color: white}
-
-QPushButton::Pressed{border-width: 2px; color: gainsboro; background-color: black}
-
-QPlainTextEdit{border-width: 1px;}</string>
+           <string notr="true"/>
           </property>
           <widget class="QPushButton" name="DepartmentButton">
            <property name="geometry">
@@ -179,7 +179,7 @@ QPlainTextEdit{border-width: 1px;}</string>
             </size>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+            <string notr="true"/>
            </property>
            <layout class="QVBoxLayout" name="additionalDepartmentLayout">
             <item>
@@ -216,9 +216,7 @@ QPlainTextEdit{border-width: 1px;}</string>
             </sizepolicy>
            </property>
            <property name="styleSheet">
-            <string notr="true">QHeaderView::section{background-color: white; color: black;}
-QTableCornerButton::section{background-color: white; border-color: black; border-width: 1px;}
-QTableWidget{border-color: black; border-width: 1px; alternate-background-color: lightgrey; gridline-color: black;}</string>
+            <string notr="true"/>
            </property>
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
@@ -381,13 +379,13 @@ QTableWidget{border-color: black; border-width: 1px; alternate-background-color:
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background: white; border-style: outset; border-color: black; border-width: 0px; color: black; 
-
-        </string>
+    <string notr="true">QMenuBar{background: white; border-style: outset; border-color: black; color: black;}
+QMenu{background: white;}
+</string>
    </property>
    <widget class="QMenu" name="menuView">
     <property name="styleSheet">
-     <string notr="true">background-color: white;</string>
+     <string notr="true"/>
     </property>
     <property name="title">
      <string>View</string>
