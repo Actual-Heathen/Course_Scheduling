@@ -1,5 +1,0 @@
-Hello!
-
-This is a dummy schedule generation.
-
-This functionality is currently WIP!

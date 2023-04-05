@@ -28,20 +28,18 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    QString generatedSchedulePath;
+    QString fileStoragePath, generatedCSVPath;
 
-    QString fileStoragePath;
+
 
 public:
 
     int departmentCounter, conflictCounter;
 
-    bool populated, darkMode, generated, validated;
+    bool populated, darkMode, scheduleGenerated, scheduleValidated, scheduleHidden;
 
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
-    void display_Generated_Schedule();
 
 private slots:
 
@@ -55,13 +53,21 @@ private slots:
 
     void on_RemoveButton_clicked();
 
-    void on_darkModeAction_triggered();
-
-    void initialize_table();
-
     void on_ValidateButton_clicked();
 
-    void findFilePath();
+    void on_DarkModeAction_triggered();
+
+    void display_Generated_Schedule();
+
+    void find_File_Path();
+
+    QStringList get_File_Data();
+
+    void initialize_Table(int numRows);
+
+    void populate_Table(QStringList rowData);
+
+    void clear_Table();
 
 private:
     Ui::MainWindow *ui;
