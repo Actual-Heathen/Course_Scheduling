@@ -1,4 +1,4 @@
-#include "../headers/room.h"
+#include "../header/room.h"
 
 void RoomInfo::setBuildingName(string input) {
 	buildingName = input;

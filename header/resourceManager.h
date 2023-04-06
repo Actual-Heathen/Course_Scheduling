@@ -5,4 +5,8 @@
 
 using namespace std;
 
-void resourceManager(bool populated, int departmentCounter, string fileStoragePath, string generatedSchedulePath);
+
+
+int resourceManager(bool populated, int departmentCounter, string fileStoragePath);
+
+int validateSchedule();

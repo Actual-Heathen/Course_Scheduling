@@ -1,16 +1,17 @@
-#include "../Course_Scheduling/header/resourceManager.h"
+#include "../header/resourceManager.h"
 
-void resourceManager(bool populated, int departmentCounter, string fileStoragePath, string generatedFilePath) {
+int resourceManager(bool populated, int departmentCounter, string fileStoragePath) {
 
-    string generatedSchedule; //TEMPORARY STRING USED FOR TESTING, MUST BE REPLACED WITH ACTUAL GENERATED SCHEDULE (MOST LIKELY IN DIF FORMAT)
-    string department[10];
-    string course[10];
-    string instructor[10];
-    string room[10];
+    string department[departmentCounter];
+    string course[departmentCounter];
+    string instructor[departmentCounter];
+    string room[departmentCounter];
+
+    int conflictCounter = 1; //used to count the number of conflicts recorded during generation/validation of the schedule
 
     fstream file;
 
-    if(populated) {
+    if(populated) { //previously there was a "generatedFilePath.txt" file generated, however what ever dumbass implemented that (me) didn't think it through as it is not necessary. For accessing the generated schedule, a hardcoded path to schedule.csv will be used.
 
         file.open(fileStoragePath, fstream::in);
 
@@ -32,19 +33,20 @@ void resourceManager(bool populated, int departmentCounter, string fileStoragePa
 
         file.close();
 
-        file.open(generatedFilePath, std::fstream::out | std::fstream::trunc);
-
-            //LINK GENERATED SCHEDULE BELOW
-            //DUMMY INPUT PROVIDED AS OF 3/20/2023 - Campbell :)
-
-        generatedSchedule = "Hello!\n\nThis is a dummy schedule generation.\n\nThis functionality is currently WIP!";
-
-        if(file.is_open())
-            file << generatedSchedule;
-
-        file.close();
+        return conflictCounter;
 
     }
+
+    return 0;
+
+}
+
+
+int validateSchedule() {
+
+    int conflictCounter = 0; //used to count the number of conflicts recorded during generation/validation of the schedule
+
+    return conflictCounter; //for now this will be true, however when the validation function from engine.cpp is called, that will return a bool on if anything actually changed (i.e. conflict counter increased/decreased)?? Open to discussion on this***
 
 }
 
