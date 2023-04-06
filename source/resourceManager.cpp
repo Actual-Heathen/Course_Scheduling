@@ -1,6 +1,8 @@
 #include "../header/resourceManager.h"
 
-void resourceManager(bool populated, int departmentCounter, string fileStoragePath) {
+int resourceManager(bool populated, int departmentCounter, string fileStoragePath) {
+
+    int conflictCounter = 0;
 
     string department[departmentCounter];
     string course[departmentCounter];
@@ -32,6 +34,8 @@ void resourceManager(bool populated, int departmentCounter, string fileStoragePa
         file.close();
 
     }
+
+    return conflictCounter;
 
 }
 

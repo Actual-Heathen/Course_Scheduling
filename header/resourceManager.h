@@ -6,6 +6,6 @@
 using namespace std;
 
 
-void resourceManager(bool populated, int departmentCounter, string fileStoragePath);
+int resourceManager(bool populated, int departmentCounter, string fileStoragePath);
 
 int validateSchedule();

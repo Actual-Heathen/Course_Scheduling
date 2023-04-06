@@ -108,7 +108,7 @@ void MainWindow::on_GenerateButton_clicked()
 
     file.close();
 
-    resourceManager(populated, departmentCounter, fileStoragePath.toStdString()); //call resourceManager to generate schedule, which returns number of conflicts
+    int trash = resourceManager(populated, departmentCounter, fileStoragePath.toStdString()); //call resourceManager to generate schedule, which returns number of conflicts
 
     rowData = get_File_Data(); //get data from file and store it in a List
 
