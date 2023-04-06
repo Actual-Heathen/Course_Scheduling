@@ -582,7 +582,7 @@ void MainWindow::find_Conflicts()
 
             for (int y = 0; y < table->columnCount(); y++) { //rows
 
-                table->item(x, y)->setBackground(QBrush(QColorConstants::Svg::lightcoral));
+                table->item(x, y)->setBackground(QBrush(QColor("lightcoral")));
 
             }
 
