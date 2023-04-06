@@ -72,6 +72,8 @@ private slots:
 
     void populate_Table(QStringList rowData);
 
+    void find_Conflicts();
+
     void clear_Table();
 
 private:

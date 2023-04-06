@@ -1,13 +1,11 @@
 #include "../header/resourceManager.h"
 
-int resourceManager(bool populated, int departmentCounter, string fileStoragePath) {
+void resourceManager(bool populated, int departmentCounter, string fileStoragePath) {
 
     string department[departmentCounter];
     string course[departmentCounter];
     string instructor[departmentCounter];
     string room[departmentCounter];
-
-    int conflictCounter = 1; //used to count the number of conflicts recorded during generation/validation of the schedule
 
     fstream file;
 
@@ -33,11 +31,7 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
 
         file.close();
 
-        return conflictCounter;
-
     }
-
-    return 0;
 
 }
 

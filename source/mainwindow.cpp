@@ -38,6 +38,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     departmentCounter = 0;
 
+    conflictCounter = 0;
+
     populated = false; //used to tell resourceManager if the files were populated, bad implementation - reimplement later - 4/5/2023
 
     darkMode = false;
@@ -106,13 +108,15 @@ void MainWindow::on_GenerateButton_clicked()
 
     file.close();
 
-    conflictCounter = resourceManager(populated, departmentCounter, fileStoragePath.toStdString()); //call resourceManager to generate schedule, which returns number of conflicts
+    resourceManager(populated, departmentCounter, fileStoragePath.toStdString()); //call resourceManager to generate schedule, which returns number of conflicts
 
     rowData = get_File_Data(); //get data from file and store it in a List
 
     initialize_Table(rowData.size()); //initialize data, while also sending number of rows to generate
 
     populate_Table(rowData); //populate table with data found from the file, by passing in rowData
+
+    find_Conflicts(); //highlights the conflicts within the schedule
 
     populated = false;
 
@@ -542,24 +546,44 @@ void MainWindow::populate_Table(QStringList rowData)
 
     QStringList cell;
 
-    for (int x = 0; x < rowData.size(); x++) { //rows
+    for (int x = 0; x < rowData.size(); x++) { //columns
 
         cellData = rowData[x];
 
         if(x >= 1)
             cell = cellData.split(",");
 
-        for (int y = 0; y < cell.size(); y++) { //columns
-
-            //QTableWidgetItem *item = new QTableWidgetItem();
-
-            //item->setText(cellData[x]);
+        for (int y = 0; y < cell.size(); y++) { //rows
 
             table->item(x-1, y)->setText(cell[y]);
 
         }
 
         cellData.clear();
+
+    }
+
+}
+
+
+void MainWindow::find_Conflicts()
+{
+
+    auto table = ui->scheduleTable;
+
+    for (int x = 0; x < table->rowCount(); x++) { //columns
+
+        if(table->item(x, 0)->text() == "TRUE") {
+
+            conflictCounter++;
+
+            for (int y = 0; y < table->columnCount(); y++) { //rows
+
+                table->item(x, y)->setBackground(QBrush(QColorConstants::Svg::lightcoral));
+
+            }
+
+        }
 
     }
 
