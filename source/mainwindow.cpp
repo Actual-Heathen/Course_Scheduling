@@ -287,30 +287,31 @@ void MainWindow::on_RemoveButton_clicked()
 
 void MainWindow::on_ValidateButton_clicked()
 {
+    int oldConflictCounter = conflictCounter;
 
     int newConflictCounter = validateSchedule();
 
-    if(conflictCounter != newConflictCounter) {
+    find_Conflicts();
 
-        conflictCounter = newConflictCounter;
+    if(oldConflictCounter != conflictCounter) {
 
         ui->ConflictLine->setText(QString("Conflicts: %1").arg(conflictCounter));
 
-        clear_Table();
+        //clear_Table();
 
-        scheduleValidated = true;
+        //scheduleValidated = true;
 
         //add function call here to resourceManager to validate changes made to schedule: i.e. create new CSV and scan it, then print it back out
 
-        ui->SaveButton->hide();
+        //ui->SaveButton->hide();
 
-        ui->PrintButton->hide();
+        //ui->PrintButton->hide();
 
-        ui->ValidateButton->hide();
+        //ui->ValidateButton->hide();
 
-        populate_Table(get_File_Data());
+        //populate_Table(get_File_Data());
 
-        display_Generated_Schedule();
+        //display_Generated_Schedule();
 
     }
 
@@ -568,6 +569,8 @@ void MainWindow::populate_Table(QStringList rowData)
 
 void MainWindow::find_Conflicts()
 {
+
+    conflictCounter = 0;
 
     auto table = ui->scheduleTable;
 
