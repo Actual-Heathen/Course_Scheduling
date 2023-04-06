@@ -5,9 +5,8 @@
 
 int resourceManager(bool populated, int departmentCounter, string fileStoragePath, string generatedFilePath) {
 
-    cout<<"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"<<endl;
-
     string generatedSchedule; //TEMPORARY STRING USED FOR TESTING, MUST BE REPLACED WITH ACTUAL GENERATED SCHEDULE (MOST LIKELY IN DIF FORMAT)
+    int errorNumber = 34404;    // TEMPORARY VALUE USED TO REPRESENT FILE ERROR
     string department[departmentCounter];
     string course[departmentCounter];
     string instructor[departmentCounter];
@@ -63,9 +62,15 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
 			string data;
 			getline(file, data);    // Skip title header
 
-			while (getline(file, data)) {
-				departmentObject.courseList.push_back(createCourse(data));
-			}
+            try {
+                while (getline(file, data)) {
+                    departmentObject.courseList.push_back(createCourse(data));
+                }
+            }
+            catch (...) {
+                cout << "ERROR: Course file is incorrect" << endl;
+                return errorNumber;
+            }
 
 			file.close();
 		}
@@ -76,9 +81,15 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
 			string data;
 			getline(file, data);    // Skip title header
 
-			while (getline(file, data)) {
-				departmentObject.instructorList.push_back(createInstructor(data));
-			}
+            try {
+                while (getline(file, data)) {
+                    departmentObject.instructorList.push_back(createInstructor(data));
+                }
+            }
+            catch (...) {
+                cout << "ERROR: Intructor file is incorrect" << endl;
+                return errorNumber;
+            }
 
 			file.close();
 		}
@@ -90,14 +101,20 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
             string roomName;
 			getline(file, data);    // Skip title header
 
-			while (getline(file, data)) {
-				RoomInfo roomObject = createRoom(data);
-				roomName.append(roomObject.getBuildingName());
-				roomName.append(" ");
-				roomName.append(roomObject.getRoomNumber());
-				departmentObject.roomList.push_back(roomName);
+			try {
+				while (getline(file, data)) {
+					RoomInfo roomObject = createRoom(data);
+					roomName.append(roomObject.getBuildingName());
+					roomName.append(" ");
+					roomName.append(roomObject.getRoomNumber());
+					departmentObject.roomList.push_back(roomName);
 
-				roomMap.insert(pair<string, RoomInfo>(roomName, roomObject));
+					roomMap.insert(pair<string, RoomInfo>(roomName, roomObject));
+				}
+			}
+			catch (...) {
+				cout << "ERROR: Room file is incorrect" << endl;
+                return errorNumber;
 			}
 
 			file.close();
