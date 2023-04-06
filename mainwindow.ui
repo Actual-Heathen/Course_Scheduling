@@ -122,8 +122,8 @@ QTableCornerButton::section{background-color: white; border-color: black; border
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>1332</width>
-            <height>907</height>
+            <width>1338</width>
+            <height>923</height>
            </rect>
           </property>
           <property name="layoutDirection">
@@ -179,7 +179,7 @@ QTableCornerButton::section{background-color: white; border-color: black; border
             </size>
            </property>
            <property name="styleSheet">
-            <string notr="true"/>
+            <string notr="true">QFrame {background-color: transparent;}</string>
            </property>
            <layout class="QVBoxLayout" name="additionalDepartmentLayout">
             <item>
@@ -375,7 +375,7 @@ QTableCornerButton::section{background-color: white; border-color: black; border
      <x>0</x>
      <y>0</y>
      <width>1608</width>
-     <height>21</height>
+     <height>17</height>
     </rect>
    </property>
    <property name="styleSheet">
