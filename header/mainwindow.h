@@ -8,6 +8,10 @@
 #include "instructor.h"
 #include "resourceManager.h"
 #include "room.h"
+#include "comboboxDelegate.h"
+#include "comboboxDelegate2.h"
+#include "comboboxDelegate3.h"
+#include "comboboxDelegate4.h"
 
 #include <QApplication>
 #include <QMainWindow>
@@ -17,29 +21,30 @@
 #include <QIcon>
 #include <string>
 #include <fstream>
+#include <QStyledItemDelegate>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+const int numColumns = 13;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    QString generatedSchedulePath;
-
-    QString fileStoragePath;
+    QString fileStoragePath, generatedCSVPath, generatedXLSXPath;
 
 public:
 
     int departmentCounter, conflictCounter;
 
-    bool populated, darkMode, generated, validated;
+    bool populated, darkMode, scheduleGenerated, scheduleValidated, scheduleHidden;
+
+    QStringList keys;
 
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
-    void display_Generated_Schedule();
 
 private slots:
 
@@ -53,21 +58,26 @@ private slots:
 
     void on_RemoveButton_clicked();
 
-    void on_darkModeAction_triggered();
-
-    void initialize_table(int rows);
-
     void on_ValidateButton_clicked();
 
-    void findFilePath();
+    void on_DarkModeAction_triggered();
+
+    void display_Generated_Schedule();
+
+    void find_File_Path();
+
+    QStringList get_File_Data();
+
+    void initialize_Table(int numRows);
+
+    void populate_Table(QStringList rowData);
+
+    void clear_Table();
 
 private:
     Ui::MainWindow *ui;
 
-    QHash<QWidget*, QHBoxLayout*> DepartmentLayoutMap;
+    QMultiMap<QHBoxLayout*, QWidget*> DepartmentMap;
 
 };
 #endif // MAINWINDOW_H
-
-
-// NEED A DEPARTMENT COUNTER TO READ IN EVERY DEPARTMENTS FILES
