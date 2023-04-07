@@ -6,7 +6,8 @@
 
 using namespace std;
 
-int resourceManager(bool populated, int departmentCounter, string fileStoragePath, string generatedSchedulePath);
+int resourceManager(bool populated, int departmentCounter, string fileStoragePath);
+int validateSchedule();
 Course createCourse(string data);
 Instructor createInstructor(string data);
 RoomInfo createRoom(string data);
