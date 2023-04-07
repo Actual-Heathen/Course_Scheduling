@@ -42,7 +42,9 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
     // Create a Department object and map rooms for each entry
 	for (int entry = 0; entry < departmentCounter; ++entry) {
         cout << "\nGenerating new schedule" << endl;
+
         // Populate courseList
+        // If a file cannot be read, the program aborts and prints and error.
         file.open(course[entry], fstream::in);
 		if (file.is_open()) {
 			string data;
@@ -63,6 +65,7 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
 		}
 
 		// Populate instructorList
+        // If a file cannot be read, the program aborts and prints and error.
 		file.open(instructor[entry], fstream::in);
 		if (file.is_open()) {
 			string data;
@@ -83,6 +86,7 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
 		}
 		
 		// Populate roomList and roomMap
+        // If a file cannot be read, the program aborts and prints and error.
 		file.open(room[entry], fstream::in);
 		if (file.is_open()) {
 			string data;
@@ -122,6 +126,8 @@ int validateSchedule() {
 	return conflictCounter; //for now this will be true, however when the validation function from engine.cpp is called, that will return a bool on if anything actually changed (i.e. conflict counter increased/decreased)?? Open to discussion on this***
 }
 
+// This function creates and returns an instructor object.
+// If an entry cannot be read, the program skips it and prints and error.
 Instructor createInstructor(string data) {
 	vector<string> splitData;
     Instructor instructorObject;
@@ -143,7 +149,7 @@ Instructor createInstructor(string data) {
 	catch (...) { cout << "ERROR: Max courses not set to a number" << endl; }
     
 	try { instructorObject.setPriority(stoi(splitData[3])); }
-    catch (...) { cout << "ERROR: Max courses not set to a number" << endl; }
+    catch (...) { cout << "ERROR: Priority not set to a number" << endl; }
 
     instructorObject.setPreferredClass(splitData[4]);
 
@@ -161,6 +167,8 @@ Instructor createInstructor(string data) {
     return instructorObject;
 }
 
+// This function creates and returns a course object.
+// If an entry cannot be read, the program skips it and prints and error.
 Course createCourse(string data) {
 	vector<string> splitData;
 	Course courseObject;
@@ -194,6 +202,8 @@ Course createCourse(string data) {
     return courseObject;
 }
 
+// This function creates and returns a room object.
+// If an entry cannot be read, the program skips it and prints and error.
 RoomInfo createRoom(string data){
 	vector<string> splitData;
 	RoomInfo roomObject;

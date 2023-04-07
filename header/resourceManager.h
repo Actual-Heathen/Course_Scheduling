@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../header/department.h"
+#include "../header/department.h"   // Used for Course, Instructor and RoomInfo structs
 #include <string>
 #include <fstream>
 
