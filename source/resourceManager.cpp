@@ -4,9 +4,9 @@
 #include <map>
 
 int resourceManager(bool populated, int departmentCounter, string fileStoragePath) {
-
-    string generatedSchedule; //TEMPORARY STRING USED FOR TESTING, MUST BE REPLACED WITH ACTUAL GENERATED SCHEDULE (MOST LIKELY IN DIF FORMAT)
     int errorNumber = 34404;    // TEMPORARY VALUE USED TO REPRESENT FILE ERROR
+    int allGood = 33;   // TEMPORARY VALUE USED TO REPRESENT GOOD EXECUTION
+
     string department[departmentCounter];
     string course[departmentCounter];
     string instructor[departmentCounter];
@@ -14,9 +14,6 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
     map<string, RoomInfo> roomMap;
     vector<Department> departmentList;
     Department departmentObject;
-
-    int conflictCounter = 1; //used to count the number of conflicts recorded during generation/validation of the schedule
-
     fstream file;
 
     if(populated) { //previously there was a "generatedFilePath.txt" file generated, however what ever dumbass implemented that (me) didn't think it through as it is not necessary. For accessing the generated schedule, a hardcoded path to schedule.csv will be used.
@@ -38,26 +35,29 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
             }
 
         }
+
         file.close();
     }
 
     // Create a Department object and map rooms for each entry
-    for (int entry = 0; entry < departmentCounter; ++entry) {
-		// Populate courseList
-		file.open(course[entry], fstream::in);
+	for (int entry = 0; entry < departmentCounter; ++entry) {
+        cout << "\nGenerating new schedule" << endl;
+        // Populate courseList
+        file.open(course[entry], fstream::in);
 		if (file.is_open()) {
 			string data;
 			getline(file, data);    // Skip title header
 
-            try {
-                while (getline(file, data)) {
-                    departmentObject.courseList.push_back(createCourse(data));
-                }
-            }
+			try {
+				while (getline(file, data)) {
+					departmentObject.courseList.push_back(createCourse(data));
+				}
+			}
             catch (...) {
-                cout << "ERROR: Course file is incorrect" << endl;
-                return errorNumber;
-            }
+                cout << "FILE ERROR: Course file is incorrect" << endl;
+                cout << "SYSTEM: Program aborted" << endl;
+				return errorNumber;
+			}
 
 			file.close();
 		}
@@ -68,24 +68,25 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
 			string data;
 			getline(file, data);    // Skip title header
 
-            try {
-                while (getline(file, data)) {
-                    departmentObject.instructorList.push_back(createInstructor(data));
-                }
-            }
-            catch (...) {
-                cout << "ERROR: Intructor file is incorrect" << endl;
-                return errorNumber;
-            }
+			try {
+				while (getline(file, data)) {
+					departmentObject.instructorList.push_back(createInstructor(data));
+				}
+			}
+			catch (...) {
+                cout << "FILE ERROR: Intructor file is incorrect" << endl;
+                cout << "SYSTEM: Program aborted" << endl;
+				return errorNumber;
+			}
 
 			file.close();
 		}
-
-        // Populate roomList and roomMap
+		
+		// Populate roomList and roomMap
 		file.open(room[entry], fstream::in);
 		if (file.is_open()) {
 			string data;
-            string roomName;
+			string roomName;
 			getline(file, data);    // Skip title header
 
 			try {
@@ -100,24 +101,25 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
 				}
 			}
 			catch (...) {
-				cout << "ERROR: Room file is incorrect" << endl;
-                return errorNumber;
+                cout << "FILE ERROR: Room file is incorrect" << endl;
+                cout << "SYSTEM: Program aborted" << endl;
+				return errorNumber;
 			}
-
+			
 			file.close();
 		}
-
+		
 		departmentList.push_back(departmentObject);
-    }
+	}
 
-    return conflictCounter;
+    return allGood;
 }
 
 int validateSchedule() {
 
-    int conflictCounter = 0; //used to count the number of conflicts recorded during generation/validation of the schedule
+	int conflictCounter = 0; //used to count the number of conflicts recorded during generation/validation of the schedule
 
-    return conflictCounter; //for now this will be true, however when the validation function from engine.cpp is called, that will return a bool on if anything actually changed (i.e. conflict counter increased/decreased)?? Open to discussion on this***
+	return conflictCounter; //for now this will be true, however when the validation function from engine.cpp is called, that will return a bool on if anything actually changed (i.e. conflict counter increased/decreased)?? Open to discussion on this***
 }
 
 Instructor createInstructor(string data) {
