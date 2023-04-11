@@ -28,7 +28,7 @@ public:
 	void setCredit(double input);
 	void setMaxEnroll(int input);
 	void setConflict(bool input);
-	void setOccupied(int days, int hours, bool status);
+	void setAvailability(int days, int hours, bool status);
 	char getSectionType();
 	int getCRN();
 	string getCourseNumber();
@@ -37,5 +37,5 @@ public:
 	double getCredit();
 	int getMaxEnroll();
 	bool getConflict();
-	bool getOccupied(int days, int hours);
+	bool getAvailability(int days, int hours);
 };
