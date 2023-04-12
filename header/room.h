@@ -7,7 +7,7 @@ class RoomInfo {
 private:
 	string buildingName;
 	string roomNumber;
-	int maxCapacity;
+	int maxCapacity = 0;
 	bool conflict = false;
 	DayTime schedule;
 
@@ -16,11 +16,11 @@ public:
 	void setRoomNumber(string input);
 	void setCapacity(int input);
 	void setConflict(bool input);
-	void setOccupied(int days, int hours, bool status);
+	void setAvailability(int days, int hours, bool status);
 	string getBuildingName();
 	string getRoomNumber();
 	int getCapacity();
 	bool getConflict();
-	bool getOccupied(int days, int hours);
+	bool getAvailability(int days, int hours);
 };
 

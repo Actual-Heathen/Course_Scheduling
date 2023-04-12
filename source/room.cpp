@@ -16,8 +16,8 @@ void RoomInfo::setConflict(bool input) {
 	conflict = input;
 }
 
-void RoomInfo::setOccupied(int days, int hours, bool status) {
-	schedule.setOccupied(days, hours, status);
+void RoomInfo::setAvailability(int days, int hours, bool status) {
+	schedule.setAvailability(days, hours, status);
 }
 
 string RoomInfo::getBuildingName() {
@@ -36,6 +36,6 @@ bool RoomInfo::getConflict() {
 	return conflict;
 }
 
-bool RoomInfo::getOccupied(int days, int hours) {
-	return schedule.getOccupied(days, hours);
+bool RoomInfo::getAvailability(int days, int hours) {
+	return schedule.getAvailability(days, hours);
 }
