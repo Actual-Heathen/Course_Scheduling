@@ -10,7 +10,7 @@ using namespace std;
 
 class Course {
 private:
-	char sectionType = ' ';
+	char sectionType = '';
 	int crn = 0;
 	string courseNumber = "";
 	string sectionNumber = "";
