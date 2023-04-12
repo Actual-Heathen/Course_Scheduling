@@ -9,7 +9,7 @@ using namespace std;
 class Department {
 public:
 	vector<Course> courseList;
-	vector<Instructor> instructiorList;
-	vector<RoomInfo> roomList;
+    vector<Instructor> instructorList;
+	vector<string> roomList;
 };
 

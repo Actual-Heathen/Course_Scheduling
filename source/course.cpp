@@ -1,4 +1,4 @@
-#include "../headers/course.h"
+#include "../header/course.h"
 
 void Course::setSectionType(char input) {
 	sectionType = input;
@@ -32,8 +32,8 @@ void Course::setConflict(bool input) {
 	conflict = input;
 }
 
-void Course::setOccupied(int days, int hours, bool status) {
-	schedule.setOccupied(days, hours, status);
+void Course::setAvailability(int days, int hours, bool status) {
+	schedule.setAvailability(days, hours, status);
 }
 
 char Course::getSectionType() {
@@ -68,7 +68,7 @@ bool Course::getConflict() {
 	return conflict;
 }
 
-bool Course::getOccupied(int days, int hours) {
-	return schedule.getOccupied(days, hours);
+bool Course::getAvailability(int days, int hours) {
+	return schedule.getAvailability(days, hours);
 }
 
