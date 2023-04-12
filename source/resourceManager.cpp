@@ -119,6 +119,30 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
     return allGood;
 }
 
+int toOutput(vector<Course> courseList) //conf,type,crn,couresenum,name,max,days,start,end,bld,room,instructor
+{
+	ofstream csvOutput;
+	csvOutput.open("output.csv");
+
+	csvOutput << "Conflict,Sec,Type,CRN,Course,Title,Credit,Max Enrl,Days,Start,End,Bldg,Room,Instructor";
+
+	for (int i = 0; i < courseList.size(); i++)
+	{
+		csvOutput << courseList[i].getConflict() << ",";
+		csvOutput << courseList[i].getSectionType() << ",";
+		csvOutput << courseList[i].getCRN() << ",";
+		csvOutput << courseList[i].getCourseNumber() << " " << courseList[i].getSectionNumber() << ",";
+		csvOutput << courseList[i].getTitle() << ",";
+		csvOutput << courseList[i].getMaxEnroll() << ",";
+		csvOutput << courseList[i].getDay() << ",";
+		csvOutput << courseList[i].getTime() << ",";
+		csvOutput << courseList[i].getTime() << ",";
+		csvOutput << courseList[i].getBuildingName() << ",";
+		csvOutput << courseList[i].getRoom() << ",";
+		csvOutput << courseList[i].getLastName() << courseList[i].getFirstName() << ",\n";
+	}
+}
+
 int validateSchedule() {
 
 	int conflictCounter = 0; //used to count the number of conflicts recorded during generation/validation of the schedule
