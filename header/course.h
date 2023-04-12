@@ -34,12 +34,12 @@ public:
 	void setCredit(double input);
 	void setMaxEnroll(int input);
 	void setConflict(bool input);
-	void setAvailability(int days, int hours, bool status);
 	void setDay(int day);
 	void setTime(int time);
 	void setFirstName(int firstName);
 	void setLastName(String lastName);
 	void setRoom(String room);
+	
 	char getSectionType();
 	int getCRN();
 	string getCourseNumber();
@@ -48,7 +48,6 @@ public:
 	double getCredit();
 	int getMaxEnroll();
 	bool getConflict();
-	bool getAvailability(int days, int hours);
 	int getDay();
 	int getTime();
 	string getFirstName();

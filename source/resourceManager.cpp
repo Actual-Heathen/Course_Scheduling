@@ -4,8 +4,8 @@
 #include <map>
 
 int resourceManager(bool populated, int departmentCounter, string fileStoragePath) {
-    int errorNumber = 34404;    // TEMPORARY VALUE USED TO REPRESENT FILE ERROR
-    int allGood = 33;   // TEMPORARY VALUE USED TO REPRESENT GOOD EXECUTION
+    int errorNumber = -1;    // TEMPORARY VALUE USED TO REPRESENT FILE ERROR
+    int allGood = 0;   // TEMPORARY VALUE USED TO REPRESENT GOOD EXECUTION
 
     string department[departmentCounter];
     string course[departmentCounter];
