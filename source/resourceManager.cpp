@@ -1,6 +1,7 @@
 #include "../header/resourceManager.h"
 #include <iostream>
 #include<sstream>
+#include<string>
 #include <map>
 
 int resourceManager(bool populated, int departmentCounter, string fileStoragePath) {
@@ -124,7 +125,7 @@ int toOutput(vector<Course> courseList) //conf,type,crn,couresenum,name,max,days
 	ofstream csvOutput;
 	csvOutput.open("output.csv");
 
-	csvOutput << "Conflict,Sec,Type,CRN,Course,Title,Credit,Max Enrl,Days,Start,End,Bldg,Room,Instructor";
+	csvOutput << "Conflict,Sec Type,CRN,Course,Title,Credit,Max Enrl,Days,Start,End,Bldg,Room,Instructor\n";
 
 	for (long unsigned int i = 0; i < courseList.size(); i++)
 	{
@@ -133,15 +134,81 @@ int toOutput(vector<Course> courseList) //conf,type,crn,couresenum,name,max,days
 		csvOutput << courseList[i].getCRN() << ",";
 		csvOutput << courseList[i].getCourseNumber() << " " << courseList[i].getSectionNumber() << ",";
 		csvOutput << courseList[i].getTitle() << ",";
+		csvOutput << courseList[i].getCredit() << ",";
 		csvOutput << courseList[i].getMaxEnroll() << ",";
 		csvOutput << courseList[i].getDay() << ",";
 		csvOutput << courseList[i].getTime() << ",";
 		csvOutput << courseList[i].getTime() << ",";
 		csvOutput << courseList[i].getRoom() << ",";
-		csvOutput << courseList[i].getLastName() << courseList[i].getFirstName() << ",\n";
+		csvOutput << courseList[i].getRoom() << ",";
+		csvOutput << courseList[i].getLastName() << courseList[i].getFirstName() << "\n";
 	}
 	return 0;
 }
+
+int outToIn()
+{
+	vector<Course> courseList;
+	ifstream csvInput;
+	csvInput.open("output.csv");
+	
+	if (!csvInput)
+	{
+		return -1;
+	}
+
+	string line;
+	string temp;
+	vector<string> words;
+	while(csvInput >> line)
+	{
+		int counter = 0;
+		while(getline(line,temp,','))
+		{
+			if (counter == 3 || counter == 12)
+			{
+				vector<string> abToken;
+				while(getline(words[3],temp,' '))
+				{
+					abToken.push_back(temp);
+				}
+
+				words.push_back(abToken[0]);
+				
+				temp = "";
+				for (int i = 1; i < abToken.size(); i++)
+				{
+					if (i != abToken.size()-1)
+					{
+						temp += abToken[i] + " ";
+					}
+					else
+					{
+						temp += abToken[i];
+					}
+				}
+			}
+			words.push_back(temp);
+			counter++;
+		}
+		Course tempCourse;
+		tempCourse.setConflict(true);
+		tempCourse.setSectionType(words[1].at(0));
+		tempCourse.setCRN(stoi(words[2]));
+		tempCourse.setCourseNumber(words[3]);
+		tempCourse.setSectionNumber(words[4]);
+		tempCourse.setTitle(words[5]);
+		tempCourse.setCredit(stoi(words[6]));
+		tempCourse.setMaxEnroll(stoi(words[7]));
+		tempCourse.setDay(stoi(words[8]));
+		tempCourse.setTime(stoi(words[9]));
+		tempCourse.setRoom(words[11]);
+		tempCourse.setLastName(words[12]);
+		tempCourse.setFirstName(words[13]);
+	}
+}
+
+
 
 int validateSchedule() {
 
