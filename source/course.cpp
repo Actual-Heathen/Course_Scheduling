@@ -36,6 +36,31 @@ void Course::setAvailability(int days, int hours, bool status) {
 	schedule.setAvailability(days, hours, status);
 }
 
+void Course::setDay(int day)
+{
+	day = day;
+}
+
+void Course::setTime(int time)
+{
+	time = time;
+}
+
+void Course::setFirstName(string firstName)
+{
+	instructorFirstName = firstName;
+}
+
+void Course::setLastName(string lastName)
+{
+	instructorLastName = instructorLastName;
+}
+
+void Course::setRoom(string room)
+{
+	room = room;
+}
+
 char Course::getSectionType() {
 	return sectionType;
 }
@@ -70,5 +95,30 @@ bool Course::getConflict() {
 
 bool Course::getAvailability(int days, int hours) {
 	return schedule.getAvailability(days, hours);
+}
+
+int getDay()
+{
+	return day;
+}
+
+int getTime()
+{
+	return time;
+}
+
+string getFirstName()
+{
+	return instructorFirstName;
+}
+
+string getLastName()
+{
+	return instructorLastName;
+}
+
+string getRoom()
+{
+	return room;
 }
 
