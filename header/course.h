@@ -10,7 +10,7 @@ using namespace std;
 
 class Course {
 private:
-	char sectionType = '';
+	char sectionType = '0';
 	int crn = 0;
 	string courseNumber = "";
 	string sectionNumber = "";
@@ -36,10 +36,10 @@ public:
 	void setConflict(bool input);
 	void setDay(int day);
 	void setTime(int time);
-	void setFirstName(int firstName);
-	void setLastName(String lastName);
-	void setRoom(String room);
-	
+	void setFirstName(string firstName);
+	void setLastName(string lastName);
+	void setRoom(string room);
+
 	char getSectionType();
 	int getCRN();
 	string getCourseNumber();

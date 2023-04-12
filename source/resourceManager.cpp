@@ -126,7 +126,7 @@ int toOutput(vector<Course> courseList) //conf,type,crn,couresenum,name,max,days
 
 	csvOutput << "Conflict,Sec,Type,CRN,Course,Title,Credit,Max Enrl,Days,Start,End,Bldg,Room,Instructor";
 
-	for (int i = 0; i < courseList.size(); i++)
+	for (long unsigned int i = 0; i < courseList.size(); i++)
 	{
 		csvOutput << courseList[i].getConflict() << ",";
 		csvOutput << courseList[i].getSectionType() << ",";
@@ -137,10 +137,10 @@ int toOutput(vector<Course> courseList) //conf,type,crn,couresenum,name,max,days
 		csvOutput << courseList[i].getDay() << ",";
 		csvOutput << courseList[i].getTime() << ",";
 		csvOutput << courseList[i].getTime() << ",";
-		csvOutput << courseList[i].getBuildingName() << ",";
 		csvOutput << courseList[i].getRoom() << ",";
 		csvOutput << courseList[i].getLastName() << courseList[i].getFirstName() << ",\n";
 	}
+	return 0;
 }
 
 int validateSchedule() {

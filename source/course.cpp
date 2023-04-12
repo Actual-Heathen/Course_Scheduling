@@ -32,10 +32,6 @@ void Course::setConflict(bool input) {
 	conflict = input;
 }
 
-void Course::setAvailability(int days, int hours, bool status) {
-	schedule.setAvailability(days, hours, status);
-}
-
 void Course::setDay(int day)
 {
 	day = day;
@@ -53,7 +49,7 @@ void Course::setFirstName(string firstName)
 
 void Course::setLastName(string lastName)
 {
-	instructorLastName = instructorLastName;
+	instructorLastName = lastName;
 }
 
 void Course::setRoom(string room)
@@ -93,32 +89,28 @@ bool Course::getConflict() {
 	return conflict;
 }
 
-bool Course::getAvailability(int days, int hours) {
-	return schedule.getAvailability(days, hours);
-}
-
-int getDay()
+int Course::getDay()
 {
 	return day;
 }
 
-int getTime()
+int Course::getTime()
 {
 	return time;
 }
 
-string getFirstName()
+string Course::getFirstName()
 {
 	return instructorFirstName;
 }
 
-string getLastName()
+string Course::getLastName()
 {
 	return instructorLastName;
 }
 
-string getRoom()
+string Course::getRoom()
 {
-	return room;
+	return roomName;
 }
 
