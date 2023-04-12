@@ -51,7 +51,7 @@ public:
 	bool getAvailability(int days, int hours);
 	int getDay();
 	int getTime();
-	String getFirstName();
-	String getLastName();
-	String getRoom();
+	string getFirstName();
+	string getLastName();
+	string getRoom();
 };
