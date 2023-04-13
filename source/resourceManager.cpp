@@ -116,16 +116,16 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
 		
 		departmentList.push_back(departmentObject);
 	}
-
+	outToIn();
     return allGood;
 }
 
 int toOutput(vector<Course> courseList) //conf,type,crn,couresenum,name,max,days,start,end,bld,room,instructor
 {
 	ofstream csvOutput;
-	csvOutput.open("output.csv");
+	csvOutput.open("output1.csv");
 
-	csvOutput << "Conflict,Sec Type,CRN,Course,Title,Credit,Max Enrl,Days,Start,End,Bldg,Room,Instructor\n";
+	//csvOutput << "Conflict,Sec Type,CRN,Course,Title,Credit,Max Enrl,Days,Start,End,Bldg,Room,Instructor\n";
 
 	for (long unsigned int i = 0; i < courseList.size(); i++)
 	{
@@ -141,8 +141,9 @@ int toOutput(vector<Course> courseList) //conf,type,crn,couresenum,name,max,days
 		csvOutput << courseList[i].getTime() << ",";
 		csvOutput << courseList[i].getRoom() << ",";
 		csvOutput << courseList[i].getRoom() << ",";
-		csvOutput << courseList[i].getLastName() << courseList[i].getFirstName() << "\n";
+		csvOutput << courseList[i].getLastName() <<" "<< courseList[i].getFirstName() << "\n";
 	}
+	csvOutput.close();
 	return 0;
 }
 
@@ -156,19 +157,25 @@ int outToIn()
 	{
 		return -1;
 	}
-
+	
 	string line;
 	string temp;
 	vector<string> words;
-	while(csvInput >> line)
+
+	while(getline(csvInput, line))
 	{
+		cout<<line<<endl;
+		stringstream lineS(line);
 		int counter = 0;
-		while(getline(line,temp,','))
+
+		while(getline(lineS,temp,','))
 		{
-			if (counter == 3 || counter == 12)
+
+			if (counter == 3 || counter == 11)
 			{
+				stringstream tempS(temp);
 				vector<string> abToken;
-				while(getline(words[3],temp,' '))
+				while(getline(tempS,temp,' '))
 				{
 					abToken.push_back(temp);
 				}
@@ -176,6 +183,7 @@ int outToIn()
 				words.push_back(abToken[0]);
 				
 				temp = "";
+
 				for (int i = 1; i < abToken.size(); i++)
 				{
 					if (i != abToken.size()-1)
@@ -187,10 +195,12 @@ int outToIn()
 						temp += abToken[i];
 					}
 				}
+				abToken.clear();
 			}
 			words.push_back(temp);
 			counter++;
 		}
+
 		Course tempCourse;
 		tempCourse.setConflict(true);
 		tempCourse.setSectionType(words[1].at(0));
@@ -202,10 +212,17 @@ int outToIn()
 		tempCourse.setMaxEnroll(stoi(words[7]));
 		tempCourse.setDay(stoi(words[8]));
 		tempCourse.setTime(stoi(words[9]));
+		//no end time (words[10])				
 		tempCourse.setRoom(words[11]);
 		tempCourse.setLastName(words[12]);
 		tempCourse.setFirstName(words[13]);
+		
+		words.clear();
+		
+		courseList.push_back(tempCourse);
 	}
+	toOutput(courseList);
+	return 0;
 }
 
 
