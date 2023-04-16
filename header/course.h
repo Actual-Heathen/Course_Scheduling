@@ -12,17 +12,18 @@ class Course {
 private:
 	char sectionType = '0';
 	int crn = 0;
-	string courseNumber = "";
-	string sectionNumber = "";
-	string title = "";
+	string courseNumber = "-1";
+	string sectionNumber = "-1";
+	string title = "TBA";
 	double credit = 0;
 	int maxEnroll = 0;
 	bool conflict = false;
 	int day = -1;
 	int time = -1;
-	string instructorFirstName = "";
-	string instructorLastName = "";
-	string roomName = "";
+	string instructorFirstName = "TBA";
+	string instructorLastName = "TBA";
+	string roomName = "TBA";
+	string buildingName = "TBA";
 
 
 public:
@@ -34,11 +35,12 @@ public:
 	void setCredit(double input);
 	void setMaxEnroll(int input);
 	void setConflict(bool input);
-	void setDay(int day);
-	void setTime(int time);
+	void setDay(int d);
+	void setTime(int t);
 	void setFirstName(string firstName);
 	void setLastName(string lastName);
 	void setRoom(string room);
+	void setBuilding(string building);
 
 	char getSectionType();
 	int getCRN();
@@ -53,4 +55,5 @@ public:
 	string getFirstName();
 	string getLastName();
 	string getRoom();
+	string getBuilding();
 };

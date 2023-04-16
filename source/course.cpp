@@ -32,14 +32,14 @@ void Course::setConflict(bool input) {
 	conflict = input;
 }
 
-void Course::setDay(int day)
+void Course::setDay(int d)
 {
-	day = day;
+	day = d;
 }
 
-void Course::setTime(int time)
+void Course::setTime(int t)
 {
-	time = time;
+	time = t;
 }
 
 void Course::setFirstName(string firstName)
@@ -54,7 +54,12 @@ void Course::setLastName(string lastName)
 
 void Course::setRoom(string room)
 {
-	room = room;
+	roomName = room;
+}
+
+void Course:: setBuilding(string building)
+{
+	buildingName = building;
 }
 
 char Course::getSectionType() {
@@ -114,3 +119,7 @@ string Course::getRoom()
 	return roomName;
 }
 
+string Course::getBuilding()
+{
+	return buildingName;
+}
