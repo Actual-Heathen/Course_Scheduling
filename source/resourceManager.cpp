@@ -123,9 +123,9 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
 int toOutput(vector<Course> courseList) //conf,type,crn,couresenum,name,max,days,start,end,bld,room,instructor
 {
 	ofstream csvOutput;
-	csvOutput.open("output1.csv");
+	csvOutput.open("output2.csv");
 
-	//csvOutput << "Conflict,Sec Type,CRN,Course,Title,Credit,Max Enrl,Days,Start,End,Bldg,Room,Instructor\n";
+	csvOutput << "Conflict,Sec Type,CRN,Course,Title,Credit,Max Enrl,Days,Start,End,Bldg,Room,Instructor\n";
 
 	for (long unsigned int i = 0; i < courseList.size(); i++)
 	{
@@ -136,10 +136,61 @@ int toOutput(vector<Course> courseList) //conf,type,crn,couresenum,name,max,days
 		csvOutput << courseList[i].getTitle() << ",";
 		csvOutput << courseList[i].getCredit() << ",";
 		csvOutput << courseList[i].getMaxEnroll() << ",";
-		csvOutput << courseList[i].getDay() << ",";
-		csvOutput << courseList[i].getTime() << ",";
-		csvOutput << courseList[i].getTime() << ",";
-		csvOutput << courseList[i].getRoom() << ",";
+		int dayTime = courseList[i].getDay();
+		if (dayTime == 0)
+		{
+			csvOutput <<"MW,";
+		}
+		else if (dayTime == 1)
+		{
+			csvOutput << "TR,";
+		}
+		else
+		{
+			csvOutput <<"TBA,";
+		}
+		dayTime = courseList[i].getTime();
+		if (dayTime == 0)
+		{
+			csvOutput <<"8:00 AM,";
+			csvOutput <<"9:20 AM,";
+		}
+		else if (dayTime == 1)
+		{
+			csvOutput <<"9:40 AM,";
+			csvOutput <<"11:00 AM,";
+		}
+		else if (dayTime == 2)
+		{
+			csvOutput <<"11:20 AM,";
+			csvOutput <<"12:40 AM,";
+		}
+		else if (dayTime == 3)
+		{
+			csvOutput <<"1:00 PM,";
+			csvOutput <<"2:20 PM,";
+		}
+		else if (dayTime == 4)
+		{
+			csvOutput <<"2:40 PM,";
+			csvOutput <<"4:00 PM,";
+		}
+		else if (dayTime == 5)
+		{
+			csvOutput <<"4:20 PM,";
+			csvOutput <<"5:40 AM,";
+		}
+		else if (dayTime == 6)
+		{
+			csvOutput <<"6:00 PM,";
+			csvOutput <<"7:20 AM,";
+		}
+		else
+		{
+			csvOutput <<"TBA,";
+			csvOutput <<"TBA,";
+		}
+		csvOutput << courseList[i].getBuilding() << ",";
 		csvOutput << courseList[i].getRoom() << ",";
 		csvOutput << courseList[i].getLastName() <<" "<< courseList[i].getFirstName() << "\n";
 	}
@@ -147,24 +198,23 @@ int toOutput(vector<Course> courseList) //conf,type,crn,couresenum,name,max,days
 	return 0;
 }
 
-int outToIn()
+vector<Course> outToIn()
 {
 	vector<Course> courseList;
 	ifstream csvInput;
-	csvInput.open("output.csv");
+	csvInput.open("output1.csv");
 	
 	if (!csvInput)
 	{
-		return -1;
+		return courseList;
 	}
 	
 	string line;
 	string temp;
 	vector<string> words;
-
+	getline(csvInput,line); //dump header
 	while(getline(csvInput, line))
 	{
-		cout<<line<<endl;
 		stringstream lineS(line);
 		int counter = 0;
 
@@ -175,11 +225,13 @@ int outToIn()
 			{
 				stringstream tempS(temp);
 				vector<string> abToken;
-				while(getline(tempS,temp,' '))
+				const char delim = ' ';
+				while(getline(tempS,temp,delim))
 				{
 					abToken.push_back(temp);
 				}
 
+				cout<<abToken.size()<<endl;
 				words.push_back(abToken[0]);
 				
 				temp = "";
@@ -210,19 +262,65 @@ int outToIn()
 		tempCourse.setTitle(words[5]);
 		tempCourse.setCredit(stoi(words[6]));
 		tempCourse.setMaxEnroll(stoi(words[7]));
-		tempCourse.setDay(stoi(words[8]));
-		tempCourse.setTime(stoi(words[9]));
-		//no end time (words[10])				
-		tempCourse.setRoom(words[11]);
-		tempCourse.setLastName(words[12]);
-		tempCourse.setFirstName(words[13]);
-		
+		string dayTime = words[8];
+		if (dayTime == "MW")
+		{
+			tempCourse.setDay(0);
+		}
+		else if (dayTime == "TR")
+		{
+			tempCourse.setDay(1);
+		}
+		else
+		{
+			tempCourse.setDay(-1);
+		}
+		dayTime = words[9];
+		if (dayTime == "8:00 AM")
+		{
+			tempCourse.setTime(0);
+		}
+		else if (dayTime == "9:40 AM")
+		{
+			tempCourse.setTime(1);
+		}
+		else if (dayTime == "11:20 AM")
+		{
+			tempCourse.setTime(2);
+		}
+		else if (dayTime == "1:00 PM")
+		{
+			tempCourse.setTime(3);
+		}
+		else if (dayTime == "2:40 PM")
+		{
+			tempCourse.setTime(4);
+		}
+		else if (dayTime == "4:20 PM")
+		{
+			tempCourse.setTime(5);
+		}
+		else if (dayTime == "6:00 PM")
+		{
+			tempCourse.setTime(6);
+
+		}
+		else
+		{
+			tempCourse.setTime(-1);
+		}
+		//no end time (words[10])	
+		tempCourse.setBuilding(words[11]);
+		tempCourse.setRoom(words[12]);
+		tempCourse.setLastName(words[13]);
+		tempCourse.setFirstName(words[14]);
+		cout << tempCourse.getFirstName()<<endl;	
 		words.clear();
 		
 		courseList.push_back(tempCourse);
 	}
 	toOutput(courseList);
-	return 0;
+	return courseList;
 }
 
 
