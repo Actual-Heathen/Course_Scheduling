@@ -22,9 +22,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->GenerateButton->hide();
 
-    ui->SaveButton->hide();
+    ui->SaveCSVButton->hide();
 
-    ui->PrintButton->hide();
+    ui->SavePDFButton->hide();
 
     ui->ConflictLine->hide();
 
@@ -33,8 +33,6 @@ MainWindow::MainWindow(QWidget *parent)
     fileStoragePath = "../Course_Scheduling/filePathStorage.txt";
 
     generatedCSVPath = "../Course_Scheduling/schedule.csv";
-
-    generatedXLSXPath = "../Course_Scheduling/schedule.xlsx";
 
     departmentCounter = 0;
 
@@ -66,9 +64,7 @@ void MainWindow::on_GenerateButton_clicked()
 
     QStringList rowData;
 
-    QString filePath = fileStoragePath;
-
-    QFile file(filePath);
+    QFile file(fileStoragePath);
 
     QTextStream stream(&file);
 
@@ -108,7 +104,7 @@ void MainWindow::on_GenerateButton_clicked()
 
     file.close();
 
-    int trash = resourceManager(populated, departmentCounter, fileStoragePath.toStdString()); //call resourceManager to generate schedule, which returns number of conflicts
+    conflictCounter = resourceManager(populated, departmentCounter, fileStoragePath.toStdString()); //call resourceManager to generate schedule, which returns number of conflicts
 
     rowData = get_File_Data(); //get data from file and store it in a List
 
@@ -125,7 +121,7 @@ void MainWindow::on_GenerateButton_clicked()
 }
 
 
-void MainWindow::on_SaveButton_clicked() //WILL NEED REWORK WITH IMPLEMENTATION OF CSVs
+void MainWindow::on_SaveCSVButton_clicked()
 {
 
     QString filePath = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "/", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
@@ -135,22 +131,31 @@ void MainWindow::on_SaveButton_clicked() //WILL NEED REWORK WITH IMPLEMENTATION 
     if (QFile::exists(filePath))
         QFile::remove(filePath);
 
-    QFile::copy(generatedXLSXPath, filePath);
+    QFile::copy(generatedCSVPath, filePath);
 
 }
 
 
-void MainWindow::on_PrintButton_clicked() //WILL NEED REWORK WITH IMPLEMENTATION OF CSVs
+void MainWindow::on_SavePDFButton_clicked() //Needs to stylize the data for being read into the file
 {
 
     QString filePath = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "/", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
-    filePath = filePath + "/schedule.xlsx";
+    QString data = "Hello there!\nWhom are you?\n\n\tI am Campbell!";
+
+    filePath = filePath + "/schedule.pdf";
 
     if (QFile::exists(filePath))
         QFile::remove(filePath);
 
-    QFile::copy(generatedXLSXPath, filePath);
+    QFile::copy(generatedCSVPath, filePath);
+
+    using namespace Aspose::Words;
+
+    auto doc = MakeObject<Document>(u"Input.txt");
+    doc->Save(u"Output.pdf");
+
+    using namespace std;
 
 }
 
@@ -285,35 +290,23 @@ void MainWindow::on_RemoveButton_clicked()
 }
 
 
-void MainWindow::on_ValidateButton_clicked()
+void MainWindow::on_ValidateButton_clicked() //Needs rework with saving the changes made to the CSV file and receiving the conflict counter from resourceManager
 {
+
+    get_Table_Data();
+
     int oldConflictCounter = conflictCounter;
 
-    int newConflictCounter = validateSchedule();
+    conflictCounter = validateSchedule();
+
+    clear_Table();
+
+    populate_Table(get_File_Data());
 
     find_Conflicts();
 
-    if(oldConflictCounter != conflictCounter) {
-
+    if(oldConflictCounter != conflictCounter)
         ui->ConflictLine->setText(QString("Conflicts: %1").arg(conflictCounter));
-
-        //clear_Table();
-
-        //scheduleValidated = true;
-
-        //add function call here to resourceManager to validate changes made to schedule: i.e. create new CSV and scan it, then print it back out
-
-        //ui->SaveButton->hide();
-
-        //ui->PrintButton->hide();
-
-        //ui->ValidateButton->hide();
-
-        //populate_Table(get_File_Data());
-
-        //display_Generated_Schedule();
-
-    }
 
 }
 
@@ -323,46 +316,49 @@ void MainWindow::on_DarkModeAction_triggered()
 
     if(!darkMode) {
 
-            ui->centralWidget->setStyleSheet("QWidget{background: black; border-style: outset; border-color: dimgrey; color: gainsboro;}"
-                                             "QPushButton{border-width: 1px; color: white; background-color: dimgrey;}"
-                                             "QPushButton::Pressed{border-width: 2px; color: gainsboro; background-color: black}"
-                                             "QLineEdit{border-width:2px; color: gainsboro; background-color: black}"
-                                             "QTableWidget{border-color: dimgrey; border-width: 2px; alternate-background-color: dimgrey; gridline-color: white;}"
-                                             "QHeaderView::section{background-color: black; color: gainsboro;}"
-                                             "QTableCornerButton::section{background-color: black; border-color: dimgray; border-width: 2px;}"
-                                             "QMenuBar{background-color: dimgrey; border-style: outset; border-color: dimgrey; color: gainsboro;}"
-                                             "QMenu{background-color: black;}");
+        ui->centralWidget->setStyleSheet("QWidget{background: black; border-style: outset; border-color: dimgrey; color: gainsboro;}"
+                                         "QPushButton{border-width: 1px; color: white; background-color: dimgrey;}"
+                                         "QPushButton::Pressed{border-width: 2px; color: gainsboro; background-color: black}"
+                                         "QLineEdit{border-width:2px; color: gainsboro; background-color: black}"
+                                         "QTableWidget{border-color: dimgrey; border-width: 2px; alternate-background-color: dimgrey; gridline-color: white;}"
+                                         "QHeaderView::section{background-color: black; color: gainsboro;}"
+                                         "QTableCornerButton::section{background-color: black; border-color: dimgray; border-width: 2px;}"
+                                         "QMenuBar{background-color: dimgrey; border-style: outset; border-color: dimgrey; color: gainsboro;}"
+                                         "QMenu{background-color: black;}");
 
-            ui->menuBar->setStyleSheet("QMenuBar{background-color: dimgrey; border-style: outset; border-color: dimgrey; color: gainsboro;}"
-                                       "QMenu{background-color: black;}");
+        ui->menuBar->setStyleSheet("QMenuBar{background-color: dimgrey; border-style: outset; border-color: dimgrey; color: gainsboro;}"
+                                   "QMenu{background-color: black;}");
 
-            darkMode = true;
+        darkMode = true;
 
-        } else {
+    } else {
 
-            ui->centralWidget->setStyleSheet("QWidget{background: white; border-style: outset; border-color: black; color: black;}"
-                                             "QLineEdit{border-width:1px; color: black; background-color: white}"
-                                             "QPushButton{border-width: 1px; color: black; background-color: white;}"
-                                             "QPushButton::Pressed{border-width: 2px; color: gainsboro; background-color: black}"
-                                             "QPlainTextEdit{border-width: 1px;}"
-                                             "QTableWidget{border-color: black; border-width: 1px; alternate-background-color: lightgrey; gridline-color: black;}"
-                                             "QHeaderView::section{background-color: white; color: black;}"
-                                             "QTableCornerButton::section{background-color: white; border-color: black; border-width: 1px;}"
-                                             "QMenuBar{background: white; border-style: outset; border-color: black; color: black;}"
-                                             "QMenu{background: white;}");
+        ui->centralWidget->setStyleSheet("QWidget{background: white; border-style: outset; border-color: black; color: black;}"
+                                         "QLineEdit{border-width:1px; color: black; background-color: white}"
+                                         "QPushButton{border-width: 1px; color: black; background-color: white;}"
+                                         "QPushButton::Pressed{border-width: 2px; color: gainsboro; background-color: black}"
+                                         "QPlainTextEdit{border-width: 1px;}"
+                                         "QTableWidget{border-color: black; border-width: 1px; alternate-background-color: lightgrey; gridline-color: black;}"
+                                         "QHeaderView::section{background-color: white; color: black;}"
+                                         "QTableCornerButton::section{background-color: white; border-color: black; border-width: 1px;}"
+                                         "QMenuBar{background: white; border-style: outset; border-color: black; color: black;}"
+                                         "QMenu{background: white;}");
 
-            ui->menuBar->setStyleSheet("QMenuBar{background: white; border-style: outset; border-color: black; color: black;}"
-                                       "QMenu{background: white;}");
+        ui->menuBar->setStyleSheet("QMenuBar{background: white; border-style: outset; border-color: black; color: black;}"
+                                   "QMenu{background: white;}");
 
-            darkMode = false;
+        darkMode = false;
 
-        }
+    }
 
 }
 
 
-void MainWindow::display_Generated_Schedule() //Needs rework to display proper logic
+void MainWindow::display_Generated_Schedule() //Needs rework to display proper logic, whatever that means
 {
+
+    conflictCounter = 1;
+
     if(scheduleHidden) {
 
         ui->scheduleTable->show();
@@ -373,9 +369,9 @@ void MainWindow::display_Generated_Schedule() //Needs rework to display proper l
 
     if(scheduleGenerated || scheduleValidated) {
 
-        ui->SaveButton->show();
+        ui->SaveCSVButton->show();
 
-        ui->PrintButton->show();
+        ui->SavePDFButton->show();
 
         ui->ConflictLine->show();
 
@@ -396,7 +392,7 @@ void MainWindow::display_Generated_Schedule() //Needs rework to display proper l
 }
 
 
-void MainWindow::find_File_Path()
+void MainWindow::find_File_Path() //Add functionality to check file paths provided, and highlight box/text to signify location of error
 {
 
     bool found = false;
@@ -421,7 +417,7 @@ void MainWindow::find_File_Path()
 
                 QFile file(filePath); //grab filePath
 
-                if (!file.open(QIODevice::ReadWrite | QIODevice::Text)) { //if no file selected/file nonexistant
+                if (!file.open(QFile::ReadWrite | QFile::Text)) { //if no file selected/file nonexistant
 
                     lineEdit->setText("File Not Found!");
 
@@ -457,9 +453,7 @@ QStringList MainWindow::get_File_Data()
 
     QString data;
 
-    QString filePath = generatedCSVPath;
-
-    QFile file(filePath);
+    QFile file(generatedCSVPath);
 
     QTextStream stream(&file);
 
@@ -567,18 +561,45 @@ void MainWindow::populate_Table(QStringList rowData)
 }
 
 
-void MainWindow::find_Conflicts()
+void MainWindow::get_Table_Data()
 {
 
-    conflictCounter = 0;
+    QFile file("../Course_Scheduling/test.csv");
+
+    QTextStream stream(&file);
+
+    if(file.open(QFile::WriteOnly)) {
+
+        auto table = ui->scheduleTable;
+
+        stream << "Conflict,Section Type,CRN,Course,Title,Credit,Max Enrollment,Days,Start,End,Building,Room,Instructor\n";
+
+        for (int x = 0; x < table->rowCount(); x++) {
+
+            for (int y = 0; y < table->columnCount(); y++) {
+
+                stream << table->item(x,y)->text();
+
+                if(y+1 < table->columnCount())
+                    stream << ",";
+
+            }
+
+        }
+
+    }
+
+}
+
+
+void MainWindow::find_Conflicts()
+{
 
     auto table = ui->scheduleTable;
 
     for (int x = 0; x < table->rowCount(); x++) { //columns
 
         if(table->item(x, 0)->text() == "TRUE") {
-
-            conflictCounter++;
 
             for (int y = 0; y < table->columnCount(); y++) { //rows
 
