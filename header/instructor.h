@@ -5,25 +5,28 @@ using namespace std;
 
 class Instructor {
 private:
-	string firstName;
-	string lastName;
-	int priority;
-	string preferredClass;
-	bool conflict = false;
-	DayTime schedule;
+    string firstName;
+    string lastName;
+    int maxCourses = 0;
+    int currentlyTeaching = 0;
+    int priority = 0;
+    string preferredClass;
+    DayTime schedule;
 
 public:
-	void setFirstName(string input);
-	void setLastName(string input);
-	void setPriority(int input);
-	void setPreferredClass(string input);
-	void setConflict(bool input);
-	void setOccupied(int days, int hours, bool status);
-	string getFirstName();
-	string getLastName();
-	int getPriority();
-	string getPreferredClass();
-	bool getConflict();
-	bool getOccupied(int days, int hours);
+    void setFirstName(string input);
+    void setLastName(string input);
+    void setMaxCourses(int input);
+    void increaseClassesTaught();
+    void decreaseClassesTaught();
+    void setPriority(int input);
+    void setPreferredClass(string input);
+    void setAvailability(int days, int hours, int status);
+    string getFirstName();
+    string getLastName();
+    int getMaxCourses();
+    int getCurrentlyTeaching();
+    int getPriority();
+    string getPreferredClass();
+    bool getAvailability(int days, int hours);
 };
-

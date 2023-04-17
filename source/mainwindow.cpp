@@ -139,23 +139,7 @@ void MainWindow::on_SaveCSVButton_clicked()
 void MainWindow::on_SavePDFButton_clicked() //Needs to stylize the data for being read into the file
 {
 
-    QString filePath = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "/", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
-    QString data = "Hello there!\nWhom are you?\n\n\tI am Campbell!";
-
-    filePath = filePath + "/schedule.pdf";
-
-    if (QFile::exists(filePath))
-        QFile::remove(filePath);
-
-    QFile::copy(generatedCSVPath, filePath);
-
-    using namespace Aspose::Words;
-
-    auto doc = MakeObject<Document>(u"Input.txt");
-    doc->Save(u"Output.pdf");
-
-    using namespace std;
 
 }
 
