@@ -61,6 +61,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES += \
     README.md \
     filePathStorage.txt \
-    schedule.csv \
-    schedule.xlsx \
+    output.csv \
     uah.ico
