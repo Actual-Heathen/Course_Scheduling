@@ -239,7 +239,7 @@ void MainWindow::on_SaveCSVButton_clicked()
 }
 
 
-void MainWindow::on_SavePDFButton_clicked() //Needs to stylize the data for being read into the file
+void MainWindow::on_SavePDFButton_clicked() //Needs implementation
 {
 
 
@@ -254,8 +254,13 @@ void MainWindow::on_DepartmentButton_clicked()
 
         //ui->DepartmentFrame->setFixedHeight(ui->DepartmentFrame->height()+31);
 
-        if(ui->scrollArea_2->height() < 289)
+        if(ui->scrollArea_2->height() < 289) {
+
             ui->scrollArea_2->setFixedHeight(ui->scrollArea_2->height()+31);
+
+            ui->ScheduleFrame->move(0, ui->ScheduleFrame->y()+31);
+
+        }
 
     }
 
@@ -370,8 +375,13 @@ void MainWindow::on_RemoveButton_clicked()
 {
 
     if(departmentCounter < 10)
-        if(departmentCounter > 1)
+        if(departmentCounter > 1) {
+
             ui->scrollArea_2->setFixedHeight(ui->scrollArea_2->height()-31);
+
+            ui->ScheduleFrame->move(0, ui->ScheduleFrame->y()-31);
+
+        }
 
     bool deleted = false;
 
@@ -425,7 +435,7 @@ void MainWindow::on_RemoveButton_clicked()
 }
 
 
-void MainWindow::on_ValidateButton_clicked()
+void MainWindow::on_ValidateButton_clicked() //currently broken with reliance on backend - 4/17/2023
 {
 
     get_Table_Data();

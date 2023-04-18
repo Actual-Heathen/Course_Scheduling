@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>1608</width>
-    <height>1150</height>
+    <height>900</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -123,7 +123,7 @@ QTableCornerButton::section{background-color: white; border-color: black; border
             <x>0</x>
             <y>0</y>
             <width>1332</width>
-            <height>1093</height>
+            <height>843</height>
            </rect>
           </property>
           <property name="layoutDirection">
@@ -160,8 +160,8 @@ QTableCornerButton::section{background-color: white; border-color: black; border
           <widget class="QFrame" name="ScheduleFrame">
            <property name="geometry">
             <rect>
-             <x>-10</x>
-             <y>360</y>
+             <x>0</x>
+             <y>110</y>
              <width>1351</width>
              <height>661</height>
             </rect>
@@ -303,7 +303,7 @@ QTableCornerButton::section{background-color: white; border-color: black; border
            <property name="geometry">
             <rect>
              <x>150</x>
-             <y>21</y>
+             <y>22</y>
              <width>1181</width>
              <height>61</height>
             </rect>
