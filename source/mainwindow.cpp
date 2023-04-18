@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     fileStoragePath = "../Course_Scheduling/filePathStorage.txt";
 
-    generatedCSVPath = "../Course_Scheduling/schedule.csv";
+    generatedCSVPath = "../Course_Scheduling/output.csv";
 
     departmentCounter = 0;
 
@@ -45,6 +45,8 @@ MainWindow::MainWindow(QWidget *parent)
     scheduleGenerated = false;
 
     scheduleValidated = false;
+
+    on_DepartmentButton_clicked();
 
 }
 
@@ -60,7 +62,11 @@ MainWindow::~MainWindow()
 void MainWindow::on_GenerateButton_clicked()
 {
 
-    scheduleGenerated = true;
+    bool generate = true;
+
+    int indexPosition = 0;
+
+    int badInput[departmentCounter][4];
 
     QStringList rowData;
 
@@ -69,6 +75,8 @@ void MainWindow::on_GenerateButton_clicked()
     QTextStream stream(&file);
 
     if(file.open(QIODevice::ReadWrite | QIODevice::Text | QIODevice::Truncate)) {
+
+        populated = false;
 
         QMultiMap<QHBoxLayout*, QWidget*>::iterator index;
 
@@ -84,39 +92,134 @@ void MainWindow::on_GenerateButton_clicked()
 
             QLineEdit* RoomLine = qobject_cast<QLineEdit*>(values[0]); //store RoomLine
 
-            if(!DepartmentName->text().isEmpty())
+            if(!DepartmentName->text().isEmpty()) {
+
                 stream << DepartmentName->text() << "\n"; //grab Department Name and store it in file
 
-            if(!CourseLine->text().isEmpty())
+                DepartmentName->setStyleSheet("");
+
+                badInput[indexPosition][0] = 1;
+
+            }else {
+
+                DepartmentName->setStyleSheet("border-color: red; border-width: 2px;");
+
+                badInput[indexPosition][0] = 0;
+
+            }
+
+            if(check_File_Extension(CourseLine->text())){
+
                 stream << CourseLine->text() << "\n"; //grab Course File Path and store it in file
 
-            if(!InstructorLine->text().isEmpty())
+                CourseLine->setStyleSheet("");
+
+                badInput[indexPosition][1] = 1;
+
+            }else {
+
+                CourseLine->setStyleSheet("border-color: red; border-width: 2px;");
+
+                badInput[indexPosition][1] = 0;
+
+            }
+
+            if(check_File_Extension(InstructorLine->text())) {
+
                 stream << InstructorLine->text() << "\n"; //grab Instructor File Path and store it in file
 
-            if(!RoomLine->text().isEmpty())
+                InstructorLine->setStyleSheet("");
+
+                badInput[indexPosition][2] = 1;
+
+            }else {
+
+                InstructorLine->setStyleSheet("border-color: red; border-width: 2px;");
+
+                badInput[indexPosition][2] = 0;
+
+            }
+
+            if(check_File_Extension(RoomLine->text())) {
+
                 stream << RoomLine->text() << "\n"; //grab Room File Path and store it in file
 
-        }
+                RoomLine->setStyleSheet("");
 
-        populated = true; //file is populated
+                badInput[indexPosition++][3] = 1;
+
+            }else {
+
+                RoomLine->setStyleSheet("border-color: red; border-width: 2px;");
+
+                badInput[indexPosition++][3] = 0;
+
+            }
+
+        }
 
     }
 
     file.close();
 
-    conflictCounter = resourceManager(populated, departmentCounter, fileStoragePath.toStdString()); //call resourceManager to generate schedule, which returns number of conflicts
+    for(int x = 0; x < indexPosition; x++){
 
-    rowData = get_File_Data(); //get data from file and store it in a List
+        for(int y = 0; y < 4; y++) {
 
-    initialize_Table(rowData.size()); //initialize data, while also sending number of rows to generate
+            if(badInput[x][y] == 0) {
 
-    populate_Table(rowData); //populate table with data found from the file, by passing in rowData
+                generate = false;
 
-    find_Conflicts(); //highlights the conflicts within the schedule
+                break;
 
-    populated = false;
+            }else
+                generate = true;
 
-    display_Generated_Schedule();
+        }
+
+        if(generate == false)
+            break;
+
+    }
+
+    if(generate) {
+
+        scheduleGenerated = true;
+
+        populated = true;
+
+        conflictCounter = resourceManager(populated, departmentCounter, fileStoragePath.toStdString()); //call resourceManager to generate schedule, which returns number of conflicts
+
+        rowData = get_File_Data(); //get data from file and store it in a List
+
+        initialize_Table(rowData.size()); //initialize data, while also sending number of rows to generate
+
+        populate_Table(rowData); //populate table with data found from the file, by passing in rowData
+
+        find_Conflicts(); //highlights the conflicts within the schedule
+
+        populated = false;
+
+        display_Generated_Schedule();
+
+    }else
+        clear_Table();
+
+}
+
+bool MainWindow::check_File_Extension(QString filePath)
+{
+
+    if(filePath != "") {
+
+        QStringList text = filePath.split(".");
+
+        if(text[text.size()-1] == "csv")
+            return true;
+
+    }
+
+    return false;
 
 }
 
@@ -146,11 +249,19 @@ void MainWindow::on_SavePDFButton_clicked() //Needs to stylize the data for bein
 
 void MainWindow::on_DepartmentButton_clicked()
 {
+
+    if(departmentCounter > 0) {
+
+        //ui->DepartmentFrame->setFixedHeight(ui->DepartmentFrame->height()+31);
+
+        if(ui->scrollArea_2->height() < 289)
+            ui->scrollArea_2->setFixedHeight(ui->scrollArea_2->height()+31);
+
+    }
+
     ui->GenerateButton->show();
 
     departmentCounter++;
-
-    ui->DepartmentFrame->setFixedSize(ui->DepartmentFrame->width(), ui->DepartmentFrame->height()+30);
 
     QVBoxLayout* Layout = qobject_cast<QVBoxLayout*>(ui->additionalDepartmentLayout->layout());
 
@@ -158,19 +269,57 @@ void MainWindow::on_DepartmentButton_clicked()
 
     QPushButton* RemoveButton = new QPushButton(("Remove Department"), ui->DepartmentFrame);
 
+    RemoveButton->setFixedHeight(24);
+
+    RemoveButton->setFixedWidth(120);
+
     QPushButton* CourseButton = new QPushButton("Choose File", ui->DepartmentFrame);
+
+    CourseButton->setFixedHeight(24);
+
+    CourseButton->setFixedWidth(80);
 
     QPushButton* InstructorButton = new QPushButton("Choose File", ui->DepartmentFrame);
 
+    InstructorButton->setFixedHeight(24);
+
+    InstructorButton->setFixedWidth(80);
+
     QPushButton* RoomButton = new QPushButton("Choose File", ui->DepartmentFrame);
+
+    RoomButton->setFixedHeight(24);
+
+    RoomButton->setFixedWidth(80);
 
     QLineEdit* DepartmentLine = new QLineEdit(ui->DepartmentFrame);
 
+    DepartmentLine->setPlaceholderText("Department Name");
+
+    DepartmentLine->setFixedHeight(24);
+
     QLineEdit* CourseLine = new QLineEdit(ui->DepartmentFrame);
+
+    CourseLine->setFixedHeight(24);
+
+    CourseLine->setReadOnly(true);
+
+    CourseLine->setPlaceholderText("Course File");
 
     QLineEdit* InstructorLine = new QLineEdit(ui->DepartmentFrame);
 
+    InstructorLine->setFixedHeight(24);
+
+    InstructorLine->setReadOnly(true);
+
+    InstructorLine->setPlaceholderText("Instructor File");
+
     QLineEdit* RoomLine = new QLineEdit(ui->DepartmentFrame);
+
+    RoomLine->setFixedHeight(24);
+
+    RoomLine->setReadOnly(true);
+
+    RoomLine->setPlaceholderText("Room File");
 
     DepartmentLayout->addWidget(RemoveButton);
 
@@ -188,7 +337,7 @@ void MainWindow::on_DepartmentButton_clicked()
 
     DepartmentLayout->addWidget(RoomLine);
 
-    Layout->insertLayout(0, DepartmentLayout);
+    Layout->insertLayout(departmentCounter-1, DepartmentLayout);
 
     DepartmentMap.insert(DepartmentLayout, RemoveButton);
 
@@ -220,9 +369,11 @@ void MainWindow::on_DepartmentButton_clicked()
 void MainWindow::on_RemoveButton_clicked()
 {
 
-    bool deleted = false;
+    if(departmentCounter < 10)
+        if(departmentCounter > 1)
+            ui->scrollArea_2->setFixedHeight(ui->scrollArea_2->height()-31);
 
-    ui->DepartmentFrame->setFixedSize(ui->DepartmentFrame->width(), ui->DepartmentFrame->height()-30);
+    bool deleted = false;
 
     departmentCounter--; //decrement counter to represent loss of a department input
 
@@ -274,7 +425,7 @@ void MainWindow::on_RemoveButton_clicked()
 }
 
 
-void MainWindow::on_ValidateButton_clicked() //Needs rework with saving the changes made to the CSV file and receiving the conflict counter from resourceManager
+void MainWindow::on_ValidateButton_clicked()
 {
 
     get_Table_Data();
@@ -291,6 +442,16 @@ void MainWindow::on_ValidateButton_clicked() //Needs rework with saving the chan
 
     if(oldConflictCounter != conflictCounter)
         ui->ConflictLine->setText(QString("Conflicts: %1").arg(conflictCounter));
+
+    if(conflictCounter == 0) {
+
+        scheduleValidated = true;
+
+        ui->ConflictLine->hide();
+
+        ui->ValidateButton->hide();
+
+    }
 
 }
 
@@ -338,10 +499,8 @@ void MainWindow::on_DarkModeAction_triggered()
 }
 
 
-void MainWindow::display_Generated_Schedule() //Needs rework to display proper logic, whatever that means
+void MainWindow::display_Generated_Schedule()
 {
-
-    conflictCounter = 1;
 
     if(scheduleHidden) {
 
@@ -357,12 +516,6 @@ void MainWindow::display_Generated_Schedule() //Needs rework to display proper l
 
         ui->SavePDFButton->show();
 
-        ui->ConflictLine->show();
-
-        scheduleGenerated = false;
-
-        scheduleValidated = false;
-
     }
 
     if(conflictCounter > 0) {
@@ -371,12 +524,14 @@ void MainWindow::display_Generated_Schedule() //Needs rework to display proper l
 
         ui->ConflictLine->setText(QString("Conflicts: %1").arg(conflictCounter));
 
+        ui->ConflictLine->show();
+
     }
 
 }
 
 
-void MainWindow::find_File_Path() //Add functionality to check file paths provided, and highlight box/text to signify location of error
+void MainWindow::find_File_Path()
 {
 
     bool found = false;
@@ -548,7 +703,7 @@ void MainWindow::populate_Table(QStringList rowData)
 void MainWindow::get_Table_Data()
 {
 
-    QFile file("../Course_Scheduling/test.csv");
+    QFile file(generatedCSVPath);
 
     QTextStream stream(&file);
 
@@ -603,14 +758,18 @@ void MainWindow::clear_Table()
 
     auto table = ui->scheduleTable;
 
-    for (int x = 0; x < table->rowCount(); x++) {
+    table->setRowCount(0);
 
-        for (int y = 0; y < table->columnCount(); y++) {
+    table->setColumnCount(0);
 
-            table->item(x, y)->setText(NULL);
+    scheduleGenerated = false;
 
-        }
+    ui->ConflictLine->hide();
 
-    }
+    ui->ValidateButton->hide();
+
+    ui->SaveCSVButton->hide();
+
+    ui->SavePDFButton->hide();
 
 }

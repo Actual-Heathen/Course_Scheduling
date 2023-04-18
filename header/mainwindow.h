@@ -35,7 +35,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    QString fileStoragePath, generatedCSVPath, generatedXLSXPath;
+    QString fileStoragePath, generatedCSVPath;
 
 public:
 
@@ -47,6 +47,8 @@ public:
 
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+    bool check_File_Extension(QString filePath);
 
 private slots:
 
