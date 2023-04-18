@@ -29,7 +29,6 @@ SOURCES += \
     source/instructor.cpp
     source/room.cpp
     source/resourceManager.cpp
-    source/sanitizer.cpp
 
 HEADERS += \
     header/comboboxDelegate.h \
@@ -50,7 +49,6 @@ HEADERS += \
     header/instructor.h
     header/room.h
     header/course.h
-    header/sanitizer.h
 
 FORMS += \
     mainwindow.ui
@@ -63,6 +61,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES += \
     README.md \
     filePathStorage.txt \
-    schedule.csv \
-    schedule.xlsx \
+    output.csv \
     uah.ico
