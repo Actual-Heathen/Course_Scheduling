@@ -342,6 +342,73 @@ QTableCornerButton::section{background-color: white; border-color: black; border
             </property>
            </widget>
           </widget>
+          <widget class="QScrollArea" name="scrollArea_2">
+           <property name="geometry">
+            <rect>
+             <x>150</x>
+             <y>22</y>
+             <width>1181</width>
+             <height>61</height>
+            </rect>
+           </property>
+           <property name="widgetResizable">
+            <bool>true</bool>
+           </property>
+           <widget class="QWidget" name="scrollAreaWidgetContents_2">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>1181</width>
+              <height>61</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <widget class="QFrame" name="DepartmentFrame">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QFrame {background-color: transparent;}</string>
+               </property>
+               <layout class="QVBoxLayout" name="additionalDepartmentLayout"/>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+          <widget class="QPlainTextEdit" name="outputTextEdit">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>780</y>
+             <width>0</width>
+             <height>0</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: transparent;
+color: transparent;
+border-width: 0px;</string>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+           <property name="textInteractionFlags">
+            <set>Qt::NoTextInteraction</set>
+           </property>
+          </widget>
+          <zorder>outputTextEdit</zorder>
           <zorder>ScheduleFrame</zorder>
           <zorder>DepartmentButton</zorder>
           <zorder>DepartmentFrame</zorder>
