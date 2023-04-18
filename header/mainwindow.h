@@ -22,8 +22,6 @@
 #include <string>
 #include <fstream>
 #include <QStyledItemDelegate>
-#include <QPdfWriter>
-#include <QPainter>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -35,7 +33,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    QString fileStoragePath, generatedCSVPath;
+    QString fileStoragePath, generatedCSVPath, generatedXLSXPath;
 
 public:
 
@@ -48,15 +46,13 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    bool check_File_Extension(QString filePath);
-
 private slots:
 
     void on_GenerateButton_clicked(); //grabs filepaths from department(s) and uploads them to array for storage
 
-    void on_SaveCSVButton_clicked();
+    void on_SaveButton_clicked();
 
-    void on_SavePDFButton_clicked();
+    void on_PrintButton_clicked();
 
     void on_DepartmentButton_clicked();
 
@@ -75,10 +71,6 @@ private slots:
     void initialize_Table(int numRows);
 
     void populate_Table(QStringList rowData);
-
-    void get_Table_Data();
-
-    void find_Conflicts();
 
     void clear_Table();
 
