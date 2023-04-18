@@ -6,6 +6,7 @@ using namespace std;
 class RoomInfo {
 private:
     string buildingName;
+    strin string buildingName;
     string roomNumber;
     int maxCapacity = 0;
     bool conflict = false;

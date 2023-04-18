@@ -9,7 +9,19 @@ void Instructor::setLastName(string input) {
 }
 
 void Instructor::setMaxCourses(int input) {
-    maxCourses = input;
+	maxCourses = input;
+}
+
+void Instructor::increaseClassesTaught() {
+	++currentlyTeaching;
+}
+
+void Instructor::decreaseClassesTaught() {
+	--currentlyTeaching;
+}
+
+void Instructor::setPriority(int input) {
+	priority = input;
 }
 
 void Instructor::increaseClassesTaught() {
@@ -41,7 +53,15 @@ string Instructor::getLastName() {
 }
 
 int Instructor::getMaxCourses() {
-    return maxCourses;
+	return maxCourses;
+}
+
+int Instructor::getCurrentlyTeaching() {
+    return currentlyTeaching;
+}
+
+int Instructor::getPriority() {
+	return priority;
 }
 
 int Instructor::getCurrentlyTeaching() {
