@@ -22,8 +22,6 @@
 #include <string>
 #include <fstream>
 #include <QStyledItemDelegate>
-#include <QPrintDialog>
-#include <QPrinter>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
