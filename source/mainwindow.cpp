@@ -239,10 +239,49 @@ void MainWindow::on_SaveCSVButton_clicked()
 }
 
 
-void MainWindow::on_SavePDFButton_clicked() //Needs implementation
+void MainWindow::on_SavePDFButton_clicked() //Needs finished implementation
 {
 
+    ui->outputTextEdit->clear();
 
+    QStringList data = get_File_Data();
+
+    QStringList courses = data[0].split(",");
+
+    string output;
+
+    fstream stream("../Course_Scheduling/output.txt");
+
+    using namespace std;
+
+    stream << setw(8) << courses[1].toStdString() << "\t";
+    stream << setw(5) << courses[2].toStdString() << "\t";
+    stream << setw(6) << courses[3].toStdString() << "\t";
+    stream << setw(30) << courses[4].toStdString() << "\t";
+    stream << setw(6) << courses[5].toStdString() << "\t";
+    stream << setw(8) << courses[6].toStdString() << "\t";
+    stream << setw(4) << courses[7].toStdString() << "\t";
+    stream << setw(7) << courses[8].toStdString() << "\t";
+    stream << setw(7) << courses[9].toStdString() << "\t";
+    stream << setw(4) << courses[10].toStdString() << "\t";
+    stream << setw(5) << courses[11].toStdString() << "\t";
+    stream << setw(20) << courses[12].toStdString() << "\t";
+
+    output = stream.get();
+
+    stream.close();
+
+    ui->outputTextEdit->setPlainText(QString::fromStdString(output));
+
+    QPrinter printer;
+
+    QPrintDialog printDialog(&printer, this);
+
+    if (printDialog.exec() == QDialog::Accepted) {
+
+        ui->outputTextEdit->print(&printer);
+
+    }
 
 }
 
