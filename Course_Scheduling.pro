@@ -29,6 +29,7 @@ SOURCES += \
     source/instructor.cpp
     source/room.cpp
     source/resourceManager.cpp
+    source/sanitizer.cpp
 
 HEADERS += \
     header/comboboxDelegate.h \
@@ -49,6 +50,7 @@ HEADERS += \
     header/instructor.h
     header/room.h
     header/course.h
+    header/sanitizer.h
 
 FORMS += \
     mainwindow.ui

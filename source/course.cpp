@@ -32,18 +32,14 @@ void Course::setConflict(bool input) {
     conflict = input;
 }
 
-void Course::setAvailability(int days, int hours, bool status) {
-	schedule.setAvailability(days, hours, status);
+void Course::setDay(int d)
+{
+	day = d;
 }
 
-void Course::setDay(int day)
+void Course::setTime(int t)
 {
-	day = day;
-}
-
-void Course::setTime(int time)
-{
-    time = time;
+	time = t;
 }
 
 void Course::setFirstName(string firstName)
@@ -53,12 +49,17 @@ void Course::setFirstName(string firstName)
 
 void Course::setLastName(string lastName)
 {
-    instructorLastName = lastName;
+	instructorLastName = lastName;
 }
 
 void Course::setRoom(string room)
 {
-    room = room;
+	roomName = room;
+}
+
+void Course:: setBuilding(string building)
+{
+	buildingName = building;
 }
 
 char Course::getSectionType() {
@@ -93,51 +94,32 @@ bool Course::getConflict() {
     return conflict;
 }
 
-bool Course::getAvailability(int days, int hours) {
-	return schedule.getAvailability(days, hours);
-}
-
-int getDay()
+int Course::getDay()
 {
 	return day;
 }
 
-int getTime()
+int Course::getTime()
 {
 	return time;
 }
 
-string getFirstName()
+string Course::getFirstName()
 {
 	return instructorFirstName;
 }
 
-string getLastName()
+string Course::getLastName()
 {
 	return instructorLastName;
 }
 
-string getRoom()
-{
-	return room;
-}
-
-int Course::getTime()
-{
-    return time;
-}
-
-string Course::getFirstName()
-{
-    return instructorFirstName;
-}
-
-string Course::getLastName()
-{
-    return instructorLastName;
-}
-
 string Course::getRoom()
 {
-    return roomName;
+	return roomName;
+}
+
+string Course::getBuilding()
+{
+	return buildingName;
 }
