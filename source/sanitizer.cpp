@@ -1,4 +1,5 @@
 #include <string>
+#include <sanitizer.h>
 
 bool isValidDay(std::string s)
 {
@@ -42,4 +43,17 @@ bool isValidTime(std::string s)
     }
 
     return false;
+}
+
+static bool isInt(std::string s)
+{
+    for(int i = 0; i < s.length(); i++)
+    {
+        if (!isdigit(s[i]))
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
