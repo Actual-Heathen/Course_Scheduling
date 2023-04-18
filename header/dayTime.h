@@ -9,6 +9,6 @@ private:
     int times[days][hours] = { {0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0} };
 
 public:
-    void setAvailability(int days, int hours, int status);
-    bool getAvailability(int days, int hours);
+	void setAvailability(int days, int hours, int status);
+	bool getAvailability(int days, int hours);
 };
