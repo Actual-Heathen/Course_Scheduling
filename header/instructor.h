@@ -5,8 +5,8 @@ using namespace std;
 
 class Instructor {
 private:
-	string firstName;
-	string lastName;
+	string firstName = "TBA";
+	string lastName = "TBA";
     int maxCourses = 0;
 	int currentlyTeaching = 0;
 	int priority = 0;

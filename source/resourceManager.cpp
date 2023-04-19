@@ -8,10 +8,10 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
     int errorNumber = -1;    // TEMPORARY VALUE USED TO REPRESENT FILE ERROR
     int allGood = 0;   // TEMPORARY VALUE USED TO REPRESENT GOOD EXECUTION
 
-	vector<string> department;
-	vector<string> course;
-	vector<string> instructor;
-	vector<string> room; 
+	vector<string> department(departmentCounter,"");
+	vector<string> course(departmentCounter,"");
+	vector<string> instructor(departmentCounter,"");
+	vector<string> room(departmentCounter,""); 
 
     map<string, RoomInfo> roomMap;
     vector<Department> departmentList;
@@ -26,13 +26,13 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
 
             for(int i = 0; i < departmentCounter; i++) {
 
-                getline(file, department[i]);
+                getline(file, department.at(i));
 
-                getline(file, course[i]);
+                getline(file, course.at(i));
 
-                getline(file, instructor[i]);
+                getline(file, instructor.at(i));
 
-                getline(file, room[i]);
+                getline(file, room.at(i));
 
             }
 
