@@ -92,12 +92,13 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
 		file.open(room[entry], fstream::in);
 		if (file.is_open()) {
 			string data;
-			string roomName;
+			
 			getline(file, data);    // Skip title header
 
 			try {
 				while (getline(file, data)) {
 					RoomInfo roomObject = createRoom(data);
+					string roomName = "";
 					roomName.append(roomObject.getBuildingName());
 					roomName.append(" ");
 					roomName.append(roomObject.getRoomNumber());
