@@ -7,7 +7,7 @@
 using namespace std;
 
 int resourceManager(bool populated, int departmentCounter, string fileStoragePath);
-int toOutput(vector<Course> courseList);
+int toOutput(outputStruct results);
 int outToIn();
 int validateSchedule();
 Course createCourse(string data);
