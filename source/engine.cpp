@@ -13,12 +13,7 @@ bool compareInstructorPriority(Instructor& left, Instructor& right)
 //test this, may be backwards
 bool compareCourseType(Course& left, Course& right)
 {
-    if (left.getSectionType() == 'T') return true;
-    else if (right.getSectionType() == 'T') return false;
-    else if (left.getSectionType() == 'S') return true;
-    else if (right.getSectionType() == 'S') return false;
-    else if (left.getSectionType() == 'A') return true;
-    else return false;
+    return left.getSectionType() > right.getSectionType();
 }
 
 outputStruct generateSchedule(vector<Department> departments, map<string, RoomInfo> roomMap)
