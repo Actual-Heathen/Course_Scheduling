@@ -5,6 +5,8 @@
 
 using namespace std;
 
+map<string, RoomInfo> masterRooms;
+
 bool compareInstructorPriority(Instructor& left, Instructor& right)
 {
     return left.getPriority() > right.getPriority();
@@ -22,8 +24,10 @@ bool compareCourseType(Course& left, Course& right)
     else return false;
 }
 
-outputStruct generateSchedule(vector<Department> departments, map<string, RoomInfo> masterRooms)
+outputStruct generateSchedule(vector<Department> departments, map<string, RoomInfo> roomMap)
 {
+    masterRooms = roomMap;
+    
     // functionality
 
     //for each department
@@ -142,7 +146,7 @@ outputStruct generateSchedule(vector<Department> departments, map<string, RoomIn
     return validateSchedule(courses, masterRooms);
 }
 
-outputStruct validateSchedule(vector<Course> courses, map<string, RoomInfo> masterRooms)
+outputStruct validateSchedule(vector<Course> courses, bool useRoomMap)
 {
     outputStruct output;
     for (int i = 0; i < courses.size(); i++)
@@ -154,7 +158,7 @@ outputStruct validateSchedule(vector<Course> courses, map<string, RoomInfo> mast
         //check each field is filled
 
         //if class is online and has a room assigned
-        if (courses.at(i).getSectionType() != 'T' && courses.at(i).getRoom() != "TBA")  //course needs room name field
+        if (courses.at(i).getSectionType() != 'T' && courses.at(i).getRoom() != "TBA") //course needs room name field
         {
             individual = true;
             output.conflictCount++;
@@ -182,7 +186,7 @@ outputStruct validateSchedule(vector<Course> courses, map<string, RoomInfo> mast
         }
 
         //if room size smaller than class max size
-        if (masterRooms[courses.at(i).getRoom()].getCapacity() < courses.at(i).getMaxEnroll())
+        if (useRoomMap && masterRooms[courses.at(i).getRoom()].getCapacity() < courses.at(i).getMaxEnroll())
         {
             individual = true;
             output.conflictCount++;

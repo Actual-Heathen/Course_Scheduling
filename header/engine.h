@@ -16,4 +16,4 @@ bool compareInstructorPriority(Instructor& left, Instructor& right);
 bool compareCourseType(Course& left, Course& right);
 
 outputStruct generateSchedule(vector<Department> departments, map<string, RoomInfo> masterRooms);
-outputStruct validateSchedule(vector<Course> courses, map<string, RoomInfo> masterRooms);
+outputStruct validateSchedule(vector<Course> courses, bool useRoomMap);

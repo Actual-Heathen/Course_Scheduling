@@ -57,11 +57,6 @@ void Course::setRoom(string room)
 	roomName = room;
 }
 
-void Course:: setBuilding(string building)
-{
-	buildingName = building;
-}
-
 char Course::getSectionType() {
 	return sectionType;
 }
@@ -117,9 +112,4 @@ string Course::getLastName()
 string Course::getRoom()
 {
 	return roomName;
-}
-
-string Course::getBuilding()
-{
-	return buildingName;
 }

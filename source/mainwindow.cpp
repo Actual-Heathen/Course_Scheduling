@@ -442,7 +442,7 @@ void MainWindow::on_ValidateButton_clicked() //currently broken with reliance on
 
     int oldConflictCounter = conflictCounter;
 
-    conflictCounter = validateSchedule();
+    conflictCounter = outToIn();
 
     clear_Table();
 
