@@ -1,8 +1,5 @@
 #include "../header/engine.h"
 
-#include <map>
-#include <algorithm>
-
 using namespace std;
 
 map<string, RoomInfo> masterRooms;
@@ -143,7 +140,7 @@ outputStruct generateSchedule(vector<Department> departments, map<string, RoomIn
             courses.push_back(departments.at(i).courseList.at(j));
         }
     }
-    return validateSchedule(courses, masterRooms);
+    return validateSchedule(courses, true);
 }
 
 outputStruct validateSchedule(vector<Course> courses, bool useRoomMap)

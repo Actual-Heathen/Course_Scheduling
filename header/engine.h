@@ -5,6 +5,8 @@
 
 #include "../header/department.h"
 #include <vector>
+#include <map>
+#include <algorithm>
 using namespace std;
 
 struct outputStruct {
