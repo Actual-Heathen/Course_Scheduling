@@ -116,14 +116,13 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
 		
 		departmentList.push_back(departmentObject);
 	}
-	outToIn();
     return allGood;
 }
 
 int toOutput(vector<Course> courseList) //conf,type,crn,couresenum,name,max,days,start,end,bld,room,instructor
 {
 	ofstream csvOutput;
-	csvOutput.open("output2.csv");
+	csvOutput.open("output.csv");
 
 	csvOutput << "Conflict,Sec Type,CRN,Course,Title,Credit,Max Enrl,Days,Start,End,Bldg,Room,Instructor\n";
 
@@ -202,7 +201,7 @@ vector<Course> outToIn()
 {
 	vector<Course> courseList;
 	ifstream csvInput;
-	csvInput.open("output1.csv");
+	csvInput.open("output.csv");
 	
 	if (!csvInput)
 	{
@@ -231,7 +230,6 @@ vector<Course> outToIn()
 					abToken.push_back(temp);
 				}
 
-				cout<<abToken.size()<<endl;
 				words.push_back(abToken[0]);
 				
 				temp = "";
@@ -314,12 +312,10 @@ vector<Course> outToIn()
 		tempCourse.setRoom(words[12]);
 		tempCourse.setLastName(words[13]);
 		tempCourse.setFirstName(words[14]);
-		cout << tempCourse.getFirstName()<<endl;	
 		words.clear();
 		
 		courseList.push_back(tempCourse);
 	}
-	toOutput(courseList);
 	return courseList;
 }
 
