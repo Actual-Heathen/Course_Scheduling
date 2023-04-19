@@ -1,115 +1,125 @@
 #include "../header/course.h"
 
 void Course::setSectionType(char input) {
-    sectionType = input;
+	sectionType = input;
 }
 
 void Course::setCRN(int input) {
-    crn = input;
+	crn = input;
 }
 
 void Course::setCourseNumber(string input) {
-    courseNumber = input;
+	courseNumber = input;
 }
 
 void Course::setSectionNumber(string input) {
-    sectionNumber = input;
+	sectionNumber = input;
 }
 
 void Course::setTitle(string input) {
-    title = input;
+	title = input;
 }
 
 void Course::setCredit(double input) {
-    credit = input;
+	credit = input;
 }
 
 void Course::setMaxEnroll(int input) {
-    maxEnroll = input;
+	maxEnroll = input;
 }
 
 void Course::setConflict(bool input) {
-    conflict = input;
+	conflict = input;
 }
 
-void Course::setDay(int day)
+void Course::setDay(int d)
 {
-    day = day;
+	day = d;
 }
 
-void Course::setTime(int time)
+void Course::setTime(int t)
 {
-    time = time;
+	time = t;
 }
 
 void Course::setFirstName(string firstName)
 {
-    instructorFirstName = firstName;
+	instructorFirstName = firstName;
 }
 
 void Course::setLastName(string lastName)
 {
-    instructorLastName = lastName;
+	instructorLastName = lastName;
 }
 
 void Course::setRoom(string room)
 {
-    room = room;
+	roomName = room;
+}
+
+void Course:: setBuilding(string building)
+{
+	buildingName = building;
 }
 
 char Course::getSectionType() {
-    return sectionType;
+	return sectionType;
 }
 
 int Course::getCRN() {
-    return crn;
+	return crn;
 }
 
 string Course::getCourseNumber() {
-    return courseNumber;
+	return courseNumber;
 }
 
 string Course::getSectionNumber() {
-    return sectionNumber;
+	return sectionNumber;
 }
 
 string Course::getTitle() {
-    return title;
+	return title;
 }
 
 double Course::getCredit() {
-    return credit;
+	return credit;
 }
 
 int Course::getMaxEnroll() {
-    return maxEnroll;
+	return maxEnroll;
 }
 
 bool Course::getConflict() {
-    return conflict;
+	return conflict;
 }
 
 int Course::getDay()
 {
-    return day;
+	return day;
 }
 
 int Course::getTime()
 {
-    return time;
+	return time;
 }
 
 string Course::getFirstName()
 {
-    return instructorFirstName;
+	return instructorFirstName;
 }
 
 string Course::getLastName()
 {
-    return instructorLastName;
+	return instructorLastName;
 }
 
 string Course::getRoom()
 {
-    return roomName;
+	return roomName;
+}
+
+string Course::getBuilding()
+{
+	return buildingName;
 }
