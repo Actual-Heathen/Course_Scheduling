@@ -22,7 +22,7 @@ private:
 	string courseNumber = "-1";
 	string sectionNumber = "-1";
 	string title = "TBA";
-	double credit = 0;
+	double credit = -1;
 	int maxEnroll = 0;
 	CONFLICT conflict = NONE;
 	int day = -1;
