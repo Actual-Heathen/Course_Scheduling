@@ -56,6 +56,43 @@ string Instructor::getPreferredClass() {
 	return preferredClass;
 }
 
-bool Instructor::getAvailability(int days, int hours) {
+int Instructor::getAvailability(int days, int hours) {
 	return schedule.getAvailability(days, hours);
+}
+
+void Instructor::getNextAvailability(int* day, int* time)
+{
+    //check for available preferred times
+    for (int d = 0; d < schedule.days; d++)
+    {
+        for (int h = 0; h < schedule.hours; h++)
+        {
+            int availability = getAvailability(d,h);
+            if (availability == 2)
+            {
+                *day = d;
+                *time = h;
+                return;
+            }
+        }
+    }
+
+    //check for any available times
+    for (int d = 0; d < schedule.days; d++)
+    {
+        for (int h = 0; h < schedule.hours; h++)
+        {
+            int availability = getAvailability(d,h);
+            if (availability == 1)
+            {
+                *day = d;
+                *time = h;
+                return;
+            }
+        }
+    }
+
+    //no times available, return "null"
+    *day = -1;
+    *time = -1;
 }

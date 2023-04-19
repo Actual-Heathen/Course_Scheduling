@@ -28,7 +28,7 @@ void Course::setMaxEnroll(int input) {
 	maxEnroll = input;
 }
 
-void Course::setConflict(bool input) {
+void Course::setConflict(CONFLICT input) {
 	conflict = input;
 }
 
@@ -90,7 +90,7 @@ int Course::getMaxEnroll() {
 	return maxEnroll;
 }
 
-bool Course::getConflict() {
+CONFLICT Course::getConflict() {
 	return conflict;
 }
 

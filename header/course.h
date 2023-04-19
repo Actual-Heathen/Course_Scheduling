@@ -8,6 +8,13 @@
 #include <string>
 using namespace std;
 
+enum CONFLICT {
+    NONE = 0,
+    INDIVIDUAL = 1,
+    MULTIPLE = 2,
+    BOTH = 3
+};
+
 class Course {
 private:
 	char sectionType = '0';
@@ -17,7 +24,7 @@ private:
 	string title = "TBA";
 	double credit = 0;
 	int maxEnroll = 0;
-	bool conflict = false;
+	CONFLICT conflict = NONE;
 	int day = -1;
 	int time = -1;
 	string instructorFirstName = "TBA";
@@ -34,7 +41,7 @@ public:
 	void setTitle(string input);
 	void setCredit(double input);
 	void setMaxEnroll(int input);
-	void setConflict(bool input);
+	void setConflict(CONFLICT input);
 	void setDay(int d);
 	void setTime(int t);
 	void setFirstName(string firstName);
@@ -49,7 +56,7 @@ public:
 	string getTitle();
 	double getCredit();
 	int getMaxEnroll();
-	bool getConflict();
+	CONFLICT getConflict();
 	int getDay();
 	int getTime();
 	string getFirstName();

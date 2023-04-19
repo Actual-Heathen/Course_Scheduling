@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../header/department.h"   // Used for Course, Instructor and RoomInfo structs
+#include "../header/engine.h" //department include replaced with engine since engine include department
 #include <string>
 #include <fstream>
 #include <vector>

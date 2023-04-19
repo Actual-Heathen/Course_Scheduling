@@ -1,5 +1,5 @@
 #pragma once
-#include "dayTime.h"
+#include "../header/dayTime.h"
 #include <string>
 using namespace std;
 
@@ -28,6 +28,7 @@ public:
 	int getCurrentlyTeaching();
 	int getPriority();
 	string getPreferredClass();
-	bool getAvailability(int days, int hours);
+	int getAvailability(int days, int hours);
+    void getNextAvailability(int* day, int* time);
 };
 
