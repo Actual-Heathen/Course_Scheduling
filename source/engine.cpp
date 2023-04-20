@@ -19,7 +19,7 @@ map<string, RoomInfo> masterRooms;
 outputStruct generateSchedule(vector<Department> departments, map<string, RoomInfo> roomMap)
 {
     masterRooms = roomMap;
-    
+
     // functionality
 
     //for each department
@@ -36,7 +36,7 @@ outputStruct generateSchedule(vector<Department> departments, map<string, RoomIn
         //sort courses by section type in order T, S, A
         //sort(department.courseList.begin(), department.courseList.end(), &compareCourseType);
         departments.at(deptIndex).sortInstructors();
-        departments.at(deptIndex).sortCourses();   
+        departments.at(deptIndex).sortCourses();
 
         //assign instructors to preferred course
         for (int instrIndex = 0; instrIndex < departments.at(deptIndex).instructorList.size(); instrIndex++)
@@ -107,7 +107,7 @@ outputStruct generateSchedule(vector<Department> departments, map<string, RoomIn
                             departments.at(deptIndex).instructorList.at(instructorIndex).setAvailability(day, time, 0);
                             departments.at(deptIndex).courseList.at(courseIndex).setDay(day);
                             departments.at(deptIndex).courseList.at(courseIndex).setTime(time);
-                        }                    
+                        }
                     }
                 }
             }
@@ -131,9 +131,9 @@ outputStruct generateSchedule(vector<Department> departments, map<string, RoomIn
                 {
                     departments.at(deptIndex).courseList.at(courseIndex).setRoom(roomName);
                     masterRooms[roomName].setAvailability(course.getDay(), course.getTime(), 0);
-                }                
+                }
             }
-        } 
+        }
     }
 
     vector<Course> courses;
@@ -164,56 +164,56 @@ outputStruct validateSchedule(vector<Course> courses, bool useRoomMap)
         {
             individual = true;
             output.conflictCount++;
-        }   
+        }
 
         //crn
         if (courses.at(i).getCRN() == 0)
         {
             individual = true;
             output.conflictCount++;
-        }  
+        }
 
         //course number
         if (courses.at(i).getCourseNumber() == "-1")
         {
             individual = true;
             output.conflictCount++;
-        }   
+        }
 
         //section number
         if (courses.at(i).getSectionNumber() == "-1")
         {
             individual = true;
             output.conflictCount++;
-        }   
+        }
 
         //title
         if (courses.at(i).getTitle() == "TBA")
         {
             individual = true;
             output.conflictCount++;
-        }   
+        }
 
-        //credit 
+        //credit
         if (courses.at(i).getCredit() == -1)
         {
             individual = true;
             output.conflictCount++;
-        }   
+        }
 
         //max enroll
         if (courses.at(i).getMaxEnroll() == 0)
         {
             individual = true;
             output.conflictCount++;
-        }   
+        }
 
         //instructor
         if (courses.at(i).getFirstName() == "TBA" || courses.at(i).getLastName() == "TBA")
         {
             individual = true;
             output.conflictCount++;
-        }        
+        }
 
         //if class is online and has a room assigned
         if (courses.at(i).getSectionType() != 'T' && courses.at(i).getRoom() != "TBA") //course needs room name field

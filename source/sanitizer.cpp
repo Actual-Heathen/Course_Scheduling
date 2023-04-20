@@ -1,5 +1,5 @@
+#include "../Course_Scheduling/header/sanitizer.h"
 #include <string>
-#include <sanitizer.h>
 
 bool isValidDay(std::string s)
 {
@@ -7,7 +7,7 @@ bool isValidDay(std::string s)
     {
         return true;
     }
-    
+
     return false;
 }
 

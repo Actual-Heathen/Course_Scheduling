@@ -1,3 +1,4 @@
+
 #pragma once
 #include "../header/dayTime.h"
 #include <string>
@@ -31,4 +32,3 @@ public:
 	int getAvailability(int days, int hours);
     void getNextAvailability(int* day, int* time);
 };
-

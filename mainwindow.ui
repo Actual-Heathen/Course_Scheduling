@@ -135,7 +135,7 @@ QTableCornerButton::section{background-color: white; border-color: black; border
           <widget class="QPushButton" name="DepartmentButton">
            <property name="geometry">
             <rect>
-             <x>0</x>
+             <x>10</x>
              <y>40</y>
              <width>101</width>
              <height>24</height>
@@ -222,12 +222,12 @@ QTableCornerButton::section{background-color: white; border-color: black; border
              <string>Ctrl+G</string>
             </property>
            </widget>
-           <widget class="QPushButton" name="SavePDFButton">
+           <widget class="QPushButton" name="SaveTXTButton">
             <property name="geometry">
              <rect>
-              <x>1240</x>
+              <x>1219</x>
               <y>620</y>
-              <width>80</width>
+              <width>101</width>
               <height>24</height>
              </rect>
             </property>
@@ -235,7 +235,7 @@ QTableCornerButton::section{background-color: white; border-color: black; border
              <string notr="true"/>
             </property>
             <property name="text">
-             <string>Save as PDF</string>
+             <string>Save for Printing</string>
             </property>
             <property name="shortcut">
              <string>Ctrl+P</string>
@@ -244,9 +244,9 @@ QTableCornerButton::section{background-color: white; border-color: black; border
            <widget class="QPushButton" name="SaveCSVButton">
             <property name="geometry">
              <rect>
-              <x>1140</x>
+              <x>1100</x>
               <y>620</y>
-              <width>80</width>
+              <width>101</width>
               <height>24</height>
              </rect>
             </property>

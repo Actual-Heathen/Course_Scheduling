@@ -9,14 +9,9 @@ using namespace std;
 
 class Department {
 public:
-	vector<Course> courseList;
+    vector<Course> courseList;
     vector<Instructor> instructorList;
-	vector<string> roomList;
-	void sortInstructors();
-	void sortCourses();
-	string getName();
-	void setName(string newName) {name = newName;};
-private:
-	string name;
+    vector<string> roomList;
+    void sortInstructors();
+    void sortCourses();
 };
-

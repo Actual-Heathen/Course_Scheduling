@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->SaveCSVButton->hide();
 
-    ui->SavePDFButton->hide();
+    ui->SaveTXTButton->hide();
 
     ui->ConflictLine->hide();
 
@@ -239,10 +239,44 @@ void MainWindow::on_SaveCSVButton_clicked()
 }
 
 
-void MainWindow::on_SavePDFButton_clicked() //Needs implementation
+void MainWindow::on_SaveTXTButton_clicked()
 {
 
+    get_Table_Data();
 
+    QStringList data = get_File_Data();
+
+    QStringList courses;
+
+    QString output;
+
+    QString filePath = QFileDialog::getExistingDirectory(this, tr("Choose Save Location"), "/", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks) + "/schedule.txt";
+
+    QFile file(filePath); //grab filePath
+
+    if (file.open(QFile::ReadWrite | QFile::Text | QFile::Truncate)) {
+
+        QTextStream stream(&file);
+
+        stream.setFieldAlignment(QTextStream::FieldAlignment::AlignLeft);
+
+        stream << qSetFieldWidth(9) << "Sec Type" << qSetFieldWidth(7) << "CRN" << qSetFieldWidth(11) << "Course" << qSetFieldWidth(31) << "Title" << qSetFieldWidth(7) << "Course" << qSetFieldWidth(9) << "Max Enrl" << qSetFieldWidth(8) << "Days" << qSetFieldWidth(9) << "Start" << qSetFieldWidth(9) << "End" << qSetFieldWidth(6) << "Bldg" << qSetFieldWidth(11) << "Room" << qSetFieldWidth(35) << "Instructor" << qSetFieldWidth(1) << "\n";
+
+        stream << qSetFieldWidth(9) << "--------" << qSetFieldWidth(7) << "------" << qSetFieldWidth(11) << "----------" << qSetFieldWidth(31) << "------------------------------" << qSetFieldWidth(7) << "------" << qSetFieldWidth(9) << "--------" << qSetFieldWidth(8) << "-------" << qSetFieldWidth(9) << "--------" << qSetFieldWidth(9) << "--------" << qSetFieldWidth(6) << "-----" << qSetFieldWidth(11) << "----------" << qSetFieldWidth(35) << "-----------------------------------" << qSetFieldWidth(1) << "\n";
+
+        for(int x = 1; x < data.size(); x++) {
+
+            int y = 1;
+
+            courses = data[x].split(",");
+
+            stream << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(7) << courses[y++] << qSetFieldWidth(11) << courses[y++] << qSetFieldWidth(31) << courses[y++] << qSetFieldWidth(7) << courses[y++] << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(8) << courses[y++] << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(6) << courses[y++] << qSetFieldWidth(11) << courses[y++] << qSetFieldWidth(35) << courses[y++] << qSetFieldWidth(1) << "\n";
+
+        }
+
+        file.close();
+
+    }
 
 }
 
@@ -251,8 +285,6 @@ void MainWindow::on_DepartmentButton_clicked()
 {
 
     if(departmentCounter > 0) {
-
-        //ui->DepartmentFrame->setFixedHeight(ui->DepartmentFrame->height()+31);
 
         if(ui->scrollArea_2->height() < 289) {
 
@@ -524,7 +556,7 @@ void MainWindow::display_Generated_Schedule()
 
         ui->SaveCSVButton->show();
 
-        ui->SavePDFButton->show();
+        ui->SaveTXTButton->show();
 
     }
 
@@ -780,6 +812,6 @@ void MainWindow::clear_Table()
 
     ui->SaveCSVButton->hide();
 
-    ui->SavePDFButton->hide();
+    ui->SaveTXTButton->hide();
 
 }
