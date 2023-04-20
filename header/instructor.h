@@ -25,9 +25,9 @@ public:
     string getFirstName();
     string getLastName();
     int getMaxCourses();
-    int getCurrentlyTeaching();
-    int getPriority();
-    string getPreferredClass();
-    int getAvailability(int days, int hours);
+	  int getCurrentlyTeaching();
+	  int getPriority();
+	  int getPreferredCRN();
+	  int getAvailability(int days, int hours);
     void getNextAvailability(int* day, int* time);
 };

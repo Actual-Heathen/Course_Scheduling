@@ -24,8 +24,9 @@ void Instructor::setPriority(int input) {
     priority = input;
 }
 
-void Instructor::setPreferredClass(string input) {
-    preferredClass = input;
+void Instructor::setPreferredCRN(int input) {
+	preferredCRN = input;
+
 }
 
 void Instructor::setAvailability(int days, int hours, int status) {
@@ -52,8 +53,8 @@ int Instructor::getPriority() {
     return priority;
 }
 
-string Instructor::getPreferredClass() {
-    return preferredClass;
+int Instructor::getPreferredCRN() {
+	return preferredCRN;
 }
 
 int Instructor::getAvailability(int days, int hours) {
