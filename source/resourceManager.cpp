@@ -15,7 +15,6 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
 
     map<string, RoomInfo> roomMap;
     vector<Department> departmentList;
-    Department departmentObject;
     fstream file;
 
     if(populated) { //previously there was a "generatedFilePath.txt" file generated, however what ever dumbass implemented that (me) didn't think it through as it is not necessary. For accessing the generated schedule, a hardcoded path to schedule.csv will be used.
@@ -44,6 +43,9 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
     // Create a Department object and map rooms for each entry
 	for (int entry = 0; entry < departmentCounter; ++entry) {
         cout << "\nGenerating new schedule" << endl;
+		
+    	Department departmentObject;
+		departmentObject.setName(department.at(entry));
 
         // Populate courseList
         // If a file cannot be read, the program aborts and prints and error.

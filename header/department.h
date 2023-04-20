@@ -14,5 +14,9 @@ public:
 	vector<string> roomList;
 	void sortInstructors();
 	void sortCourses();
+	string getName();
+	void setName(string newName) {name = newName;};
+private:
+	string name;
 };
 
