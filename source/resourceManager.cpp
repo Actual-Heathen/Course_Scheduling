@@ -358,7 +358,7 @@ Instructor createInstructor(string data) {
     try { instructorObject.setPriority(stoi(splitData[3])); }
     catch (...) { cout << "ERROR: Priority not set to a number" << endl; }
 
-    instructorObject.setPreferredClass(splitData[4]);
+    instructorObject.setPreferredCRN(stoi(splitData[4]));
 
     // Transform vector of strings into schedule
     try {
