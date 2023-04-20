@@ -207,7 +207,6 @@ void MainWindow::on_GenerateButton_clicked()
 
 }
 
-
 bool MainWindow::check_File_Extension(QString filePath)
 {
 
@@ -227,8 +226,6 @@ bool MainWindow::check_File_Extension(QString filePath)
 
 void MainWindow::on_SaveCSVButton_clicked()
 {
-
-    get_Table_Data();
 
     QString filePath = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "/", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
@@ -288,8 +285,6 @@ void MainWindow::on_DepartmentButton_clicked()
 {
 
     if(departmentCounter > 0) {
-
-        //ui->DepartmentFrame->setFixedHeight(ui->DepartmentFrame->height()+31);
 
         if(ui->scrollArea_2->height() < 289) {
 
@@ -479,7 +474,7 @@ void MainWindow::on_ValidateButton_clicked() //currently broken with reliance on
 
     int oldConflictCounter = conflictCounter;
 
-    conflictCounter = validateSchedule();
+    conflictCounter = outToIn();
 
     clear_Table();
 
@@ -599,7 +594,7 @@ void MainWindow::find_File_Path()
 
                 QLineEdit* lineEdit = qobject_cast<QLineEdit*>(widget);
 
-                QString filePath = QFileDialog::getOpenFileName(this, "Choose .CSV File"); //prompt user to find file in File Explorer
+                QString filePath = QFileDialog::getOpenFileName(this, "Choose File"); //prompt user to find file in File Explorer
 
                 QFile file(filePath); //grab filePath
 
@@ -785,7 +780,7 @@ void MainWindow::find_Conflicts()
 
     for (int x = 0; x < table->rowCount(); x++) { //columns
 
-        if(table->item(x, 0)->text() == "TRUE") {
+        if(table->item(x, 0)->text() != "None") {
 
             for (int y = 0; y < table->columnCount(); y++) { //rows
 

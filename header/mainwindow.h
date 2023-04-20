@@ -2,12 +2,7 @@
 #define MAINWINDOW_H
 
 #include "ui_mainwindow.h"
-#include "course.h"
-#include "department.h"
-#include "engine.h"
-#include "instructor.h"
 #include "resourceManager.h"
-#include "room.h"
 #include "comboboxDelegate.h"
 #include "comboboxDelegate2.h"
 #include "comboboxDelegate3.h"

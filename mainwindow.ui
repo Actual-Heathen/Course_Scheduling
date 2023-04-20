@@ -135,7 +135,7 @@ QTableCornerButton::section{background-color: white; border-color: black; border
           <widget class="QPushButton" name="DepartmentButton">
            <property name="geometry">
             <rect>
-             <x>0</x>
+             <x>10</x>
              <y>40</y>
              <width>101</width>
              <height>24</height>

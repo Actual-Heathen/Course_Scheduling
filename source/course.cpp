@@ -1,125 +1,124 @@
 #include "../header/course.h"
 
 void Course::setSectionType(char input) {
-	sectionType = input;
+    sectionType = input;
 }
 
 void Course::setCRN(int input) {
-	crn = input;
+    crn = input;
 }
 
 void Course::setCourseNumber(string input) {
-	courseNumber = input;
+    courseNumber = input;
 }
 
 void Course::setSectionNumber(string input) {
-	sectionNumber = input;
+    sectionNumber = input;
 }
 
 void Course::setTitle(string input) {
-	title = input;
+    title = input;
 }
 
 void Course::setCredit(double input) {
-	credit = input;
+    credit = input;
 }
 
 void Course::setMaxEnroll(int input) {
-	maxEnroll = input;
+    maxEnroll = input;
 }
 
-void Course::setConflict(bool input) {
-	conflict = input;
+void Course::setConflict(CONFLICT input) {
+    conflict = input;
 }
 
 void Course::setDay(int d)
 {
-	day = d;
+    day = d;
 }
 
 void Course::setTime(int t)
 {
-	time = t;
+    time = t;
 }
 
 void Course::setFirstName(string firstName)
 {
-	instructorFirstName = firstName;
+    instructorFirstName = firstName;
 }
 
 void Course::setLastName(string lastName)
 {
-	instructorLastName = lastName;
+    instructorLastName = lastName;
 }
 
 void Course::setRoom(string room)
 {
-	roomName = room;
-}
-
-void Course:: setBuilding(string building)
-{
-	buildingName = building;
+    roomName = room;
 }
 
 char Course::getSectionType() {
-	return sectionType;
+    return sectionType;
 }
 
 int Course::getCRN() {
-	return crn;
+    return crn;
 }
 
 string Course::getCourseNumber() {
-	return courseNumber;
+    return courseNumber;
 }
 
 string Course::getSectionNumber() {
-	return sectionNumber;
+    return sectionNumber;
 }
 
 string Course::getTitle() {
-	return title;
+    return title;
 }
 
 double Course::getCredit() {
-	return credit;
+    return credit;
 }
 
 int Course::getMaxEnroll() {
-	return maxEnroll;
+    return maxEnroll;
 }
 
-bool Course::getConflict() {
-	return conflict;
+CONFLICT Course::getConflict() {
+    return conflict;
+}
+
+string Course::conflictToString()
+{
+    if (conflict == NONE) return "None";
+    if (conflict == INDIVIDUAL) return "Self";
+    if (conflict == MULTIPLE) return "Other Course";
+    if (conflict == BOTH) return "Itself and Another Course";
+    else return "";
 }
 
 int Course::getDay()
 {
-	return day;
+    return day;
 }
 
 int Course::getTime()
 {
-	return time;
+    return time;
 }
 
 string Course::getFirstName()
 {
-	return instructorFirstName;
+    return instructorFirstName;
 }
 
 string Course::getLastName()
 {
-	return instructorLastName;
+    return instructorLastName;
 }
 
 string Course::getRoom()
 {
-	return roomName;
-}
-
-string Course::getBuilding()
-{
-	return buildingName;
+    return roomName;
 }

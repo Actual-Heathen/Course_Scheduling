@@ -22,7 +22,8 @@ SOURCES += \
     source/instructor.cpp \
     source/resourceManager.cpp \
     source/mainwindow.cpp \
-    source/room.cpp
+    source/room.cpp \
+    source/sanitizer.cpp
     source/course.cpp
     source/department.cpp
     source/engine.cpp
@@ -43,7 +44,8 @@ HEADERS += \
     header/instructor.h \
     header/mainwindow.h \
     header/resourceManager.h \
-    header/room.h
+    header/room.h \
+    header/sanitizer.h
     header/resourceManager.h
     header/department.h
     header/engine.h
