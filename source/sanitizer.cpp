@@ -1,7 +1,7 @@
-#include "../Course_Scheduling/header/sanitizer.h"
+#include "../header/sanitizer.h"
 #include <string>
 
-bool isValidDay(std::string s)
+bool Sanitizer::isValidDay(std::string s)
 {
     if (s == "MW" || s == "TR")
     {
@@ -11,7 +11,7 @@ bool isValidDay(std::string s)
     return false;
 }
 
-bool isValidTime(std::string s)
+bool Sanitizer::isValidTime(std::string s)
 {
     if (s == "8:00 AM")
     {
@@ -45,7 +45,7 @@ bool isValidTime(std::string s)
     return false;
 }
 
-static bool isInt(std::string s)
+bool Sanitizer::isInt(std::string s)
 {
     for(int i = 0; i < s.length(); i++)
     {
@@ -56,4 +56,14 @@ static bool isInt(std::string s)
     }
 
     return true;
+}
+
+bool Sanitizer::isValidSectionType(Course course)
+{
+    if (course.getSectionType() == 'A' || course.getSectionType() == 'S' || course.getSectionType() == 'T')
+    {
+        return true;
+    }
+    
+    return false;
 }

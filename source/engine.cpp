@@ -160,14 +160,14 @@ outputStruct validateSchedule(vector<Course> courses, bool useRoomMap)
         //check each field is filled
 
         //section type
-        if (courses.at(i).getSectionType() == '0')
+        if (!Sanitizer::isValidSectionType(courses.at(i)))
         {
             individual = true;
             output.conflictCount++;
         }
 
         //crn
-        if (courses.at(i).getCRN() == 0)
+        if (courses.at(i).getCRN() <= 0)
         {
             individual = true;
             output.conflictCount++;
@@ -195,14 +195,14 @@ outputStruct validateSchedule(vector<Course> courses, bool useRoomMap)
         }
 
         //credit
-        if (courses.at(i).getCredit() == -1)
+        if (courses.at(i).getCredit() < 0 )
         {
             individual = true;
             output.conflictCount++;
         }
 
         //max enroll
-        if (courses.at(i).getMaxEnroll() == 0)
+        if (courses.at(i).getMaxEnroll() <= 0)
         {
             individual = true;
             output.conflictCount++;
@@ -237,7 +237,7 @@ outputStruct validateSchedule(vector<Course> courses, bool useRoomMap)
         }
 
         //if class is not asynchronous and has no time assigned
-        if (courses.at(i).getSectionType() != 'A' && (courses.at(i).getDay() == -1 && courses.at(i).getTime() == -1))
+        if (courses.at(i).getSectionType() != 'A' && (courses.at(i).getDay() == -1 || courses.at(i).getTime() == -1))
         {
             individual = true;
             output.conflictCount++;
