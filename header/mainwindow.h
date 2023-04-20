@@ -4,12 +4,7 @@
 //resourceManager includes engine, engine includes department, department includes course, instructor, and room
 
 #include "ui_mainwindow.h"
-//#include "course.h"
-//#include "department.h"
-//#include "engine.h"
-//#include "instructor.h"
 #include "resourceManager.h"
-//#include "room.h"
 #include "comboboxDelegate.h"
 #include "comboboxDelegate2.h"
 #include "comboboxDelegate3.h"
@@ -24,8 +19,6 @@
 #include <string>
 #include <fstream>
 #include <QStyledItemDelegate>
-#include <QPdfWriter>
-#include <QPainter>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -58,7 +51,7 @@ private slots:
 
     void on_SaveCSVButton_clicked();
 
-    void on_SavePDFButton_clicked();
+    void on_SaveTXTButton_clicked();
 
     void on_DepartmentButton_clicked();
 
