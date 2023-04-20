@@ -28,7 +28,7 @@ void Course::setMaxEnroll(int input) {
 	maxEnroll = input;
 }
 
-void Course::setConflict(bool input) {
+void Course::setConflict(CONFLICT input) {
 	conflict = input;
 }
 
@@ -55,11 +55,6 @@ void Course::setLastName(string lastName)
 void Course::setRoom(string room)
 {
 	roomName = room;
-}
-
-void Course:: setBuilding(string building)
-{
-	buildingName = building;
 }
 
 char Course::getSectionType() {
@@ -90,8 +85,17 @@ int Course::getMaxEnroll() {
 	return maxEnroll;
 }
 
-bool Course::getConflict() {
+CONFLICT Course::getConflict() {
 	return conflict;
+}
+
+string Course::conflictToString()
+{
+	if (conflict == NONE) return "None";
+	if (conflict == INDIVIDUAL) return "Self";
+	if (conflict == MULTIPLE) return "Other Course";
+	if (conflict == BOTH) return "Itself and Another Course";
+	else return "";
 }
 
 int Course::getDay()
@@ -117,9 +121,4 @@ string Course::getLastName()
 string Course::getRoom()
 {
 	return roomName;
-}
-
-string Course::getBuilding()
-{
-	return buildingName;
 }

@@ -1,12 +1,12 @@
 #pragma once
-#include "dayTime.h"
+#include "../header/dayTime.h"
 #include <string>
 using namespace std;
 
 class Instructor {
 private:
-	string firstName;
-	string lastName;
+	string firstName = "TBA";
+	string lastName = "TBA";
     int maxCourses = 0;
 	int currentlyTeaching = 0;
 	int priority = 0;
@@ -28,6 +28,7 @@ public:
 	int getCurrentlyTeaching();
 	int getPriority();
 	string getPreferredClass();
-	bool getAvailability(int days, int hours);
+	int getAvailability(int days, int hours);
+    void getNextAvailability(int* day, int* time);
 };
 

@@ -2,6 +2,7 @@
 #include "course.h"
 #include "instructor.h"
 #include "room.h"
+#include <algorithm>
 #include <string>
 #include <vector>
 using namespace std;
@@ -11,5 +12,7 @@ public:
 	vector<Course> courseList;
     vector<Instructor> instructorList;
 	vector<string> roomList;
+	void sortInstructors();
+	void sortCourses();
 };
 
