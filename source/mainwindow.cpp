@@ -247,9 +247,7 @@ void MainWindow::on_SaveTXTButton_clicked()
 
     get_Table_Data();
 
-    QStringList outputData = get_File_Data();
-
-    QStringList rowData = outputData[1].split("\r");
+    QStringList rowData = get_File_Data();
 
     QString row;
 
@@ -269,7 +267,7 @@ void MainWindow::on_SaveTXTButton_clicked()
 
         stream << qSetFieldWidth(9) << "--------" << qSetFieldWidth(7) << "------" << qSetFieldWidth(11) << "----------" << qSetFieldWidth(31) << "------------------------------" << qSetFieldWidth(7) << "------" << qSetFieldWidth(9) << "--------" << qSetFieldWidth(8) << "-------" << qSetFieldWidth(9) << "--------" << qSetFieldWidth(9) << "--------" << qSetFieldWidth(6) << "-----" << qSetFieldWidth(11) << "----------" << qSetFieldWidth(35) << "-----------------------------------" << qSetFieldWidth(1) << "\n";
 
-        for(int x = 0; x < rowData.size(); x++) {
+        for(int x = 1; x < rowData.size(); x++) {
 
             int y = 1;
 
@@ -277,7 +275,7 @@ void MainWindow::on_SaveTXTButton_clicked()
 
             courses = row.split(",");
 
-            stream << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(7) << courses[y++] << qSetFieldWidth(11) << courses[y++] << qSetFieldWidth(31) << courses[y++] << qSetFieldWidth(7) << courses[y++] << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(8) << courses[y++] << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(6) << courses[y++] << qSetFieldWidth(11) << courses[y++] << qSetFieldWidth(35) << courses[y++] << qSetFieldWidth(1) << "\n";
+            stream << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(7) << courses[y++] << qSetFieldWidth(11) << courses[y++] << qSetFieldWidth(31) << courses[y++] << qSetFieldWidth(7) << courses[y++] << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(8) << courses[y++] << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(6) << courses[y++] << qSetFieldWidth(11) << courses[y++] << qSetFieldWidth(35) << courses[y++].trimmed() << qSetFieldWidth(1) << "\n";
 
         }
 
