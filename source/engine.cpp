@@ -278,12 +278,12 @@ outputStruct validateSchedule(vector<Course> courses, bool useRoomMap)
 
             if (courses.at(i).getDay() != -1 && courses.at(i).getTime() != -1 && courses.at(i).getDay() == courses.at(j).getDay() && courses.at(i).getTime() == courses.at(j).getTime())//date and time is same
             {
-                if (courses.at(i).getFirstName() == courses.at(j).getFirstName() && courses.at(i).getLastName() == courses.at(j).getLastName())//if time and instructor is the same
+                if (courses.at(i).getFirstName() != "TBA" && courses.at(i).getFirstName() == courses.at(j).getFirstName() && courses.at(i).getLastName() == courses.at(j).getLastName())//if time and instructor is the same
                 {
                     multiple = true;
                     output.conflictCount++;
                 }
-                if (courses.at(i).getRoom() == courses.at(j).getRoom()) // if time and room is the same for both courses
+                if (courses.at(i).getRoom() != "TBA" && courses.at(i).getRoom() == courses.at(j).getRoom()) // if time and room is the same for both courses
                 {
                     multiple = true;
                     output.conflictCount++;
