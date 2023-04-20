@@ -207,6 +207,7 @@ void MainWindow::on_GenerateButton_clicked()
 
 }
 
+
 bool MainWindow::check_File_Extension(QString filePath)
 {
 
@@ -244,11 +245,13 @@ void MainWindow::on_SaveTXTButton_clicked()
 
     get_Table_Data();
 
-    QStringList data = get_File_Data();
+    QStringList outputData = get_File_Data();
+
+    QStringList rowData = outputData[1].split("\r");
+
+    QString row;
 
     QStringList courses;
-
-    QString output;
 
     QString filePath = QFileDialog::getExistingDirectory(this, tr("Choose Save Location"), "/", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks) + "/schedule.txt";
 
@@ -264,11 +267,13 @@ void MainWindow::on_SaveTXTButton_clicked()
 
         stream << qSetFieldWidth(9) << "--------" << qSetFieldWidth(7) << "------" << qSetFieldWidth(11) << "----------" << qSetFieldWidth(31) << "------------------------------" << qSetFieldWidth(7) << "------" << qSetFieldWidth(9) << "--------" << qSetFieldWidth(8) << "-------" << qSetFieldWidth(9) << "--------" << qSetFieldWidth(9) << "--------" << qSetFieldWidth(6) << "-----" << qSetFieldWidth(11) << "----------" << qSetFieldWidth(35) << "-----------------------------------" << qSetFieldWidth(1) << "\n";
 
-        for(int x = 1; x < data.size(); x++) {
+        for(int x = 0; x < rowData.size(); x++) {
 
             int y = 1;
 
-            courses = data[x].split(",");
+            row = rowData[x];
+
+            courses = row.split(",");
 
             stream << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(7) << courses[y++] << qSetFieldWidth(11) << courses[y++] << qSetFieldWidth(31) << courses[y++] << qSetFieldWidth(7) << courses[y++] << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(8) << courses[y++] << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(6) << courses[y++] << qSetFieldWidth(11) << courses[y++] << qSetFieldWidth(35) << courses[y++] << qSetFieldWidth(1) << "\n";
 
@@ -476,9 +481,13 @@ void MainWindow::on_ValidateButton_clicked() //currently broken with reliance on
 
     conflictCounter = outToIn();
 
+    QStringList rowData = get_File_Data();
+
     clear_Table();
 
-    populate_Table(get_File_Data());
+    initialize_Table(rowData.size());
+
+    populate_Table(rowData);
 
     find_Conflicts();
 
@@ -487,13 +496,15 @@ void MainWindow::on_ValidateButton_clicked() //currently broken with reliance on
 
     if(conflictCounter == 0) {
 
-        scheduleValidated = true;
-
         ui->ConflictLine->hide();
 
         ui->ValidateButton->hide();
 
     }
+
+    scheduleValidated = true;
+
+    display_Generated_Schedule();
 
 }
 
@@ -557,6 +568,8 @@ void MainWindow::display_Generated_Schedule()
         ui->SaveCSVButton->show();
 
         ui->SaveTXTButton->show();
+
+        scheduleValidated = false;
 
     }
 
@@ -769,6 +782,8 @@ void MainWindow::get_Table_Data()
         }
 
     }
+
+    file.close();
 
 }
 
