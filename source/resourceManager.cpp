@@ -135,7 +135,7 @@ int toOutput(outputStruct results) //conf,type,crn,couresenum,name,max,days,star
 
 	for (long unsigned int i = 0; i < results.courseList.size(); i++)
 	{
-		csvOutput << results.courseList[i].getConflict() << ",";
+		csvOutput << results.courseList[i].conflictToString() << ",";
 		csvOutput << results.courseList[i].getSectionType() << ",";
 		csvOutput << results.courseList[i].getCRN() << ",";
 		csvOutput << results.courseList[i].getCourseNumber() << " " << results.courseList[i].getSectionNumber() << ",";

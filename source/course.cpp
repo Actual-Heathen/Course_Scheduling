@@ -89,6 +89,15 @@ CONFLICT Course::getConflict() {
 	return conflict;
 }
 
+string conflictToString()
+{
+	if (conflict == NONE) return "None";
+	if (conflict == INDIVIDUAL) return "Self";
+	if (conflict == MULTIPLE) return "Other Course";
+	if (conflict == BOTH) return "Itself and Another Course";
+	else return "";
+}
+
 int Course::getDay()
 {
 	return day;
