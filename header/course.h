@@ -8,6 +8,13 @@
 #include <string>
 using namespace std;
 
+enum CONFLICT {
+    NONE = 0,
+    INDIVIDUAL = 1,
+    MULTIPLE = 2,
+    BOTH = 3
+};
+
 class Course {
 private:
 	char sectionType = '0';
@@ -15,16 +22,14 @@ private:
 	string courseNumber = "-1";
 	string sectionNumber = "-1";
 	string title = "TBA";
-	double credit = 0;
+	double credit = -1;
 	int maxEnroll = 0;
-	bool conflict = false;
+	CONFLICT conflict = NONE;
 	int day = -1;
 	int time = -1;
 	string instructorFirstName = "TBA";
 	string instructorLastName = "TBA";
 	string roomName = "TBA";
-	string buildingName = "TBA";
-
 
 public:
 	void setSectionType(char input);
@@ -34,13 +39,12 @@ public:
 	void setTitle(string input);
 	void setCredit(double input);
 	void setMaxEnroll(int input);
-	void setConflict(bool input);
+	void setConflict(CONFLICT input);
 	void setDay(int d);
 	void setTime(int t);
 	void setFirstName(string firstName);
 	void setLastName(string lastName);
-	void setRoom(string room);
-	void setBuilding(string building);
+	void setRoom(string room); //room name is equal to building + " " + room in accordance with the master room list key format
 
 	char getSectionType();
 	int getCRN();
@@ -49,11 +53,11 @@ public:
 	string getTitle();
 	double getCredit();
 	int getMaxEnroll();
-	bool getConflict();
+	CONFLICT getConflict();
+	string conflictToString();
 	int getDay();
 	int getTime();
 	string getFirstName();
 	string getLastName();
-	string getRoom();
-	string getBuilding();
+	string getRoom(); 
 };

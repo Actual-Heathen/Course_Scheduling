@@ -8,10 +8,11 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
     int errorNumber = -1;    // TEMPORARY VALUE USED TO REPRESENT FILE ERROR
     int allGood = 0;   // TEMPORARY VALUE USED TO REPRESENT GOOD EXECUTION
 
-    string department[departmentCounter];
-    string course[departmentCounter];
-    string instructor[departmentCounter];
-    string room[departmentCounter];
+	vector<string> department(departmentCounter,"");
+	vector<string> course(departmentCounter,"");
+	vector<string> instructor(departmentCounter,"");
+	vector<string> room(departmentCounter,""); 
+
     map<string, RoomInfo> roomMap;
     vector<Department> departmentList;
     Department departmentObject;
@@ -25,13 +26,13 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
 
             for(int i = 0; i < departmentCounter; i++) {
 
-                getline(file, department[i]);
+                getline(file, department.at(i));
 
-                getline(file, course[i]);
+                getline(file, course.at(i));
 
-                getline(file, instructor[i]);
+                getline(file, instructor.at(i));
 
-                getline(file, room[i]);
+                getline(file, room.at(i));
 
             }
 
@@ -91,12 +92,13 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
 		file.open(room[entry], fstream::in);
 		if (file.is_open()) {
 			string data;
-			string roomName;
+			
 			getline(file, data);    // Skip title header
 
 			try {
 				while (getline(file, data)) {
 					RoomInfo roomObject = createRoom(data);
+					string roomName = "";
 					roomName.append(roomObject.getBuildingName());
 					roomName.append(" ");
 					roomName.append(roomObject.getRoomNumber());
@@ -116,26 +118,31 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
 		
 		departmentList.push_back(departmentObject);
 	}
-    return allGood;
+    outputStruct output = generateSchedule(departmentList, roomMap);
+	int conflicts = toOutput(output);
+	return conflicts;
 }
 
-int toOutput(vector<Course> courseList) //conf,type,crn,couresenum,name,max,days,start,end,bld,room,instructor
+/*
+write generated schedule to file, return number of conflicts detected
+*/
+int toOutput(outputStruct results) //conf,type,crn,couresenum,name,max,days,start,end,bld,room,instructor
 {
 	ofstream csvOutput;
-	csvOutput.open("output.csv");
+	csvOutput.open("../Course_Scheduling/output.csv");
 
 	csvOutput << "Conflict,Sec Type,CRN,Course,Title,Credit,Max Enrl,Days,Start,End,Bldg,Room,Instructor\n";
 
-	for (long unsigned int i = 0; i < courseList.size(); i++)
+	for (long unsigned int i = 0; i < results.courseList.size(); i++)
 	{
-		csvOutput << courseList[i].getConflict() << ",";
-		csvOutput << courseList[i].getSectionType() << ",";
-		csvOutput << courseList[i].getCRN() << ",";
-		csvOutput << courseList[i].getCourseNumber() << " " << courseList[i].getSectionNumber() << ",";
-		csvOutput << courseList[i].getTitle() << ",";
-		csvOutput << courseList[i].getCredit() << ",";
-		csvOutput << courseList[i].getMaxEnroll() << ",";
-		int dayTime = courseList[i].getDay();
+		csvOutput << results.courseList[i].conflictToString() << ",";
+		csvOutput << results.courseList[i].getSectionType() << ",";
+		csvOutput << results.courseList[i].getCRN() << ",";
+		csvOutput << results.courseList[i].getCourseNumber() << " " << results.courseList[i].getSectionNumber() << ",";
+		csvOutput << results.courseList[i].getTitle() << ",";
+		csvOutput << results.courseList[i].getCredit() << ",";
+		csvOutput << results.courseList[i].getMaxEnroll() << ",";
+		int dayTime = results.courseList[i].getDay();
 		if (dayTime == 0)
 		{
 			csvOutput <<"MW,";
@@ -148,7 +155,7 @@ int toOutput(vector<Course> courseList) //conf,type,crn,couresenum,name,max,days
 		{
 			csvOutput <<"TBA,";
 		}
-		dayTime = courseList[i].getTime();
+		dayTime = results.courseList[i].getTime();
 		if (dayTime == 0)
 		{
 			csvOutput <<"8:00 AM,";
@@ -189,15 +196,21 @@ int toOutput(vector<Course> courseList) //conf,type,crn,couresenum,name,max,days
 			csvOutput <<"TBA,";
 			csvOutput <<"TBA,";
 		}
-		csvOutput << courseList[i].getBuilding() << ",";
-		csvOutput << courseList[i].getRoom() << ",";
-		csvOutput << courseList[i].getLastName() <<" "<< courseList[i].getFirstName() << "\n";
+		//csvOutput << courseList[i].getBuilding() << ",";
+		string buildingRoom = results.courseList[i].getRoom();
+		int space = buildingRoom.find(" ");
+		string building = buildingRoom.substr(0, space);
+		string room = buildingRoom.substr(space+1); 
+
+		csvOutput << building << ",";
+		csvOutput << room << ",";
+		csvOutput << results.courseList[i].getLastName() <<" "<< results.courseList[i].getFirstName() << "\n";
 	}
 	csvOutput.close();
-	return 0;
+	return results.conflictCount;
 }
 
-vector<Course> outToIn()
+int outToIn()
 {
 	vector<Course> courseList;
 	ifstream csvInput;
@@ -205,7 +218,7 @@ vector<Course> outToIn()
 	
 	if (!csvInput)
 	{
-		return courseList;
+		return -1;
 	}
 	
 	string line;
@@ -252,7 +265,7 @@ vector<Course> outToIn()
 		}
 
 		Course tempCourse;
-		tempCourse.setConflict(true);
+		tempCourse.setConflict(NONE); //changed from true 1) to match conflict enum type, 2) to start with no conflicts; conflicts determined later in validation
 		tempCourse.setSectionType(words[1].at(0));
 		tempCourse.setCRN(stoi(words[2]));
 		tempCourse.setCourseNumber(words[3]);
@@ -308,24 +321,16 @@ vector<Course> outToIn()
 			tempCourse.setTime(-1);
 		}
 		//no end time (words[10])	
-		tempCourse.setBuilding(words[11]);
-		tempCourse.setRoom(words[12]);
+		//tempCourse.setBuilding(words[11]);
+		tempCourse.setRoom(words[11]+" "+words[12]);
 		tempCourse.setLastName(words[13]);
 		tempCourse.setFirstName(words[14]);
 		words.clear();
 		
 		courseList.push_back(tempCourse);
 	}
-	return courseList;
-}
-
-
-
-int validateSchedule() {
-
-	int conflictCounter = 0; //used to count the number of conflicts recorded during generation/validation of the schedule
-
-	return conflictCounter; //for now this will be true, however when the validation function from engine.cpp is called, that will return a bool on if anything actually changed (i.e. conflict counter increased/decreased)?? Open to discussion on this***
+	outputStruct output = validateSchedule(courseList, false); //no room map generated, can't account for max capacity
+	return toOutput(output);
 }
 
 // This function creates and returns an instructor object.

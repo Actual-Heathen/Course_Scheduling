@@ -442,7 +442,7 @@ void MainWindow::on_ValidateButton_clicked() //currently broken with reliance on
 
     int oldConflictCounter = conflictCounter;
 
-    conflictCounter = validateSchedule();
+    conflictCounter = outToIn();
 
     clear_Table();
 
@@ -748,7 +748,7 @@ void MainWindow::find_Conflicts()
 
     for (int x = 0; x < table->rowCount(); x++) { //columns
 
-        if(table->item(x, 0)->text() == "TRUE") {
+        if(table->item(x, 0)->text() != "None") {
 
             for (int y = 0; y < table->columnCount(); y++) { //rows
 
