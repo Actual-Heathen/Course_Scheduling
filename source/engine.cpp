@@ -78,30 +78,28 @@ outputStruct generateSchedule(vector<Department> departments, map<string, RoomIn
         {
             if (departments.at(deptIndex).courseList.at(courseIndex).getFirstName() == "TBA")
             {
-                Instructor instructor; //temporary object -- do not modify, just for ease of variable read
                 int previousIndex = instructorIndex;
                 do {
-                    instructor = departments.at(deptIndex).instructorList.at(instructorIndex);
                     instructorIndex = (instructorIndex+1)%departments.at(deptIndex).instructorList.size();
-                    if (instructor.getMaxCourses() > instructor.getCurrentlyTeaching()) //if instructor available to teach another class
+                    if (departments.at(deptIndex).instructorList.at(instructorIndex).getMaxCourses() > departments.at(deptIndex).instructorList.at(instructorIndex).getCurrentlyTeaching()) //if instructor available to teach another class
                     {
                         if (departments.at(deptIndex).courseList.at(courseIndex).getSectionType() == 'A')
                         {
                             departments.at(deptIndex).instructorList.at(instructorIndex).increaseClassesTaught();
-                            departments.at(deptIndex).courseList.at(courseIndex).setFirstName(instructor.getFirstName());
-                            departments.at(deptIndex).courseList.at(courseIndex).setLastName(instructor.getLastName());
+                            departments.at(deptIndex).courseList.at(courseIndex).setFirstName(departments.at(deptIndex).instructorList.at(instructorIndex).getFirstName());
+                            departments.at(deptIndex).courseList.at(courseIndex).setLastName(departments.at(deptIndex).instructorList.at(instructorIndex).getLastName());
                             break;
                         }
                         else if (departments.at(deptIndex).courseList.at(courseIndex).getSectionType() == 'S' || departments.at(deptIndex).courseList.at(courseIndex).getSectionType() == 'T')
                         {
                             int day;
                             int time;
-                            instructor.getNextAvailability(&day, &time);
+                            departments.at(deptIndex).instructorList.at(instructorIndex).getNextAvailability(&day, &time);
                             if (day != -1 && time != -1)
                             {
                                 departments.at(deptIndex).instructorList.at(instructorIndex).increaseClassesTaught();
-                                departments.at(deptIndex).courseList.at(courseIndex).setFirstName(instructor.getFirstName());
-                                departments.at(deptIndex).courseList.at(courseIndex).setLastName(instructor.getLastName());
+                                departments.at(deptIndex).courseList.at(courseIndex).setFirstName(departments.at(deptIndex).instructorList.at(instructorIndex).getFirstName());
+                                departments.at(deptIndex).courseList.at(courseIndex).setLastName(departments.at(deptIndex).instructorList.at(instructorIndex).getLastName());
                                 departments.at(deptIndex).instructorList.at(instructorIndex).setAvailability(day, time, 0);
                                 departments.at(deptIndex).courseList.at(courseIndex).setDay(day);
                                 departments.at(deptIndex).courseList.at(courseIndex).setTime(time);
