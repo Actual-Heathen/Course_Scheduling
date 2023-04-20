@@ -3,6 +3,7 @@
         "xstring": "cpp",
         "map": "cpp",
         "xiosbase": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "algorithm": "cpp"
     }
 }

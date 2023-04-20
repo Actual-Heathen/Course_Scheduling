@@ -89,7 +89,7 @@ CONFLICT Course::getConflict() {
 	return conflict;
 }
 
-string conflictToString()
+string Course::conflictToString()
 {
 	if (conflict == NONE) return "None";
 	if (conflict == INDIVIDUAL) return "Self";

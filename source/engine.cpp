@@ -4,17 +4,17 @@ using namespace std;
 
 map<string, RoomInfo> masterRooms;
 
-bool compareInstructorPriority(Instructor& left, Instructor& right)
-{
-    return left.getPriority() > right.getPriority();
-}
+// bool compareInstructorPriority(Instructor& left, Instructor& right)
+// {
+//     return left.getPriority() > right.getPriority();
+// }
 
-//compare courses in T, S, A section type order
-//test this, may be backwards
-bool compareCourseType(Course& left, Course& right)
-{
-    return left.getSectionType() > right.getSectionType();
-}
+// //compare courses in T, S, A section type order
+// //test this, may be backwards
+// bool compareCourseType(Course& left, Course& right)
+// {
+//     return left.getSectionType() > right.getSectionType();
+// }
 
 outputStruct generateSchedule(vector<Department> departments, map<string, RoomInfo> roomMap)
 {
@@ -29,40 +29,42 @@ outputStruct generateSchedule(vector<Department> departments, map<string, RoomIn
     //      fill rest of courses with instructors/times
     //      assign rooms to courses
 
-    for (Department department : departments)
+    for (int deptIndex = 0; deptIndex < departments.size(); deptIndex++)
     {
         //sort by instructor priority
-        sort(department.instructorList.begin(), department.instructorList.end(), &compareInstructorPriority);
+        //sort(department.instructorList.begin(), department.instructorList.end(), &compareInstructorPriority);
         //sort courses by section type in order T, S, A
-        sort(department.courseList.begin(), department.courseList.end(), &compareCourseType);
-    
+        //sort(department.courseList.begin(), department.courseList.end(), &compareCourseType);
+        departments.at(deptIndex).sortInstructors();
+        departments.at(deptIndex).sortCourses();   
+
         //assign instructors to preferred course
-        for (Instructor instructor : department.instructorList)
+        for (int instrIndex = 0; instrIndex < departments.at(deptIndex).instructorList.size(); instrIndex++)
         {
-            string preferredCourse = instructor.getPreferredClass();
-            if (instructor.getCurrentlyTeaching() < instructor.getMaxCourses())
+            string preferredCourse = departments.at(deptIndex).instructorList.at(instrIndex).getPreferredClass();
+            if (departments.at(deptIndex).instructorList.at(instrIndex).getCurrentlyTeaching() < departments.at(deptIndex).instructorList.at(instrIndex).getMaxCourses())
             {
-                for (Course course : department.courseList)
+                for (Course course : departments.at(deptIndex).courseList)
                 {
                     if (course.getCourseNumber() == preferredCourse)
                     {
                         if (course.getSectionType() == 'A')
                         {
-                            instructor.increaseClassesTaught();
-                            course.setFirstName(instructor.getFirstName());
-                            course.setLastName(instructor.getLastName());
+                            departments.at(deptIndex).instructorList.at(instrIndex).increaseClassesTaught();
+                            course.setFirstName(departments.at(deptIndex).instructorList.at(instrIndex).getFirstName());
+                            course.setLastName(departments.at(deptIndex).instructorList.at(instrIndex).getLastName());
                         }
                         else
                         {
                             int day;
                             int time;
-                            instructor.getNextAvailability(&day, &time);
+                            departments.at(deptIndex).instructorList.at(instrIndex).getNextAvailability(&day, &time);
                             if (day != -1 && time != -1)
                             {
-                                instructor.increaseClassesTaught();
-                                course.setFirstName(instructor.getFirstName());
-                                course.setLastName(instructor.getLastName());
-                                instructor.setAvailability(day, time, 0);
+                                departments.at(deptIndex).instructorList.at(instrIndex).increaseClassesTaught();
+                                course.setFirstName(departments.at(deptIndex).instructorList.at(instrIndex).getFirstName());
+                                course.setLastName(departments.at(deptIndex).instructorList.at(instrIndex).getLastName());
+                                departments.at(deptIndex).instructorList.at(instrIndex).setAvailability(day, time, 0);
                                 course.setDay(day);
                                 course.setTime(time);
                             }
@@ -74,23 +76,23 @@ outputStruct generateSchedule(vector<Department> departments, map<string, RoomIn
 
         //assign instructors to the rest of the courses
         int instructorIndex = 0;
-        for (Course course : department.courseList)
+        for (int courseIndex = 0; courseIndex < departments.at(deptIndex).courseList.size(); courseIndex++)
         {
-            if (course.getFirstName() == "TBA")
+            if (departments.at(deptIndex).courseList.at(courseIndex).getFirstName() == "TBA")
             {
-                Instructor instructor;
+                Instructor instructor; //temporary object -- do not modify, just for ease of variable read
                 int previousIndex = instructorIndex;
                 do {
-                    instructor = department.instructorList.at(instructorIndex);
-                    instructorIndex = (instructorIndex+1)%department.instructorList.size();
+                    instructor = departments.at(deptIndex).instructorList.at(instructorIndex);
+                    instructorIndex = (instructorIndex+1)%departments.at(deptIndex).instructorList.size();
                 } while (instructorIndex != previousIndex && instructor.getMaxCourses() <= instructor.getCurrentlyTeaching());
                 if (instructor.getFirstName() != "TBA") //if instructor available
                 {
-                    if (course.getSectionType() == 'A')
+                    if (departments.at(deptIndex).courseList.at(courseIndex).getSectionType() == 'A')
                     {
-                        department.instructorList.at(instructorIndex).increaseClassesTaught();
-                        course.setFirstName(instructor.getFirstName());
-                        course.setLastName(instructor.getLastName());
+                        departments.at(deptIndex).instructorList.at(instructorIndex).increaseClassesTaught();
+                        departments.at(deptIndex).courseList.at(courseIndex).setFirstName(instructor.getFirstName());
+                        departments.at(deptIndex).courseList.at(courseIndex).setLastName(instructor.getLastName());
                     }
                     else  //add function that does this to Instructor
                     {
@@ -99,12 +101,12 @@ outputStruct generateSchedule(vector<Department> departments, map<string, RoomIn
                         instructor.getNextAvailability(&day, &time);
                         if (day != -1 && time != -1)
                         {
-                            department.instructorList.at(instructorIndex).increaseClassesTaught();
-                            course.setFirstName(instructor.getFirstName());
-                            course.setLastName(instructor.getLastName());
-                            department.instructorList.at(instructorIndex).setAvailability(day, time, 0);
-                            course.setDay(day);
-                            course.setTime(time);
+                            departments.at(deptIndex).instructorList.at(instructorIndex).increaseClassesTaught();
+                            departments.at(deptIndex).courseList.at(courseIndex).setFirstName(instructor.getFirstName());
+                            departments.at(deptIndex).courseList.at(courseIndex).setLastName(instructor.getLastName());
+                            departments.at(deptIndex).instructorList.at(instructorIndex).setAvailability(day, time, 0);
+                            departments.at(deptIndex).courseList.at(courseIndex).setDay(day);
+                            departments.at(deptIndex).courseList.at(courseIndex).setTime(time);
                         }                    
                     }
                 }
@@ -113,21 +115,21 @@ outputStruct generateSchedule(vector<Department> departments, map<string, RoomIn
 
         //assign rooms to the rest of the courses
         int roomIndex = 0;
-        for (int courseIndex = 0; courseIndex < department.courseList.size(); courseIndex++)
+        for (int courseIndex = 0; courseIndex < departments.at(deptIndex).courseList.size(); courseIndex++)
         {
-            Course course = department.courseList.at(courseIndex); //this is a temporary, local value for convenience. Do not update this variable. Instead update department.courseList.at(courseIndex)
+            Course course = departments.at(deptIndex).courseList.at(courseIndex); //this is a temporary, local value for convenience. Do not update this variable. Instead update department.courseList.at(courseIndex)
             if (course.getSectionType() == 'T') //only set rooms to in person classes
             {
                 string roomName = "";
                 int previousRoom = roomIndex;
                 do {
-                    roomName = department.roomList.at(roomIndex);
-                    roomIndex = (roomIndex+1)%department.roomList.size();
+                    roomName = departments.at(deptIndex).roomList.at(roomIndex);
+                    roomIndex = (roomIndex+1)%departments.at(deptIndex).roomList.size();
                 } while (roomIndex != previousRoom && masterRooms[roomName].getAvailability(course.getDay(), course.getTime()) == 0);
 
                 if (roomName != "") //if room available
                 {
-                    department.courseList.at(courseIndex).setRoom(roomName);
+                    departments.at(deptIndex).courseList.at(courseIndex).setRoom(roomName);
                     masterRooms[roomName].setAvailability(course.getDay(), course.getTime(), 0);
                 }                
             }

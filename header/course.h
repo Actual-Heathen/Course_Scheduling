@@ -54,6 +54,7 @@ public:
 	double getCredit();
 	int getMaxEnroll();
 	CONFLICT getConflict();
+	string conflictToString();
 	int getDay();
 	int getTime();
 	string getFirstName();
