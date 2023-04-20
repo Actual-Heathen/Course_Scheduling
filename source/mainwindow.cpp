@@ -7,6 +7,8 @@ int main(int argc, char *argv[])
 
     MainWindow w;
 
+    w.setWindowState(Qt::WindowMaximized);
+
     w.show();
 
     return a.exec();
@@ -658,6 +660,12 @@ QStringList MainWindow::get_File_Data()
             data = stream.readAll();
 
             rowData = data.split("\n");
+
+            for(int x = 0; x < rowData.size(); x++) {
+
+                rowData[x] = rowData[x].trimmed();
+
+            }
 
         }
 
