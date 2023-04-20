@@ -206,7 +206,11 @@ int toOutput(outputStruct results) //conf,type,crn,couresenum,name,max,days,star
 
 		csvOutput << building << ",";
 		csvOutput << room << ",";
-		csvOutput << results.courseList[i].getLastName() <<" "<< results.courseList[i].getFirstName() << "\n";
+        csvOutput << results.courseList[i].getLastName() <<" "<< results.courseList[i].getFirstName();
+
+        if(i+1 < results.courseList.size())
+            csvOutput << "\n";
+
 	}
 	csvOutput.close();
 	return results.conflictCount;

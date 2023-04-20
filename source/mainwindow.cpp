@@ -661,12 +661,6 @@ QStringList MainWindow::get_File_Data()
 
             rowData = data.split("\n");
 
-            for(int x = 0; x < rowData.size(); x++) {
-
-                rowData[x] = rowData[x].trimmed();
-
-            }
-
         }
 
     }
