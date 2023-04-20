@@ -89,38 +89,38 @@ int resourceManager(bool populated, int departmentCounter, string fileStoragePat
 
         // Populate roomList and roomMap
         // If a file cannot be read, the program aborts and prints and error.
-        file.open(room[entry], fstream::in);
-        if (file.is_open()) {
-            string data;
+		file.open(room[entry], fstream::in);
+		if (file.is_open()) {
+			string data;
+			
+			getline(file, data);    // Skip title header
 
-            getline(file, data);    // Skip title header
+			try {
+				while (getline(file, data)) {
+					RoomInfo roomObject = createRoom(data);
+					string roomName = "";
+					roomName.append(roomObject.getBuildingName());
+					roomName.append(" ");
+					roomName.append(roomObject.getRoomNumber());
+					departmentObject.roomList.push_back(roomName);
 
-            try {
-                while (getline(file, data)) {
-                    RoomInfo roomObject = createRoom(data);
-                    string roomName = "";
-                    roomName.append(roomObject.getBuildingName());
-                    roomName.append(" ");
-                    roomName.append(roomObject.getRoomNumber());
-                    departmentObject.roomList.push_back(roomName);
-
-                    roomMap.insert(pair<string, RoomInfo>(roomName, roomObject));
-                }
-            }
-            catch (...) {
+					roomMap.insert(pair<string, RoomInfo>(roomName, roomObject));
+				}
+			}
+			catch (...) {
                 cout << "FILE ERROR: Room file is incorrect" << endl;
                 cout << "SYSTEM: Program aborted" << endl;
-                return errorNumber;
-            }
-
-            file.close();
-        }
-
-        departmentList.push_back(departmentObject);
-    }
+				return errorNumber;
+			}
+			
+			file.close();
+		}
+		
+		departmentList.push_back(departmentObject);
+	}
     outputStruct output = generateSchedule(departmentList, roomMap);
-    int conflicts = toOutput(output);
-    return conflicts;
+	int conflicts = toOutput(output);
+	return conflicts;
 }
 
 /*
@@ -128,209 +128,209 @@ write generated schedule to file, return number of conflicts detected
 */
 int toOutput(outputStruct results) //conf,type,crn,couresenum,name,max,days,start,end,bld,room,instructor
 {
-    ofstream csvOutput;
-    csvOutput.open("../Course_Scheduling/output.csv");
+	ofstream csvOutput;
+	csvOutput.open("../Course_Scheduling/output.csv");
 
-    csvOutput << "Conflict,Sec Type,CRN,Course,Title,Credit,Max Enrl,Days,Start,End,Bldg,Room,Instructor\n";
+	csvOutput << "Conflict,Sec Type,CRN,Course,Title,Credit,Max Enrl,Days,Start,End,Bldg,Room,Instructor\n";
 
-    for (long unsigned int i = 0; i < results.courseList.size(); i++)
-    {
-        csvOutput << results.courseList[i].conflictToString() << ",";
-        csvOutput << results.courseList[i].getSectionType() << ",";
-        csvOutput << results.courseList[i].getCRN() << ",";
-        csvOutput << results.courseList[i].getCourseNumber() << " " << results.courseList[i].getSectionNumber() << ",";
-        csvOutput << results.courseList[i].getTitle() << ",";
-        csvOutput << results.courseList[i].getCredit() << ",";
-        csvOutput << results.courseList[i].getMaxEnroll() << ",";
-        int dayTime = results.courseList[i].getDay();
-        if (dayTime == 0)
-        {
-            csvOutput <<"MW,";
-        }
-        else if (dayTime == 1)
-        {
-            csvOutput << "TR,";
-        }
-        else
-        {
-            csvOutput <<"TBA,";
-        }
-        dayTime = results.courseList[i].getTime();
-        if (dayTime == 0)
-        {
-            csvOutput <<"8:00 AM,";
-            csvOutput <<"9:20 AM,";
-        }
-        else if (dayTime == 1)
-        {
-            csvOutput <<"9:40 AM,";
-            csvOutput <<"11:00 AM,";
-        }
-        else if (dayTime == 2)
-        {
-            csvOutput <<"11:20 AM,";
-            csvOutput <<"12:40 AM,";
-        }
-        else if (dayTime == 3)
-        {
-            csvOutput <<"1:00 PM,";
-            csvOutput <<"2:20 PM,";
-        }
-        else if (dayTime == 4)
-        {
-            csvOutput <<"2:40 PM,";
-            csvOutput <<"4:00 PM,";
-        }
-        else if (dayTime == 5)
-        {
-            csvOutput <<"4:20 PM,";
-            csvOutput <<"5:40 AM,";
-        }
-        else if (dayTime == 6)
-        {
-            csvOutput <<"6:00 PM,";
-            csvOutput <<"7:20 AM,";
-        }
-        else
-        {
-            csvOutput <<"TBA,";
-            csvOutput <<"TBA,";
-        }
-        //csvOutput << courseList[i].getBuilding() << ",";
-        string buildingRoom = results.courseList[i].getRoom();
-        int space = buildingRoom.find(" ");
-        string building = buildingRoom.substr(0, space);
-        string room = buildingRoom.substr(space+1);
+	for (long unsigned int i = 0; i < results.courseList.size(); i++)
+	{
+		csvOutput << results.courseList[i].conflictToString() << ",";
+		csvOutput << results.courseList[i].getSectionType() << ",";
+		csvOutput << results.courseList[i].getCRN() << ",";
+		csvOutput << results.courseList[i].getCourseNumber() << " " << results.courseList[i].getSectionNumber() << ",";
+		csvOutput << results.courseList[i].getTitle() << ",";
+		csvOutput << results.courseList[i].getCredit() << ",";
+		csvOutput << results.courseList[i].getMaxEnroll() << ",";
+		int dayTime = results.courseList[i].getDay();
+		if (dayTime == 0)
+		{
+			csvOutput <<"MW,";
+		}
+		else if (dayTime == 1)
+		{
+			csvOutput << "TR,";
+		}
+		else
+		{
+			csvOutput <<"TBA,";
+		}
+		dayTime = results.courseList[i].getTime();
+		if (dayTime == 0)
+		{
+			csvOutput <<"8:00 AM,";
+			csvOutput <<"9:20 AM,";
+		}
+		else if (dayTime == 1)
+		{
+			csvOutput <<"9:40 AM,";
+			csvOutput <<"11:00 AM,";
+		}
+		else if (dayTime == 2)
+		{
+			csvOutput <<"11:20 AM,";
+			csvOutput <<"12:40 AM,";
+		}
+		else if (dayTime == 3)
+		{
+			csvOutput <<"1:00 PM,";
+			csvOutput <<"2:20 PM,";
+		}
+		else if (dayTime == 4)
+		{
+			csvOutput <<"2:40 PM,";
+			csvOutput <<"4:00 PM,";
+		}
+		else if (dayTime == 5)
+		{
+			csvOutput <<"4:20 PM,";
+			csvOutput <<"5:40 AM,";
+		}
+		else if (dayTime == 6)
+		{
+			csvOutput <<"6:00 PM,";
+			csvOutput <<"7:20 AM,";
+		}
+		else
+		{
+			csvOutput <<"TBA,";
+			csvOutput <<"TBA,";
+		}
+		//csvOutput << courseList[i].getBuilding() << ",";
+		string buildingRoom = results.courseList[i].getRoom();
+		int space = buildingRoom.find(" ");
+		string building = buildingRoom.substr(0, space);
+		string room = buildingRoom.substr(space+1); 
 
-        csvOutput << building << ",";
-        csvOutput << room << ",";
-        csvOutput << results.courseList[i].getLastName() <<" "<< results.courseList[i].getFirstName() << "\n";
-    }
-    csvOutput.close();
-    return results.conflictCount;
+		csvOutput << building << ",";
+		csvOutput << room << ",";
+		csvOutput << results.courseList[i].getLastName() <<" "<< results.courseList[i].getFirstName() << "\n";
+	}
+	csvOutput.close();
+	return results.conflictCount;
 }
 
 int outToIn()
 {
-    vector<Course> courseList;
-    ifstream csvInput;
-    csvInput.open("output.csv");
+	vector<Course> courseList;
+	ifstream csvInput;
+	csvInput.open("output.csv");
+	
+	if (!csvInput)
+	{
+		return -1;
+	}
+	
+	string line;
+	string temp;
+	vector<string> words;
+	getline(csvInput,line); //dump header
+	while(getline(csvInput, line))
+	{
+		stringstream lineS(line);
+		int counter = 0;
 
-    if (!csvInput)
-    {
-        return -1;
-    }
+		while(getline(lineS,temp,','))
+		{
 
-    string line;
-    string temp;
-    vector<string> words;
-    getline(csvInput,line); //dump header
-    while(getline(csvInput, line))
-    {
-        stringstream lineS(line);
-        int counter = 0;
+			if (counter == 3 || counter == 11)
+			{
+				stringstream tempS(temp);
+				vector<string> abToken;
+				const char delim = ' ';
+				while(getline(tempS,temp,delim))
+				{
+					abToken.push_back(temp);
+				}
 
-        while(getline(lineS,temp,','))
-        {
+				words.push_back(abToken[0]);
+				
+				temp = "";
 
-            if (counter == 3 || counter == 11)
-            {
-                stringstream tempS(temp);
-                vector<string> abToken;
-                const char delim = ' ';
-                while(getline(tempS,temp,delim))
-                {
-                    abToken.push_back(temp);
-                }
+				for (int i = 1; i < abToken.size(); i++)
+				{
+					if (i != abToken.size()-1)
+					{
+						temp += abToken[i] + " ";
+					}
+					else
+					{
+						temp += abToken[i];
+					}
+				}
+				abToken.clear();
+			}
+			words.push_back(temp);
+			counter++;
+		}
 
-                words.push_back(abToken[0]);
+		Course tempCourse;
+		tempCourse.setConflict(NONE); //changed from true 1) to match conflict enum type, 2) to start with no conflicts; conflicts determined later in validation
+		tempCourse.setSectionType(words[1].at(0));
+		tempCourse.setCRN(stoi(words[2]));
+		tempCourse.setCourseNumber(words[3]);
+		tempCourse.setSectionNumber(words[4]);
+		tempCourse.setTitle(words[5]);
+		tempCourse.setCredit(stoi(words[6]));
+		tempCourse.setMaxEnroll(stoi(words[7]));
+		string dayTime = words[8];
+		if (dayTime == "MW")
+		{
+			tempCourse.setDay(0);
+		}
+		else if (dayTime == "TR")
+		{
+			tempCourse.setDay(1);
+		}
+		else
+		{
+			tempCourse.setDay(-1);
+		}
+		dayTime = words[9];
+		if (dayTime == "8:00 AM")
+		{
+			tempCourse.setTime(0);
+		}
+		else if (dayTime == "9:40 AM")
+		{
+			tempCourse.setTime(1);
+		}
+		else if (dayTime == "11:20 AM")
+		{
+			tempCourse.setTime(2);
+		}
+		else if (dayTime == "1:00 PM")
+		{
+			tempCourse.setTime(3);
+		}
+		else if (dayTime == "2:40 PM")
+		{
+			tempCourse.setTime(4);
+		}
+		else if (dayTime == "4:20 PM")
+		{
+			tempCourse.setTime(5);
+		}
+		else if (dayTime == "6:00 PM")
+		{
+			tempCourse.setTime(6);
 
-                temp = "";
-
-                for (int i = 1; i < abToken.size(); i++)
-                {
-                    if (i != abToken.size()-1)
-                    {
-                        temp += abToken[i] + " ";
-                    }
-                    else
-                    {
-                        temp += abToken[i];
-                    }
-                }
-                abToken.clear();
-            }
-            words.push_back(temp);
-            counter++;
-        }
-
-        Course tempCourse;
-        tempCourse.setConflict(NONE); //changed from true 1) to match conflict enum type, 2) to start with no conflicts; conflicts determined later in validation
-        tempCourse.setSectionType(words[1].at(0));
-        tempCourse.setCRN(stoi(words[2]));
-        tempCourse.setCourseNumber(words[3]);
-        tempCourse.setSectionNumber(words[4]);
-        tempCourse.setTitle(words[5]);
-        tempCourse.setCredit(stoi(words[6]));
-        tempCourse.setMaxEnroll(stoi(words[7]));
-        string dayTime = words[8];
-        if (dayTime == "MW")
-        {
-            tempCourse.setDay(0);
-        }
-        else if (dayTime == "TR")
-        {
-            tempCourse.setDay(1);
-        }
-        else
-        {
-            tempCourse.setDay(-1);
-        }
-        dayTime = words[9];
-        if (dayTime == "8:00 AM")
-        {
-            tempCourse.setTime(0);
-        }
-        else if (dayTime == "9:40 AM")
-        {
-            tempCourse.setTime(1);
-        }
-        else if (dayTime == "11:20 AM")
-        {
-            tempCourse.setTime(2);
-        }
-        else if (dayTime == "1:00 PM")
-        {
-            tempCourse.setTime(3);
-        }
-        else if (dayTime == "2:40 PM")
-        {
-            tempCourse.setTime(4);
-        }
-        else if (dayTime == "4:20 PM")
-        {
-            tempCourse.setTime(5);
-        }
-        else if (dayTime == "6:00 PM")
-        {
-            tempCourse.setTime(6);
-
-        }
-        else
-        {
-            tempCourse.setTime(-1);
-        }
-        //no end time (words[10])
-        //tempCourse.setBuilding(words[11]);
-        tempCourse.setRoom(words[11]+" "+words[12]);
-        tempCourse.setLastName(words[13]);
-        tempCourse.setFirstName(words[14]);
-        words.clear();
-
-        courseList.push_back(tempCourse);
-    }
-    outputStruct output = validateSchedule(courseList, false); //no room map generated, can't account for max capacity
-    return toOutput(output);
+		}
+		else
+		{
+			tempCourse.setTime(-1);
+		}
+		//no end time (words[10])	
+		//tempCourse.setBuilding(words[11]);
+		tempCourse.setRoom(words[11]+" "+words[12]);
+		tempCourse.setLastName(words[13]);
+		tempCourse.setFirstName(words[14]);
+		words.clear();
+		
+		courseList.push_back(tempCourse);
+	}
+	outputStruct output = validateSchedule(courseList, false); //no room map generated, can't account for max capacity
+	return toOutput(output);
 }
 
 // This function creates and returns an instructor object.

@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+//resourceManager includes engine, engine includes department, department includes course, instructor, and room
+
 #include "ui_mainwindow.h"
 #include "resourceManager.h"
 #include "comboboxDelegate.h"

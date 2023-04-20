@@ -57,7 +57,7 @@ string Instructor::getPreferredClass() {
 }
 
 int Instructor::getAvailability(int days, int hours) {
-    return schedule.getAvailability(days, hours);
+	return schedule.getAvailability(days, hours);
 }
 
 void Instructor::getNextAvailability(int* day, int* time)
