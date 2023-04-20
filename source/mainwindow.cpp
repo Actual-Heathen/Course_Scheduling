@@ -781,6 +781,9 @@ void MainWindow::get_Table_Data()
 
             }
 
+            if(x+1<table->rowCount())
+                stream << "\n";
+
         }
 
     }

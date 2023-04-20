@@ -231,7 +231,7 @@ int outToIn()
 	string temp;
 	vector<string> words;
 	getline(csvInput,line); //dump header
-    while(getline(csvInput, line, '\r'))
+    while(getline(csvInput, line, '\n'))
 	{
         stringstream lineS(line);
 		int counter = 0;
