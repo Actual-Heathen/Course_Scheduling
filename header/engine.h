@@ -4,6 +4,7 @@
 #endif // ENGINE_H
 
 #include "../header/department.h"
+#include "../header/sanitizer.h"
 #include <vector>
 #include <map>
 #include <algorithm>
