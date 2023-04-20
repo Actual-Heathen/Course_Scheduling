@@ -41,12 +41,12 @@ outputStruct generateSchedule(vector<Department> departments, map<string, RoomIn
         //assign instructors to preferred course
         for (int instrIndex = 0; instrIndex < departments.at(deptIndex).instructorList.size(); instrIndex++)
         {
-            string preferredCourse = departments.at(deptIndex).instructorList.at(instrIndex).getPreferredClass();
+            int preferredCRN = departments.at(deptIndex).instructorList.at(instrIndex).getPreferredCRN();
             if (departments.at(deptIndex).instructorList.at(instrIndex).getCurrentlyTeaching() < departments.at(deptIndex).instructorList.at(instrIndex).getMaxCourses())
             {
                 for (Course course : departments.at(deptIndex).courseList)
                 {
-                    if (course.getCourseNumber() == preferredCourse)
+                    if (course.getCRN() == preferredCRN)
                     {
                         if (course.getSectionType() == 'A')
                         {
