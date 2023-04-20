@@ -186,12 +186,12 @@ int toOutput(outputStruct results) //conf,type,crn,couresenum,name,max,days,star
 		else if (dayTime == 5)
 		{
 			csvOutput <<"4:20 PM,";
-			csvOutput <<"5:40 AM,";
+			csvOutput <<"5:40 PM,";
 		}
 		else if (dayTime == 6)
 		{
 			csvOutput <<"6:00 PM,";
-			csvOutput <<"7:20 AM,";
+			csvOutput <<"7:20 PM,";
 		}
 		else
 		{
