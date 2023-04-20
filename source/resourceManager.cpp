@@ -369,6 +369,7 @@ int outToIn()
 			words.clear();
 			
 			courseList.push_back(tempCourse);
+        }
 	}
 	outputStruct output = validateSchedule(courseList, false); //no room map generated, can't account for max capacity
 	return toOutput(output);
