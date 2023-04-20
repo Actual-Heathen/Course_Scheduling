@@ -123,7 +123,7 @@ outputStruct generateSchedule(vector<Department> departments, map<string, RoomIn
                 do {
                     roomName = departments.at(deptIndex).roomList.at(roomIndex);
                     roomIndex = (roomIndex+1)%departments.at(deptIndex).roomList.size();
-                    if (roomName != "" && masterRooms[roomName].getCapacity() < course.getMaxEnroll() && masterRooms[roomName].getAvailability(course.getDay(), course.getTime()) == 0) //if room available
+                    if (roomName != "" && masterRooms[roomName].getCapacity() >= course.getMaxEnroll() && masterRooms[roomName].getAvailability(course.getDay(), course.getTime()) == 1) //if room available
                     {
                         departments.at(deptIndex).courseList.at(courseIndex).setRoom(roomName);
                         masterRooms[roomName].setAvailability(course.getDay(), course.getTime(), 0);
