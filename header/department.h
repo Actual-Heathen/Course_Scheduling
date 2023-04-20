@@ -11,7 +11,11 @@ class Department {
 public:
     vector<Course> courseList;
     vector<Instructor> instructorList;
-    vector<string> roomList;
-    void sortInstructors();
-    void sortCourses();
+	vector<string> roomList;
+	void sortInstructors();
+	void sortCoursesByType();
+	string getName() { return name;};
+	void setName(string newName) {name = newName;};
+private:
+	string name;
 };

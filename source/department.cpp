@@ -7,7 +7,7 @@ void Department::sortInstructors()
     });
 }
 
-void Department::sortCourses()
+void Department::sortCoursesByType()
 {
     sort(courseList.begin(), courseList.end(), [](Course& lhs, Course& rhs) {
         return lhs.getSectionType() > rhs.getSectionType();
