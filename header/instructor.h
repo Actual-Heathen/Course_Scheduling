@@ -10,7 +10,7 @@ private:
     int maxCourses = 0;
 	int currentlyTeaching = 0;
 	int priority = 0;
-	string preferredClass;
+	int preferredCRN;
 	DayTime schedule;
 
 public:
@@ -20,14 +20,14 @@ public:
     void increaseClassesTaught();
     void decreaseClassesTaught();
 	void setPriority(int input);
-	void setPreferredClass(string input);
+	void setPreferredCRN(int input);
     void setAvailability(int days, int hours, int status);
 	string getFirstName();
 	string getLastName();
     int getMaxCourses();
 	int getCurrentlyTeaching();
 	int getPriority();
-	string getPreferredClass();
+	int getPreferredCRN();
 	int getAvailability(int days, int hours);
     void getNextAvailability(int* day, int* time);
 };
