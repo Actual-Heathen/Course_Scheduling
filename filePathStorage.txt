@@ -1,4 +1,4 @@
 CS
 C:/Users/jmpet/Desktop/Course_Scheduling/Course_Scheduling/Course.csv
-C:/Users/jmpet/Desktop/Course_Scheduling/Course_Scheduling/Instructor.csv
+C:/Users/jmpet/Desktop/Course_Scheduling/Course_Scheduling/Instructor Updated.csv
 C:/Users/jmpet/Desktop/Course_Scheduling/Course_Scheduling/Rooms.csv
