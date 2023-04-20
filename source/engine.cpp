@@ -123,13 +123,14 @@ outputStruct generateSchedule(vector<Department> departments, map<string, RoomIn
                 do {
                     roomName = departments.at(deptIndex).roomList.at(roomIndex);
                     roomIndex = (roomIndex+1)%departments.at(deptIndex).roomList.size();
-                } while (roomIndex != previousRoom && masterRooms[roomName].getAvailability(course.getDay(), course.getTime()) == 0 && masterRooms[roomName].getCapacity() < course.getMaxEnroll());
+                    if (roomName != "" && masterRooms[roomName].getCapacity() < course.getMaxEnroll() && masterRooms[roomName].getAvailability(course.getDay(), course.getTime()) == 0) //if room available
+                    {
+                        departments.at(deptIndex).courseList.at(courseIndex).setRoom(roomName);
+                        masterRooms[roomName].setAvailability(course.getDay(), course.getTime(), 0);
+                        break;
+                    }
+                } while (roomIndex != previousRoom);
 
-                if (roomName != "") //if room available
-                {
-                    departments.at(deptIndex).courseList.at(courseIndex).setRoom(roomName);
-                    masterRooms[roomName].setAvailability(course.getDay(), course.getTime(), 0);
-                }
             }
         }
     }
