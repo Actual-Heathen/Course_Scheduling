@@ -122,8 +122,8 @@ QTableCornerButton::section{background-color: white; border-color: black; border
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>1338</width>
-            <height>859</height>
+            <width>1332</width>
+            <height>843</height>
            </rect>
           </property>
           <property name="layoutDirection">
@@ -362,13 +362,14 @@ QTableCornerButton::section{background-color: white; border-color: black; border
      <x>0</x>
      <y>0</y>
      <width>1800</width>
-     <height>17</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">QMenuBar{background: white; border-style: outset; border-color: black; color: black;}
-QMenu{background: white;}
-</string>
+    <string notr="true">QMenuBar{background-color: white; color: black;}
+QMenuBar::item:selected{background-color: rgba(115, 201, 250, 0.4);}
+QMenu{background: white; color:black;}
+QMenu::item:selected{background-color: rgba(115, 201, 250, 0.4);}</string>
    </property>
    <widget class="QMenu" name="menuView">
     <property name="styleSheet">
@@ -380,6 +381,9 @@ QMenu{background: white;}
     <addaction name="DarkModeAction"/>
    </widget>
    <widget class="QMenu" name="menuFile">
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
     <property name="title">
      <string>File</string>
     </property>

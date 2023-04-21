@@ -86,7 +86,7 @@ void MainWindow::on_GenerateButton_clicked()
 
             QList<QWidget*> values = DepartmentMap.values(index.key()); //store values of DepartmentLayout within list
 
-            QLineEdit* DepartmentName = qobject_cast<QLineEdit*>(values[6]); //store DepartmentLine
+            QLineEdit* DepartmentAcronym = qobject_cast<QLineEdit*>(values[6]); //store DepartmentLine
 
             QLineEdit* CourseLine = qobject_cast<QLineEdit*>(values[4]); //store CourseLine
 
@@ -94,17 +94,17 @@ void MainWindow::on_GenerateButton_clicked()
 
             QLineEdit* RoomLine = qobject_cast<QLineEdit*>(values[0]); //store RoomLine
 
-            if(!DepartmentName->text().isEmpty()) {
+            if(check_Department_Acronym(DepartmentAcronym->text())) {
 
-                stream << DepartmentName->text() << "\n"; //grab Department Name and store it in file
+                stream << DepartmentAcronym->text().toUpper() << "\n"; //grab Department Name and store it in file
 
-                DepartmentName->setStyleSheet("");
+                DepartmentAcronym->setStyleSheet("");
 
                 badInput[indexPosition][0] = 1;
 
             }else {
 
-                DepartmentName->setStyleSheet("border-color: red; border-width: 2px;");
+                DepartmentAcronym->setStyleSheet("border-color: red; border-width: 2px;");
 
                 badInput[indexPosition][0] = 0;
 
@@ -213,6 +213,18 @@ void MainWindow::on_GenerateButton_clicked()
         messageBox.critical(0,"ERROR","Invalid Input Provided!");
 
     }
+
+}
+
+
+bool MainWindow::check_Department_Acronym(QString departmentAcronym)
+{
+
+    if(departmentAcronym.size() < 4)
+        if(departmentAcronym.size() > 1)
+            return true;
+
+    return false;
 
 }
 
@@ -358,7 +370,7 @@ void MainWindow::on_DepartmentButton_clicked()
 
     QLineEdit* DepartmentLine = new QLineEdit(ui->DepartmentFrame);
 
-    DepartmentLine->setPlaceholderText("Department Name");
+    DepartmentLine->setPlaceholderText("Department Acronym");
 
     DepartmentLine->setFixedHeight(24);
 
@@ -543,30 +555,31 @@ void MainWindow::on_DarkModeAction_triggered()
                                          "QLineEdit{border-width:2px; color: gainsboro; background-color: black}"
                                          "QTableWidget{border-color: dimgrey; border-width: 2px; alternate-background-color: dimgrey; gridline-color: white;}"
                                          "QHeaderView::section{background-color: black; color: gainsboro;}"
-                                         "QTableCornerButton::section{background-color: black; border-color: dimgray; border-width: 2px;}"
-                                         "QMenuBar{background-color: dimgrey; border-style: outset; border-color: dimgrey; color: gainsboro;}"
-                                         "QMenu{background-color: black;}");
+                                         "QTableCornerButton::section{background-color: black; border-color: dimgray; border-width: 2px;}");
 
-        ui->menuBar->setStyleSheet("QMenuBar{background-color: dimgrey; border-style: outset; border-color: dimgrey; color: gainsboro;}"
-                                   "QMenu{background-color: black;}");
+        ui->menuBar->setStyleSheet("QMenuBar{background-color: black; color: gainsboro;}"
+                                   "QMenuBar::item{background-color: black;}"
+                                   "QMenuBar::item:selected{background-color: rgba(115, 201, 250, 0.4);}"
+                                   "QMenu{background: dimgrey; color:gainsboro;}"
+                                   "QMenu::item:selected{background-color: rgba(115, 201, 250, 0.4);}");
 
         darkMode = true;
 
     } else {
 
-        ui->centralWidget->setStyleSheet("QWidget{background: white; border-style: outset; border-color: black; color: black;}"
+        ui->centralWidget->setStyleSheet("QWidget{background-color: white; border-style: outset; border-color: black; color: black;}"
                                          "QLineEdit{border-width:1px; color: black; background-color: white}"
                                          "QPushButton{border-width: 1px; color: black; background-color: white;}"
                                          "QPushButton::Pressed{border-width: 2px; color: gainsboro; background-color: black}"
                                          "QPlainTextEdit{border-width: 1px;}"
                                          "QTableWidget{border-color: black; border-width: 1px; alternate-background-color: lightgrey; gridline-color: black;}"
                                          "QHeaderView::section{background-color: white; color: black;}"
-                                         "QTableCornerButton::section{background-color: white; border-color: black; border-width: 1px;}"
-                                         "QMenuBar{background: white; border-style: outset; border-color: black; color: black;}"
-                                         "QMenu{background: white;}");
+                                         "QTableCornerButton::section{background-color: white; border-color: black; border-width: 1px;}");
 
-        ui->menuBar->setStyleSheet("QMenuBar{background: white; border-style: outset; border-color: black; color: black;}"
-                                   "QMenu{background: white;}");
+        ui->menuBar->setStyleSheet("QMenuBar{background-color: white; color: black;}"
+                                   "QMenuBar::item:selected{background-color: rgba(115, 201, 250, 0.4);}"
+                                   "QMenu{background: white; color:black;}"
+                                   "QMenu::item:selected{background-color: rgba(115, 201, 250, 0.4);}");
 
         darkMode = false;
 
@@ -905,7 +918,9 @@ void MainWindow::on_actionLegend_triggered() //Needs to have legend info provide
 
     QMessageBox messageBox;
 
-    messageBox.critical(0,"Legend","INPUT LEGEND INFO HERE");
+    messageBox.information(0, "Legend", "TBA - If a schedule cell contains 'TBA' after schedule generation, that could mean\n           one of two things:\n\n\t1) The current course is listed as an Online course\n\n\t2) Information could not be assigned to the course due within\n\t    generation of the schedule"
+                                        "\n\nRed Row - If a schedule row is highlighted in red, that is signifying that said\n\t   course has 1 or more conflicts that should be resolved"
+                                        "\n\nTypes of Conflicts - There are two possible types of conflicts that can occur\n\t\t  during schedule generation:\n\n\t1) Self Conflicts - These conflicts are the result of when a course is\n\t\t               generated and certain parts of the information\n\t\t               provided is impossible\n\n\t2) Shared Conflicts - These conflicts are the result of when two or more\n\t\t                     courses share the same information after\n\t\t                     generation");
 
 }
 

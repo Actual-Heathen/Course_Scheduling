@@ -46,6 +46,8 @@ public:
 
     bool check_File_Extension(QString filePath);
 
+    bool check_Department_Acronym(QString departmentAcronym);
+
 private slots:
 
     void on_GenerateButton_clicked(); //grabs filepaths from department(s) and uploads them to array for storage
