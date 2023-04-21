@@ -131,7 +131,7 @@ write generated schedule to file, return number of conflicts detected
 int toOutput(outputStruct results) //conf,type,crn,couresenum,name,max,days,start,end,bld,room,instructor
 {
 	ofstream csvOutput;
-	csvOutput.open("../Course_Scheduling/output.csv");
+    csvOutput.open("output.csv");
 
 	csvOutput << "Conflict,Sec Type,CRN,Course,Title,Credit,Max Enrl,Days,Start,End,Bldg,Room,Instructor\n";
 
@@ -220,7 +220,7 @@ int outToIn()
 {
 	vector<Course> courseList;
 	ifstream csvInput;
-    csvInput.open("../Course_Scheduling/output.csv");
+    csvInput.open("output.csv");
 	
 	if (!csvInput)
 	{

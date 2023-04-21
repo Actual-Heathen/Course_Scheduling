@@ -32,9 +32,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->ValidateButton->hide();
 
-    fileStoragePath = "../Course_Scheduling/filePathStorage.txt";
+    fileStoragePath = "filePathStorage.txt";
 
-    generatedCSVPath = "../Course_Scheduling/output.csv";
+    generatedCSVPath = "output.csv";
 
     departmentCounter = 0;
 
