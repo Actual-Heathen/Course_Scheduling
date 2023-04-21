@@ -64,7 +64,9 @@ MainWindow::~MainWindow()
 void MainWindow::on_GenerateButton_clicked()
 {
 
-    bool generate = true;
+    bool error1 = false;
+
+    bool error2 = false;
 
     int indexPosition = 0;
 
@@ -100,13 +102,13 @@ void MainWindow::on_GenerateButton_clicked()
 
                 DepartmentAcronym->setStyleSheet("");
 
-                badInput[indexPosition][0] = 1;
+                badInput[indexPosition][0] = 0;
 
             }else {
 
                 DepartmentAcronym->setStyleSheet("border-color: red; border-width: 2px;");
 
-                badInput[indexPosition][0] = 0;
+                badInput[indexPosition][0] = 1;
 
             }
 
@@ -116,13 +118,13 @@ void MainWindow::on_GenerateButton_clicked()
 
                 CourseLine->setStyleSheet("");
 
-                badInput[indexPosition][1] = 1;
+                badInput[indexPosition][1] = 0;
 
             }else {
 
                 CourseLine->setStyleSheet("border-color: red; border-width: 2px;");
 
-                badInput[indexPosition][1] = 0;
+                badInput[indexPosition][1] = 2;
 
             }
 
@@ -132,13 +134,13 @@ void MainWindow::on_GenerateButton_clicked()
 
                 InstructorLine->setStyleSheet("");
 
-                badInput[indexPosition][2] = 1;
+                badInput[indexPosition][2] = 0;
 
             }else {
 
                 InstructorLine->setStyleSheet("border-color: red; border-width: 2px;");
 
-                badInput[indexPosition][2] = 0;
+                badInput[indexPosition][2] = 2;
 
             }
 
@@ -148,13 +150,13 @@ void MainWindow::on_GenerateButton_clicked()
 
                 RoomLine->setStyleSheet("");
 
-                badInput[indexPosition++][3] = 1;
+                badInput[indexPosition++][3] = 0;
 
             }else {
 
                 RoomLine->setStyleSheet("border-color: red; border-width: 2px;");
 
-                badInput[indexPosition++][3] = 0;
+                badInput[indexPosition++][3] = 2;
 
             }
 
@@ -168,23 +170,23 @@ void MainWindow::on_GenerateButton_clicked()
 
         for(int y = 0; y < 4; y++) {
 
-            if(badInput[x][y] == 0) {
+            if(badInput[x][y] == 1) {
 
-                generate = false;
+                error1 = true;
 
-                break;
+                //break;
 
-            }else
-                generate = true;
+            }else if(badInput[x][y] == 2) {
+
+                error2 = true;
+
+            }else{}
 
         }
 
-        if(generate == false)
-            break;
-
     }
 
-    if(generate) {
+    if(error1 == false && error2 == false) {
 
         scheduleGenerated = true;
 
@@ -210,7 +212,17 @@ void MainWindow::on_GenerateButton_clicked()
 
         QMessageBox messageBox;
 
-        messageBox.critical(0,"ERROR","Invalid Input Provided!");
+        QString error;
+
+        if(error1 == true && error2 == true)
+            error = "Invalid Department Acronym!\n\nInvalid Input Provided!";
+        else if (error1 == true)
+            error = "Invalid Department Acryonym!";
+        else
+            error = "Invalid Input Provided!";
+
+
+        messageBox.critical(0,"ERROR",error);
 
     }
 
@@ -591,23 +603,9 @@ void MainWindow::on_DarkModeAction_triggered()
 void MainWindow::display_Generated_Schedule()
 {
 
-    if(scheduleHidden) {
+    ui->SaveCSVButton->show();
 
-        ui->scheduleTable->show();
-
-        scheduleHidden = false;
-
-    }
-
-    if(scheduleGenerated || scheduleValidated) {
-
-        ui->SaveCSVButton->show();
-
-        ui->SaveTXTButton->show();
-
-        scheduleValidated = false;
-
-    }
+    ui->SaveTXTButton->show();
 
     if(conflictCounter > 0) {
 
@@ -709,6 +707,9 @@ QStringList MainWindow::get_File_Data()
 void MainWindow::initialize_Table(int numRows)
 {
 
+    if(scheduleGenerated)
+        clear_Table();
+
     auto table = ui->scheduleTable;
 
     ComboBoxDelegate* comboSecType = new ComboBoxDelegate(table);
@@ -758,6 +759,8 @@ void MainWindow::initialize_Table(int numRows)
         }
 
     }
+
+    table->setSortingEnabled(true);
 
 }
 
@@ -891,6 +894,13 @@ void MainWindow::on_actionValidate_Schedule_triggered()
 
     if(!ui->ValidateButton->isHidden())
         on_ValidateButton_clicked();
+    else {
+
+        QMessageBox messageBox;
+
+        messageBox.critical(0, "ERROR", "No Schedule Generated!");
+
+    }
 
 }
 
@@ -900,6 +910,13 @@ void MainWindow::on_actionSave_as_CSV_triggered()
 
     if(scheduleGenerated)
         on_SaveCSVButton_clicked();
+    else {
+
+        QMessageBox messageBox;
+
+        messageBox.critical(0, "ERROR", "No Schedule Generated!");
+
+    }
 
 }
 
@@ -909,6 +926,13 @@ void MainWindow::on_actionSave_to_Print_triggered()
 
     if(scheduleGenerated)
         on_SaveTXTButton_clicked();
+    else {
+
+        QMessageBox messageBox;
+
+        messageBox.critical(0, "ERROR", "No Schedule Generated!");
+
+    }
 
 }
 
@@ -918,9 +942,9 @@ void MainWindow::on_actionLegend_triggered() //Needs to have legend info provide
 
     QMessageBox messageBox;
 
-    messageBox.information(0, "Legend", "TBA - If a schedule cell contains 'TBA' after schedule generation, that could mean\n           one of two things:\n\n\t1) The current course is listed as an Online course\n\n\t2) Information could not be assigned to the course due within\n\t    generation of the schedule"
-                                        "\n\nRed Row - If a schedule row is highlighted in red, that is signifying that said\n\t   course has 1 or more conflicts that should be resolved"
-                                        "\n\nTypes of Conflicts - There are two possible types of conflicts that can occur\n\t\t  during schedule generation:\n\n\t1) Self Conflicts - These conflicts are the result of when a course is\n\t\t               generated and certain parts of the information\n\t\t               provided is impossible\n\n\t2) Shared Conflicts - These conflicts are the result of when two or more\n\t\t                     courses share the same information after\n\t\t                     generation");
+    messageBox.information(0, "Legend", "TBA - If a schedule cell contains 'TBA' after schedule generation, that could mean one of two things:\n\n\t1) The current course is listed as an Online course\n\n\t2) Information could not be assigned to the course due within\n\t    generation of the schedule"
+                                        "\n\nRed Row - If a schedule row is highlighted in red, that is signifying that said course has 1 or more conflicts that should be resolved"
+                                        "\n\nTypes of Conflicts - There are two possible types of conflicts that can occur during schedule generation:\n\n\t1) Self Conflicts - These conflicts are the result of when a course is\n\t\t               generated and certain parts of the information\n\t\t               provided is impossible\n\n\t2) Shared Conflicts - These conflicts are the result of when two or more\n\t\t                     courses share the same information after\n\t\t                     generation");
 
 }
 
