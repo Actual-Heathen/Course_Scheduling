@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1608</width>
+    <width>1800</width>
     <height>900</height>
    </rect>
   </property>
@@ -93,7 +93,7 @@ QTableCornerButton::section{background-color: white; border-color: black; border
         <height>0</height>
        </size>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="20">
        <item>
         <widget class="QScrollArea" name="scrollArea">
          <property name="enabled">
@@ -152,9 +152,6 @@ QTableCornerButton::section{background-color: white; border-color: black; border
            </property>
            <property name="text">
             <string>Add Department</string>
-           </property>
-           <property name="shortcut">
-            <string>Ctrl+A</string>
            </property>
           </widget>
           <widget class="QFrame" name="ScheduleFrame">
@@ -218,9 +215,6 @@ QTableCornerButton::section{background-color: white; border-color: black; border
             <property name="text">
              <string>Generate Schedule</string>
             </property>
-            <property name="shortcut">
-             <string>Ctrl+G</string>
-            </property>
            </widget>
            <widget class="QPushButton" name="SaveTXTButton">
             <property name="geometry">
@@ -235,10 +229,7 @@ QTableCornerButton::section{background-color: white; border-color: black; border
              <string notr="true"/>
             </property>
             <property name="text">
-             <string>Save for Printing</string>
-            </property>
-            <property name="shortcut">
-             <string>Ctrl+P</string>
+             <string>Save to Printing</string>
             </property>
            </widget>
            <widget class="QPushButton" name="SaveCSVButton">
@@ -256,9 +247,6 @@ QTableCornerButton::section{background-color: white; border-color: black; border
             <property name="text">
              <string>Save as CSV</string>
             </property>
-            <property name="shortcut">
-             <string>Ctrl+S</string>
-            </property>
            </widget>
            <widget class="QPushButton" name="ValidateButton">
             <property name="geometry">
@@ -271,9 +259,6 @@ QTableCornerButton::section{background-color: white; border-color: black; border
             </property>
             <property name="text">
              <string>Validate</string>
-            </property>
-            <property name="shortcut">
-             <string>Ctrl+V</string>
             </property>
            </widget>
            <widget class="QLineEdit" name="ConflictLine">
@@ -376,14 +361,15 @@ QTableCornerButton::section{background-color: white; border-color: black; border
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1608</width>
+     <width>1800</width>
      <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">QMenuBar{background: white; border-style: outset; border-color: black; color: black;}
-QMenu{background: white;}
-</string>
+    <string notr="true">QMenuBar{background-color: white; color: black;}
+QMenuBar::item:selected{background-color: rgba(115, 201, 250, 0.4);}
+QMenu{background: white; color:black;}
+QMenu::item:selected{background-color: rgba(115, 201, 250, 0.4);}</string>
    </property>
    <widget class="QMenu" name="menuView">
     <property name="styleSheet">
@@ -394,6 +380,23 @@ QMenu{background: white;}
     </property>
     <addaction name="DarkModeAction"/>
    </widget>
+   <widget class="QMenu" name="menuFile">
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionAdd_Department"/>
+    <addaction name="actionGenerate_Schedule"/>
+    <addaction name="actionValidate_Schedule"/>
+    <addaction name="separator"/>
+    <addaction name="actionSave_as_CSV"/>
+    <addaction name="actionSave_to_Print"/>
+    <addaction name="separator"/>
+    <addaction name="actionLegend"/>
+   </widget>
+   <addaction name="menuFile"/>
    <addaction name="menuView"/>
   </widget>
   <action name="DarkModeAction">
@@ -408,6 +411,54 @@ QMenu{background: white;}
    </property>
    <property name="shortcut">
     <string>Ctrl+D</string>
+   </property>
+  </action>
+  <action name="actionAdd_Department">
+   <property name="text">
+    <string>Add Department</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+A</string>
+   </property>
+  </action>
+  <action name="actionGenerate_Schedule">
+   <property name="text">
+    <string>Generate Schedule</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+G</string>
+   </property>
+  </action>
+  <action name="actionValidate_Schedule">
+   <property name="text">
+    <string>Validate Schedule</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionSave_as_CSV">
+   <property name="text">
+    <string>Save as CSV</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionSave_to_Print">
+   <property name="text">
+    <string>Save to Print</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="actionLegend">
+   <property name="text">
+    <string>Legend</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
    </property>
   </action>
  </widget>

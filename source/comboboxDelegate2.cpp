@@ -17,11 +17,11 @@ QWidget *ComboBoxDelegate2::createEditor(QWidget *parent, const QStyleOptionView
     // Create the combobox and populate it
     QComboBox *cb = new QComboBox(parent);
 
-    cb->addItem("TBA");
-
     cb->addItem("MW");
 
     cb->addItem("TR");
+
+    cb->addItem("TBA");
 
     return cb;
 
