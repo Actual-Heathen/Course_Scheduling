@@ -19,6 +19,7 @@
 #include <string>
 #include <fstream>
 #include <QStyledItemDelegate>
+#include <QMessageBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -76,6 +77,18 @@ private slots:
     void find_Conflicts();
 
     void clear_Table();
+
+    void on_actionAdd_Department_triggered();
+
+    void on_actionGenerate_Schedule_triggered();
+
+    void on_actionValidate_Schedule_triggered();
+
+    void on_actionSave_as_CSV_triggered();
+
+    void on_actionSave_to_Print_triggered();
+
+    void on_actionLegend_triggered();
 
 private:
     Ui::MainWindow *ui;

@@ -204,8 +204,15 @@ void MainWindow::on_GenerateButton_clicked()
 
         display_Generated_Schedule();
 
-    }else
+    }else {
+
         clear_Table();
+
+        QMessageBox messageBox;
+
+        messageBox.critical(0,"ERROR","Invalid Input Provided!");
+
+    }
 
 }
 
@@ -230,7 +237,15 @@ bool MainWindow::check_File_Extension(QString filePath)
 void MainWindow::on_SaveCSVButton_clicked()
 {
 
-    QString filePath = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "/", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    if(conflictCounter > 0) {
+
+        QMessageBox messageBox;
+
+        messageBox.warning(0,"WARNING","You are saving a schedule with conflicts!");
+
+    }
+
+    QString filePath = QFileDialog::getExistingDirectory(this, tr("Choose Save Location"), "/", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
     filePath = filePath + "/schedule.csv";
 
@@ -244,6 +259,14 @@ void MainWindow::on_SaveCSVButton_clicked()
 
 void MainWindow::on_SaveTXTButton_clicked()
 {
+
+    if(conflictCounter > 0) {
+
+        QMessageBox messageBox;
+
+        messageBox.warning(0,"WARNING","You are saving a schedule with conflicts!");
+
+    }
 
     get_Table_Data();
 
@@ -833,3 +856,56 @@ void MainWindow::clear_Table()
     ui->SaveTXTButton->hide();
 
 }
+
+void MainWindow::on_actionAdd_Department_triggered()
+{
+
+    on_DepartmentButton_clicked();
+
+}
+
+
+void MainWindow::on_actionGenerate_Schedule_triggered()
+{
+    if(departmentCounter > 0)
+        on_GenerateButton_clicked();
+
+}
+
+
+void MainWindow::on_actionValidate_Schedule_triggered()
+{
+
+    if(!ui->ValidateButton->isHidden())
+        on_ValidateButton_clicked();
+
+}
+
+
+void MainWindow::on_actionSave_as_CSV_triggered()
+{
+
+    if(scheduleGenerated)
+        on_SaveCSVButton_clicked();
+
+}
+
+
+void MainWindow::on_actionSave_to_Print_triggered()
+{
+
+    if(scheduleGenerated)
+        on_SaveTXTButton_clicked();
+
+}
+
+
+void MainWindow::on_actionLegend_triggered() //Needs to have legend info provided
+{
+
+    QMessageBox messageBox;
+
+    messageBox.critical(0,"Legend","INPUT LEGEND INFO HERE");
+
+}
+
