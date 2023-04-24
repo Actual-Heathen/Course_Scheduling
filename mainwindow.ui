@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1800</width>
+    <width>1814</width>
     <height>900</height>
    </rect>
   </property>
@@ -80,7 +80,7 @@ QTableCornerButton::section{background-color: white; border-color: black; border
      </spacer>
     </item>
     <item>
-     <widget class="QFrame" name="centralFrame">
+     <widget class="QScrollArea" name="scrollArea_3">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
         <horstretch>0</horstretch>
@@ -93,50 +93,77 @@ QTableCornerButton::section{background-color: white; border-color: black; border
         <height>0</height>
        </size>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="20">
-       <item>
-        <widget class="QScrollArea" name="scrollArea">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="sizeAdjustPolicy">
-          <enum>QAbstractScrollArea::AdjustToContents</enum>
-         </property>
-         <property name="widgetResizable">
-          <bool>true</bool>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-         <widget class="QWidget" name="scrollAreaWidgetContents">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>1332</width>
-            <height>843</height>
-           </rect>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents_3">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>1350</width>
+         <height>861</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QFrame" name="frame">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
           </property>
-          <property name="layoutDirection">
-           <enum>Qt::LeftToRight</enum>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
           </property>
-          <property name="styleSheet">
-           <string notr="true"/>
-          </property>
+          <widget class="QScrollArea" name="scrollArea_2">
+           <property name="geometry">
+            <rect>
+             <x>150</x>
+             <y>0</y>
+             <width>1181</width>
+             <height>61</height>
+            </rect>
+           </property>
+           <property name="widgetResizable">
+            <bool>true</bool>
+           </property>
+           <widget class="QWidget" name="scrollAreaWidgetContents_2">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>1181</width>
+              <height>61</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <widget class="QFrame" name="DepartmentFrame">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QFrame {background-color: transparent;}</string>
+               </property>
+               <layout class="QVBoxLayout" name="additionalDepartmentLayout"/>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
           <widget class="QPushButton" name="DepartmentButton">
            <property name="geometry">
             <rect>
              <x>10</x>
-             <y>40</y>
+             <y>18</y>
              <width>101</width>
              <height>24</height>
             </rect>
@@ -158,7 +185,7 @@ QTableCornerButton::section{background-color: white; border-color: black; border
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>110</y>
+             <y>88</y>
              <width>1351</width>
              <height>661</height>
             </rect>
@@ -284,58 +311,10 @@ QTableCornerButton::section{background-color: white; border-color: black; border
             </property>
            </widget>
           </widget>
-          <widget class="QScrollArea" name="scrollArea_2">
-           <property name="geometry">
-            <rect>
-             <x>150</x>
-             <y>22</y>
-             <width>1181</width>
-             <height>61</height>
-            </rect>
-           </property>
-           <property name="widgetResizable">
-            <bool>true</bool>
-           </property>
-           <widget class="QWidget" name="scrollAreaWidgetContents_2">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>1181</width>
-              <height>61</height>
-             </rect>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <item>
-              <widget class="QFrame" name="DepartmentFrame">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QFrame {background-color: transparent;}</string>
-               </property>
-               <layout class="QVBoxLayout" name="additionalDepartmentLayout"/>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </widget>
-          <zorder>ScheduleFrame</zorder>
-          <zorder>DepartmentButton</zorder>
-          <zorder>scrollArea_2</zorder>
          </widget>
-        </widget>
-       </item>
-      </layout>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
     <item>
@@ -361,7 +340,7 @@ QTableCornerButton::section{background-color: white; border-color: black; border
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1800</width>
+     <width>1814</width>
      <height>21</height>
     </rect>
    </property>
