@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 
     MainWindow w;
 
-    w.setWindowState(Qt::WindowMaximized);
+    w.setWindowState(Qt::WindowMaximized); //start gui in maximized window state
 
     w.show();
 
@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
 }
 
 
+//Constructor for MainWindow
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -32,9 +33,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->ValidateButton->hide();
 
-    fileStoragePath = "filePathStorage.txt";
+    fileStoragePath = "filePathStorage.txt"; //static file path
 
-    generatedCSVPath = "output.csv";
+    generatedCSVPath = "output.csv"; //static file path
 
     departmentCounter = 0;
 
@@ -42,17 +43,16 @@ MainWindow::MainWindow(QWidget *parent)
 
     populated = false; //used to tell resourceManager if the files were populated, bad implementation - reimplement later - 4/5/2023
 
-    darkMode = false;
+    darkMode = false; //used to transition to and from dark mode
 
-    scheduleGenerated = false;
+    scheduleGenerated = false; //used to determine displaying of schedule widget
 
-    scheduleValidated = false;
-
-    on_DepartmentButton_clicked();
+    on_DepartmentButton_clicked(); //initialize gui with 1 department input
 
 }
 
 
+//Deconstructor of MainWindow
 MainWindow::~MainWindow()
 {
 
@@ -61,6 +61,7 @@ MainWindow::~MainWindow()
 }
 
 
+//Grabs all the filepaths and department names from department inputs and stores them in the a local .txt file for backend use, then accesses the output.csv via additional called functions to display the schedule
 void MainWindow::on_GenerateButton_clicked()
 {
 
@@ -70,19 +71,19 @@ void MainWindow::on_GenerateButton_clicked()
 
     int indexPosition = 0;
 
-    int badInput[departmentCounter][4];
+    int badInput[departmentCounter][4]; //bad input tracking
 
     QStringList rowData;
 
     QFile file(fileStoragePath);
 
-    QTextStream stream(&file);
+    QTextStream stream(&file); //file stream for .txt file
 
-    if(file.open(QIODevice::ReadWrite | QIODevice::Text | QIODevice::Truncate)) {
+    if(file.open(QIODevice::ReadWrite | QIODevice::Text | QIODevice::Truncate)) { //if file is opened, file created if not existant, file overwritten if already existing
 
         populated = false;
 
-        QMultiMap<QHBoxLayout*, QWidget*>::iterator index;
+        QMultiMap<QHBoxLayout*, QWidget*>::iterator index; //used to access every department input layout
 
         for(index = DepartmentMap.begin(); index != DepartmentMap.end(); index = DepartmentMap.upperBound(index.key())) { //iterate through DepartmentLayoutMap's DepartmentLayouts to get every possible file provided
 
@@ -100,15 +101,15 @@ void MainWindow::on_GenerateButton_clicked()
 
                 stream << DepartmentAcronym->text().toUpper() << "\n"; //grab Department Name and store it in file
 
-                DepartmentAcronym->setStyleSheet("");
+                DepartmentAcronym->setStyleSheet(""); //clear any error checking
 
-                badInput[indexPosition][0] = 0;
+                badInput[indexPosition][0] = 0; //no error
 
             }else {
 
-                DepartmentAcronym->setStyleSheet("border-color: red; border-width: 2px;");
+                DepartmentAcronym->setStyleSheet("border-color: red; border-width: 2px;"); //display error location
 
-                badInput[indexPosition][0] = 1;
+                badInput[indexPosition][0] = 1; //record error
 
             }
 
@@ -116,15 +117,15 @@ void MainWindow::on_GenerateButton_clicked()
 
                 stream << CourseLine->text() << "\n"; //grab Course File Path and store it in file
 
-                CourseLine->setStyleSheet("");
+                CourseLine->setStyleSheet(""); //clear any error checking
 
-                badInput[indexPosition][1] = 0;
+                badInput[indexPosition][1] = 0; //no error
 
             }else {
 
-                CourseLine->setStyleSheet("border-color: red; border-width: 2px;");
+                CourseLine->setStyleSheet("border-color: red; border-width: 2px;"); //display error location
 
-                badInput[indexPosition][1] = 2;
+                badInput[indexPosition][1] = 2; //record error
 
             }
 
@@ -132,15 +133,15 @@ void MainWindow::on_GenerateButton_clicked()
 
                 stream << InstructorLine->text() << "\n"; //grab Instructor File Path and store it in file
 
-                InstructorLine->setStyleSheet("");
+                InstructorLine->setStyleSheet(""); //clear any error checking
 
-                badInput[indexPosition][2] = 0;
+                badInput[indexPosition][2] = 0; //no error
 
             }else {
 
-                InstructorLine->setStyleSheet("border-color: red; border-width: 2px;");
+                InstructorLine->setStyleSheet("border-color: red; border-width: 2px;"); //display error location
 
-                badInput[indexPosition][2] = 2;
+                badInput[indexPosition][2] = 2; //record error
 
             }
 
@@ -148,15 +149,15 @@ void MainWindow::on_GenerateButton_clicked()
 
                 stream << RoomLine->text() << "\n"; //grab Room File Path and store it in file
 
-                RoomLine->setStyleSheet("");
+                RoomLine->setStyleSheet(""); //clear any error checking
 
-                badInput[indexPosition++][3] = 0;
+                badInput[indexPosition++][3] = 0; //no error
 
             }else {
 
-                RoomLine->setStyleSheet("border-color: red; border-width: 2px;");
+                RoomLine->setStyleSheet("border-color: red; border-width: 2px;"); //display error location
 
-                badInput[indexPosition++][3] = 2;
+                badInput[indexPosition++][3] = 2; //record error
 
             }
 
@@ -166,27 +167,31 @@ void MainWindow::on_GenerateButton_clicked()
 
     file.close();
 
-    for(int x = 0; x < indexPosition; x++){
+    for(int x = 0; x < indexPosition; x++){ //for loop to iterate through badInput to check for bad inputs
 
         for(int y = 0; y < 4; y++) {
 
-            if(badInput[x][y] == 1) {
+            switch(badInput[x][y]) {
+
+            case 1: //bad department acronym input
 
                 error1 = true;
 
-                //break;
+                break;
 
-            }else if(badInput[x][y] == 2) {
+            case 2: //bad department csv input
 
                 error2 = true;
 
-            }else{}
+                break;
+
+            }
 
         }
 
     }
 
-    if(error1 == false && error2 == false) {
+    if(error1 == false && error2 == false) { //if no errors are found
 
         scheduleGenerated = true;
 
@@ -204,11 +209,11 @@ void MainWindow::on_GenerateButton_clicked()
 
         populated = false;
 
-        display_Generated_Schedule();
+        display_Generated_Schedule(); //display necessary changes
 
-    }else {
+    }else { //if errors are found
 
-        clear_Table();
+        clear_Table(); //delete table
 
         QMessageBox messageBox;
 
@@ -222,106 +227,113 @@ void MainWindow::on_GenerateButton_clicked()
             error = "Invalid Input Provided!";
 
 
-        messageBox.critical(0,"ERROR",error);
+        messageBox.critical(0,"ERROR",error); //display message to user with appropriate error content
 
     }
 
 }
 
 
+//Check to make sure the inputted department acronym is valid
 bool MainWindow::check_Department_Acronym(QString departmentAcronym)
 {
 
-    if(departmentAcronym.size() < 4)
+    if(departmentAcronym.size() < 4) //size checking
         if(departmentAcronym.size() > 1)
-            return true;
+            return true; //good acronym
 
-    return false;
+    return false; //bad acronym
 
 }
 
 
+//Check to make sure the inputted department file is a csv
 bool MainWindow::check_File_Extension(QString filePath)
 {
 
-    if(filePath != "") {
+    if(filePath != "") { //check for file path input
 
-        QStringList text = filePath.split(".");
+        QStringList text = filePath.split("."); //parse the file path
 
-        if(text[text.size()-1] == "csv")
+        if(text[text.size()-1] == "csv") //if file is a csv
             return true;
 
     }
 
-    return false;
+    return false; //no/bad file input provided
 
 }
 
 
+//Save the generated schedule as a csv while notifying the user of any existing conflicts
 void MainWindow::on_SaveCSVButton_clicked()
 {
 
-    if(conflictCounter > 0) {
+    if(conflictCounter > 0) { //if there are conflicts
 
         QMessageBox messageBox;
 
-        messageBox.warning(0,"WARNING","You are saving a schedule with conflicts!");
+        messageBox.warning(0,"WARNING","You are saving a schedule with conflicts!"); //alert user
 
     }
 
-    QString filePath = QFileDialog::getExistingDirectory(this, tr("Choose Save Location"), "/", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    QString filePath = QFileDialog::getExistingDirectory(this, tr("Choose Save Location"), "/", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks); //have user select save location
 
-    filePath = filePath + "/schedule.csv";
+    filePath = filePath + "/schedule.csv"; //generate file path
 
-    if (QFile::exists(filePath))
+    if (QFile::exists(filePath)) //delete if already existant
         QFile::remove(filePath);
 
-    QFile::copy(generatedCSVPath, filePath);
+    QFile::copy(generatedCSVPath, filePath); //copy generated schedule csv to desired path
 
 }
 
 
+//Save the generated schedule as a txt while notifying the user of any existing conflicts
 void MainWindow::on_SaveTXTButton_clicked()
 {
 
-    if(conflictCounter > 0) {
+    if(conflictCounter > 0) { //if conflicts exist
 
         QMessageBox messageBox;
 
-        messageBox.warning(0,"WARNING","You are saving a schedule with conflicts!");
+        messageBox.warning(0,"WARNING","You are saving a schedule with conflicts!"); //alert user
 
     }
 
-    get_Table_Data();
+    get_Table_Data(); //update output.csv with table data incase of changes
 
-    QStringList rowData = get_File_Data();
+    QStringList rowData = get_File_Data(); //read in output.csv data
 
     QString row;
 
     QStringList courses;
 
-    QString filePath = QFileDialog::getExistingDirectory(this, tr("Choose Save Location"), "/", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks) + "/schedule.txt";
+    QString filePath = QFileDialog::getExistingDirectory(this, tr("Choose Save Location"), "/", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks) + "/schedule.txt"; //have user select save location
 
     QFile file(filePath); //grab filePath
 
-    if (file.open(QFile::ReadWrite | QFile::Text | QFile::Truncate)) {
+    if (file.open(QFile::ReadWrite | QFile::Text | QFile::Truncate)) { //open schedule.txt file
 
         QTextStream stream(&file);
 
-        stream.setFieldAlignment(QTextStream::FieldAlignment::AlignLeft);
+        stream.setFieldAlignment(QTextStream::FieldAlignment::AlignLeft); //input formatting
 
+        //input header to schedule.txt via formatting
         stream << qSetFieldWidth(9) << "Sec Type" << qSetFieldWidth(7) << "CRN" << qSetFieldWidth(11) << "Course" << qSetFieldWidth(31) << "Title" << qSetFieldWidth(7) << "Course" << qSetFieldWidth(9) << "Max Enrl" << qSetFieldWidth(8) << "Days" << qSetFieldWidth(9) << "Start" << qSetFieldWidth(9) << "End" << qSetFieldWidth(6) << "Bldg" << qSetFieldWidth(11) << "Room" << qSetFieldWidth(35) << "Instructor" << qSetFieldWidth(1) << "\n";
 
+        //input border to schedule.txt via formatting
         stream << qSetFieldWidth(9) << "--------" << qSetFieldWidth(7) << "------" << qSetFieldWidth(11) << "----------" << qSetFieldWidth(31) << "------------------------------" << qSetFieldWidth(7) << "------" << qSetFieldWidth(9) << "--------" << qSetFieldWidth(8) << "-------" << qSetFieldWidth(9) << "--------" << qSetFieldWidth(9) << "--------" << qSetFieldWidth(6) << "-----" << qSetFieldWidth(11) << "----------" << qSetFieldWidth(35) << "-----------------------------------" << qSetFieldWidth(1) << "\n";
 
-        for(int x = 1; x < rowData.size(); x++) {
+        for(int x = 1; x < rowData.size(); x++) { //iterate through data collected from output.csv
 
             int y = 1;
 
-            row = rowData[x];
+            row = rowData[x]; //grab row x
 
-            courses = row.split(",");
+            courses = row.split(","); //split each row via ,
 
+            //input corresponding schedule data to schedule.txt via formatting
             stream << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(7) << courses[y++] << qSetFieldWidth(11) << courses[y++] << qSetFieldWidth(31) << courses[y++] << qSetFieldWidth(7) << courses[y++] << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(8) << courses[y++] << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(6) << courses[y++] << qSetFieldWidth(11) << courses[y++] << qSetFieldWidth(35) << courses[y++].trimmed() << qSetFieldWidth(1) << "\n";
 
         }
@@ -333,60 +345,61 @@ void MainWindow::on_SaveTXTButton_clicked()
 }
 
 
+//Generate a new row of department inputs
 void MainWindow::on_DepartmentButton_clicked()
 {
 
-    if(departmentCounter > 0) {
+    if(departmentCounter > 0) { //minor page manipluation when adding a department input row
 
-        if(ui->scrollArea_2->height() < 289) {
+        if(ui->scrollArea_2->height() < 289) { //limit the number of times the page will expand, if beyond a scroll bar will appear
 
-            ui->scrollArea_2->setFixedHeight(ui->scrollArea_2->height()+31);
+            ui->scrollArea_2->setFixedHeight(ui->scrollArea_2->height()+31); //increase widget size
 
-            ui->ScheduleFrame->move(0, ui->ScheduleFrame->y()+31);
+            ui->ScheduleFrame->move(0, ui->ScheduleFrame->y()+31); //move widget
 
         }
 
     }
 
-    ui->GenerateButton->show();
+    ui->GenerateButton->show(); //if department input exists
 
     departmentCounter++;
 
-    QVBoxLayout* Layout = qobject_cast<QVBoxLayout*>(ui->additionalDepartmentLayout->layout());
+    QVBoxLayout* Layout = qobject_cast<QVBoxLayout*>(ui->additionalDepartmentLayout->layout()); //create layout variable to gui
 
-    QHBoxLayout* DepartmentLayout = new QHBoxLayout(ui->DepartmentFrame);
+    QHBoxLayout* DepartmentLayout = new QHBoxLayout(ui->DepartmentFrame); //create new layout variable for new department
 
-    QPushButton* RemoveButton = new QPushButton(("Remove Department"), ui->DepartmentFrame);
+    QPushButton* RemoveButton = new QPushButton(("Remove Department"), ui->DepartmentFrame); //create removebutton
 
     RemoveButton->setFixedHeight(24);
 
     RemoveButton->setFixedWidth(120);
 
-    QPushButton* CourseButton = new QPushButton("Choose File", ui->DepartmentFrame);
+    QPushButton* CourseButton = new QPushButton("Choose File", ui->DepartmentFrame); //create coursebutton
 
     CourseButton->setFixedHeight(24);
 
     CourseButton->setFixedWidth(80);
 
-    QPushButton* InstructorButton = new QPushButton("Choose File", ui->DepartmentFrame);
+    QPushButton* InstructorButton = new QPushButton("Choose File", ui->DepartmentFrame); //create instructor button
 
     InstructorButton->setFixedHeight(24);
 
     InstructorButton->setFixedWidth(80);
 
-    QPushButton* RoomButton = new QPushButton("Choose File", ui->DepartmentFrame);
+    QPushButton* RoomButton = new QPushButton("Choose File", ui->DepartmentFrame); //create roombutton
 
     RoomButton->setFixedHeight(24);
 
     RoomButton->setFixedWidth(80);
 
-    QLineEdit* DepartmentLine = new QLineEdit(ui->DepartmentFrame);
+    QLineEdit* DepartmentLine = new QLineEdit(ui->DepartmentFrame); //create departmentline
 
     DepartmentLine->setPlaceholderText("Department Acronym");
 
     DepartmentLine->setFixedHeight(24);
 
-    QLineEdit* CourseLine = new QLineEdit(ui->DepartmentFrame);
+    QLineEdit* CourseLine = new QLineEdit(ui->DepartmentFrame); //create courseline
 
     CourseLine->setFixedHeight(24);
 
@@ -394,7 +407,7 @@ void MainWindow::on_DepartmentButton_clicked()
 
     CourseLine->setPlaceholderText("Course File");
 
-    QLineEdit* InstructorLine = new QLineEdit(ui->DepartmentFrame);
+    QLineEdit* InstructorLine = new QLineEdit(ui->DepartmentFrame); //create instructorline
 
     InstructorLine->setFixedHeight(24);
 
@@ -402,7 +415,7 @@ void MainWindow::on_DepartmentButton_clicked()
 
     InstructorLine->setPlaceholderText("Instructor File");
 
-    QLineEdit* RoomLine = new QLineEdit(ui->DepartmentFrame);
+    QLineEdit* RoomLine = new QLineEdit(ui->DepartmentFrame); //create roomline
 
     RoomLine->setFixedHeight(24);
 
@@ -410,6 +423,7 @@ void MainWindow::on_DepartmentButton_clicked()
 
     RoomLine->setPlaceholderText("Room File");
 
+    //add all buttons and lines to generated department layout
     DepartmentLayout->addWidget(RemoveButton);
 
     DepartmentLayout->addWidget(DepartmentLine);
@@ -426,8 +440,9 @@ void MainWindow::on_DepartmentButton_clicked()
 
     DepartmentLayout->addWidget(RoomLine);
 
-    Layout->insertLayout(departmentCounter-1, DepartmentLayout);
+    Layout->insertLayout(departmentCounter-1, DepartmentLayout); //add new department layout to ui layout
 
+    //link buttons & lines to new department layout
     DepartmentMap.insert(DepartmentLayout, RemoveButton);
 
     DepartmentMap.insert(DepartmentLayout, DepartmentLine);
@@ -444,6 +459,7 @@ void MainWindow::on_DepartmentButton_clicked()
 
     DepartmentMap.insert(DepartmentLayout, RoomLine);
 
+    //link buttons to necessary functions
     QObject::connect(RemoveButton, &QPushButton::clicked, this, &MainWindow::on_RemoveButton_clicked);
 
     QObject::connect(CourseButton, &QPushButton::clicked, this, &MainWindow::find_File_Path);
@@ -455,11 +471,12 @@ void MainWindow::on_DepartmentButton_clicked()
 }
 
 
+//Remove department layout if corresponding remove button is clicked
 void MainWindow::on_RemoveButton_clicked()
 {
 
-    if(departmentCounter < 10)
-        if(departmentCounter > 1) {
+    if(departmentCounter < 10) //check to see if there needs to be page manipulations
+        if(departmentCounter > 1) { //don't manipulate page if there are no departments left
 
             ui->scrollArea_2->setFixedHeight(ui->scrollArea_2->height()-31);
 
@@ -497,7 +514,7 @@ void MainWindow::on_RemoveButton_clicked()
 
                 }
 
-                DepartmentMap.remove(key);
+                DepartmentMap.remove(key); //remove key from the map
 
                 deleted = true;    //End search for deletion
 
@@ -519,29 +536,30 @@ void MainWindow::on_RemoveButton_clicked()
 }
 
 
-void MainWindow::on_ValidateButton_clicked() //currently broken with reliance on backend - 4/17/2023
+//Validate the schedule pulled from schedule widget
+void MainWindow::on_ValidateButton_clicked()
 {
 
-    get_Table_Data();
+    get_Table_Data(); //get data from table widet
 
-    int oldConflictCounter = conflictCounter;
+    int oldConflictCounter = conflictCounter; //storage for conflict counter
 
-    conflictCounter = outToIn();
+    conflictCounter = outToIn(); //grab new conflict counter + call backend to validate schedule
 
-    QStringList rowData = get_File_Data();
+    QStringList rowData = get_File_Data(); //grab validated schedule data
 
-    clear_Table();
+    clear_Table(); //clear table
 
-    initialize_Table(rowData.size());
+    initialize_Table(rowData.size()); //create table
 
-    populate_Table(rowData);
+    populate_Table(rowData); //populate table
 
-    find_Conflicts();
+    find_Conflicts(); //make conflicted rows red
 
-    if(oldConflictCounter != conflictCounter)
-        ui->ConflictLine->setText(QString("Conflicts: %1").arg(conflictCounter));
+    if(oldConflictCounter != conflictCounter) //if number of conflcits has changed
+        ui->ConflictLine->setText(QString("Conflicts: %1").arg(conflictCounter)); //update display
 
-    if(conflictCounter == 0) {
+    if(conflictCounter == 0) { //if no conflcits exist, hide conflict/validate interface
 
         ui->ConflictLine->hide();
 
@@ -556,10 +574,11 @@ void MainWindow::on_ValidateButton_clicked() //currently broken with reliance on
 }
 
 
+//Swap interface between darkmode and lightmode stylesheets
 void MainWindow::on_DarkModeAction_triggered()
 {
 
-    if(!darkMode) {
+    if(!darkMode) { //lightmode enabled, enable darkmode
 
         ui->centralWidget->setStyleSheet("QWidget{background: black; border-style: outset; border-color: dimgrey; color: gainsboro;}"
                                          "QPushButton{border-width: 1px; color: white; background-color: dimgrey;}"
@@ -577,7 +596,7 @@ void MainWindow::on_DarkModeAction_triggered()
 
         darkMode = true;
 
-    } else {
+    } else { //enable lightmode
 
         ui->centralWidget->setStyleSheet("QWidget{background-color: white; border-style: outset; border-color: black; color: black;}"
                                          "QLineEdit{border-width:1px; color: black; background-color: white}"
@@ -600,6 +619,7 @@ void MainWindow::on_DarkModeAction_triggered()
 }
 
 
+//Displays necessary schedule/ui info to user
 void MainWindow::display_Generated_Schedule()
 {
 
@@ -611,7 +631,7 @@ void MainWindow::display_Generated_Schedule()
 
         ui->ValidateButton->show();
 
-        ui->ConflictLine->setText(QString("Conflicts: %1").arg(conflictCounter));
+        ui->ConflictLine->setText(QString("Conflicts: %1").arg(conflictCounter)); //display number of conflicts found
 
         ui->ConflictLine->show();
 
@@ -620,6 +640,7 @@ void MainWindow::display_Generated_Schedule()
 }
 
 
+//Allows user to select file for selected department file input
 void MainWindow::find_File_Path()
 {
 
@@ -674,6 +695,7 @@ void MainWindow::find_File_Path()
 }
 
 
+//Grabs and returns schedule data from output.csv
 QStringList MainWindow::get_File_Data()
 {
 
@@ -685,29 +707,26 @@ QStringList MainWindow::get_File_Data()
 
     QTextStream stream(&file);
 
-    if(file.open(QFile::ReadOnly)) {
+    if(file.open(QFile::ReadOnly)) { //open file to read if it exists
 
-        while(!stream.atEnd()) {
+        data = stream.readAll(); //read all data
 
-            data = stream.readAll();
-
-            rowData = data.split("\n");
-
-        }
+        rowData = data.split("\n"); //split rows up
 
     }
 
     file.close();
 
-    return rowData;
+    return rowData; //return data
 
 }
 
 
+//Create the Table Widget
 void MainWindow::initialize_Table(int numRows)
 {
 
-    if(scheduleGenerated)
+    if(scheduleGenerated) //if schedule was previously generated
         clear_Table();
 
     auto table = ui->scheduleTable;
@@ -722,49 +741,45 @@ void MainWindow::initialize_Table(int numRows)
 
     table->setRowCount(numRows-1); //number of rows -1 to prevent inclusion of header row of csv
 
-    table->setColumnCount(numColumns);
+    table->setColumnCount(numColumns); //Generate number of columns
 
-    table->setItemDelegateForColumn(1, comboSecType);
+    table->setItemDelegateForColumn(1, comboSecType); //Set interaction restrictions for said column
 
-    table->setItemDelegateForColumn(7, comboDay);
+    table->setItemDelegateForColumn(7, comboDay); //Set interaction restrictions for said column
 
-    table->setItemDelegateForColumn(8, comboStart);
+    table->setItemDelegateForColumn(8, comboStart); //Set interaction restrictions for said column
 
-    table->setItemDelegateForColumn(9, comboEnd);
+    table->setItemDelegateForColumn(9, comboEnd); //Set interaction restrictions for said column
 
-    table->setColumnCount(numColumns);
+    QString headerCell[numColumns] = {"Conflict", "Section Type", "CRN", "Course", "Title", "Credit", "Max Enrollment", "Days", "Start", "End", "Building", "Room", "Instructor"}; //store set column header text
 
-    QString headerRow[numColumns] = {"Conflict", "Section Type", "CRN", "Course", "Title", "Credit", "Max Enrollment", "Days", "Start", "End", "Building", "Room", "Instructor"};
+    for(int y = 0; y < numColumns; y++) { //iterate through columns and set their header
 
-    for(int y = 0; y < numColumns; y++) { //columns
+        auto item = new QTableWidgetItem; //item to store header text
 
-        auto item = new QTableWidgetItem;
+        item->setText(headerCell[y]); //set text of item
 
-        item->setText(headerRow[y]);
+        table->setHorizontalHeaderItem(y, item); //set header
 
-        table->setHorizontalHeaderItem(y, item);
-
-        for (int x = 0; x < numRows; x++) { //rows
+        for (int x = 0; x < numRows; x++) { //iterate through every row and add interactable cells
 
             auto cell = new QTableWidgetItem;
 
             table->setItem(x, y, cell);
 
-            if (y == 0) {
-
-                cell->setFlags(cell->flags() & ~Qt::ItemIsEnabled);
-
-            }
+            if (y == 0)
+                cell->setFlags(cell->flags() & ~Qt::ItemIsEnabled); //disable conflict column so user can't change conflict identifier
 
         }
 
     }
 
-    table->setSortingEnabled(true);
+    table->setSortingEnabled(true); //enable table to sort alphabetically/numerically via header cells
 
 }
 
 
+//Populate the Table Widget with generated schedule
 void MainWindow::populate_Table(QStringList rowData)
 {
 
@@ -774,26 +789,28 @@ void MainWindow::populate_Table(QStringList rowData)
 
     QStringList cell;
 
-    for (int x = 0; x < rowData.size(); x++) { //columns
+    for (int x = 0; x < rowData.size(); x++) { //grab every row data from list parameter
 
-        cellData = rowData[x];
+        cellData = rowData[x]; //grab a single row
 
-        if(x >= 1)
-            cell = cellData.split(",");
+        if(x >= 1) { //once past header
 
-        for (int y = 0; y < cell.size(); y++) { //rows
+            cell = cellData.split(","); //split row data
 
-            table->item(x-1, y)->setText(cell[y]);
+            for (int y = 0; y < cell.size(); y++) { //iterate through every cell of the row and set the cell's text as the data from generated schedule
+
+                table->item(x-1, y)->setText(cell[y]);
+
+            }
 
         }
-
-        cellData.clear();
 
     }
 
 }
 
 
+//Grab data from table widget and store it in output.csv
 void MainWindow::get_Table_Data()
 {
 
@@ -801,25 +818,25 @@ void MainWindow::get_Table_Data()
 
     QTextStream stream(&file);
 
-    if(file.open(QFile::WriteOnly)) {
+    if(file.open(QFile::WriteOnly)) { //once file is open/exists
 
         auto table = ui->scheduleTable;
 
-        stream << "Conflict,Section Type,CRN,Course,Title,Credit,Max Enrollment,Days,Start,End,Building,Room,Instructor\n";
+        stream << "Conflict,Section Type,CRN,Course,Title,Credit,Max Enrollment,Days,Start,End,Building,Room,Instructor\n"; //set header row
 
-        for (int x = 0; x < table->rowCount(); x++) {
+        for (int x = 0; x < table->rowCount(); x++) { //iterate through every row
 
-            for (int y = 0; y < table->columnCount(); y++) {
+            for (int y = 0; y < table->columnCount(); y++) { //iterate through ever column of said row
 
-                stream << table->item(x,y)->text();
+                stream << table->item(x,y)->text(); //read in text from cell
 
-                if(y+1 < table->columnCount())
-                    stream << ",";
+                if(y+1 < table->columnCount()) //check for end of table
+                    stream << ","; //if not end, add ,
 
             }
 
-            if(x+1<table->rowCount())
-                stream << "\n";
+            if(x+1<table->rowCount()) //end of table (last column read in)
+                stream << "\n"; //add newline indicator
 
         }
 
@@ -830,16 +847,17 @@ void MainWindow::get_Table_Data()
 }
 
 
+//Iterates through every row in column 0 (conflict column) and checks to see if the row needs to be red to signify conflict
 void MainWindow::find_Conflicts()
 {
 
     auto table = ui->scheduleTable;
 
-    for (int x = 0; x < table->rowCount(); x++) { //columns
+    for (int x = 0; x < table->rowCount(); x++) { //iterate through every row
 
-        if(table->item(x, 0)->text() != "None") {
+        if(table->item(x, 0)->text() != "None") { //If conflict exists
 
-            for (int y = 0; y < table->columnCount(); y++) { //rows
+            for (int y = 0; y < table->columnCount(); y++) { //iterate through every cell and highlight it red to signify conflict
 
                 table->item(x, y)->setBackground(QBrush(QColor("lightcoral")));
 
@@ -852,6 +870,7 @@ void MainWindow::find_Conflicts()
 }
 
 
+//Clears the table and hides gui buttons and interactions
 void MainWindow::clear_Table()
 {
 
@@ -873,6 +892,8 @@ void MainWindow::clear_Table()
 
 }
 
+
+//Menu button to add department
 void MainWindow::on_actionAdd_Department_triggered()
 {
 
@@ -881,67 +902,73 @@ void MainWindow::on_actionAdd_Department_triggered()
 }
 
 
+//Menu button to generate schedule
 void MainWindow::on_actionGenerate_Schedule_triggered()
 {
-    if(departmentCounter > 0)
+    if(departmentCounter > 0) //if department input exists
         on_GenerateButton_clicked();
 
 }
 
 
+//Menu button to validate schedule
 void MainWindow::on_actionValidate_Schedule_triggered()
 {
 
-    if(!ui->ValidateButton->isHidden())
+    if(!ui->ValidateButton->isHidden()) //if schedule is generated
         on_ValidateButton_clicked();
-    else {
+    else { //no schedule generated
 
         QMessageBox messageBox;
 
-        messageBox.critical(0, "ERROR", "No Schedule Generated!");
+        messageBox.critical(0, "ERROR", "No Schedule Generated!"); //alert user
 
     }
 
 }
 
 
+//Menu button to save schedule as csv
 void MainWindow::on_actionSave_as_CSV_triggered()
 {
 
-    if(scheduleGenerated)
+    if(scheduleGenerated) //if schedule is generated
         on_SaveCSVButton_clicked();
-    else {
+    else { //no schedule generated
 
         QMessageBox messageBox;
 
-        messageBox.critical(0, "ERROR", "No Schedule Generated!");
+        messageBox.critical(0, "ERROR", "No Schedule Generated!"); //alert user
 
     }
 
 }
 
 
+//Menu button to save schedule as txt
 void MainWindow::on_actionSave_to_Print_triggered()
 {
 
-    if(scheduleGenerated)
+    if(scheduleGenerated) //if schedule exists
         on_SaveTXTButton_clicked();
-    else {
+    else { //no schedule generated
 
         QMessageBox messageBox;
 
-        messageBox.critical(0, "ERROR", "No Schedule Generated!");
+        messageBox.critical(0, "ERROR", "No Schedule Generated!"); //alert user
 
     }
 
 }
 
 
-void MainWindow::on_actionLegend_triggered() //Needs to have legend info provided
+//Menu button to display legend describing schedule info
+void MainWindow::on_actionLegend_triggered()
 {
 
     QMessageBox messageBox;
 
+    //Display legend to user
     messageBox.information(0, "Legend", "TBA - If a schedule cell contains 'TBA' after schedule generation, that could mean one of two things:\n\n\t1) The current course is listed as an Online course\n\n\t2) Information could not be assigned to the course due within\n\t    generation of the schedule"
                                         "\n\nRed Row - If a schedule row is highlighted in red, that is signifying that said course has 1 or more conflicts that should be resolved"
                                         "\n\nTypes of Conflicts - There are two possible types of conflicts that can occur during schedule generation:\n\n\t1) Self Conflicts - These conflicts are the result of when a course is\n\t\t               generated and certain parts of the information\n\t\t               provided is impossible\n\n\t2) Shared Conflicts - These conflicts are the result of when two or more\n\t\t                     courses share the same information after\n\t\t                     generation");
