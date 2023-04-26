@@ -7,6 +7,8 @@ int main(int argc, char *argv[])
 
     MainWindow w;
 
+    w.setWindowState(Qt::WindowMaximized);
+
     w.show();
 
     return a.exec();
@@ -30,9 +32,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->ValidateButton->hide();
 
-    fileStoragePath = "../Course_Scheduling/filePathStorage.txt";
+    fileStoragePath = "filePathStorage.txt";
 
-    generatedCSVPath = "../Course_Scheduling/output.csv";
+    generatedCSVPath = "output.csv";
 
     departmentCounter = 0;
 
@@ -62,7 +64,9 @@ MainWindow::~MainWindow()
 void MainWindow::on_GenerateButton_clicked()
 {
 
-    bool generate = true;
+    bool error1 = false;
+
+    bool error2 = false;
 
     int indexPosition = 0;
 
@@ -84,7 +88,7 @@ void MainWindow::on_GenerateButton_clicked()
 
             QList<QWidget*> values = DepartmentMap.values(index.key()); //store values of DepartmentLayout within list
 
-            QLineEdit* DepartmentName = qobject_cast<QLineEdit*>(values[6]); //store DepartmentLine
+            QLineEdit* DepartmentAcronym = qobject_cast<QLineEdit*>(values[6]); //store DepartmentLine
 
             QLineEdit* CourseLine = qobject_cast<QLineEdit*>(values[4]); //store CourseLine
 
@@ -92,19 +96,19 @@ void MainWindow::on_GenerateButton_clicked()
 
             QLineEdit* RoomLine = qobject_cast<QLineEdit*>(values[0]); //store RoomLine
 
-            if(!DepartmentName->text().isEmpty()) {
+            if(check_Department_Acronym(DepartmentAcronym->text())) {
 
-                stream << DepartmentName->text() << "\n"; //grab Department Name and store it in file
+                stream << DepartmentAcronym->text().toUpper() << "\n"; //grab Department Name and store it in file
 
-                DepartmentName->setStyleSheet("");
+                DepartmentAcronym->setStyleSheet("");
 
-                badInput[indexPosition][0] = 1;
+                badInput[indexPosition][0] = 0;
 
             }else {
 
-                DepartmentName->setStyleSheet("border-color: red; border-width: 2px;");
+                DepartmentAcronym->setStyleSheet("border-color: red; border-width: 2px;");
 
-                badInput[indexPosition][0] = 0;
+                badInput[indexPosition][0] = 1;
 
             }
 
@@ -114,13 +118,13 @@ void MainWindow::on_GenerateButton_clicked()
 
                 CourseLine->setStyleSheet("");
 
-                badInput[indexPosition][1] = 1;
+                badInput[indexPosition][1] = 0;
 
             }else {
 
                 CourseLine->setStyleSheet("border-color: red; border-width: 2px;");
 
-                badInput[indexPosition][1] = 0;
+                badInput[indexPosition][1] = 2;
 
             }
 
@@ -130,13 +134,13 @@ void MainWindow::on_GenerateButton_clicked()
 
                 InstructorLine->setStyleSheet("");
 
-                badInput[indexPosition][2] = 1;
+                badInput[indexPosition][2] = 0;
 
             }else {
 
                 InstructorLine->setStyleSheet("border-color: red; border-width: 2px;");
 
-                badInput[indexPosition][2] = 0;
+                badInput[indexPosition][2] = 2;
 
             }
 
@@ -146,13 +150,13 @@ void MainWindow::on_GenerateButton_clicked()
 
                 RoomLine->setStyleSheet("");
 
-                badInput[indexPosition++][3] = 1;
+                badInput[indexPosition++][3] = 0;
 
             }else {
 
                 RoomLine->setStyleSheet("border-color: red; border-width: 2px;");
 
-                badInput[indexPosition++][3] = 0;
+                badInput[indexPosition++][3] = 2;
 
             }
 
@@ -166,23 +170,23 @@ void MainWindow::on_GenerateButton_clicked()
 
         for(int y = 0; y < 4; y++) {
 
-            if(badInput[x][y] == 0) {
+            if(badInput[x][y] == 1) {
 
-                generate = false;
+                error1 = true;
 
-                break;
+                //break;
 
-            }else
-                generate = true;
+            }else if(badInput[x][y] == 2) {
+
+                error2 = true;
+
+            }else{}
 
         }
 
-        if(generate == false)
-            break;
-
     }
 
-    if(generate) {
+    if(error1 == false && error2 == false) {
 
         scheduleGenerated = true;
 
@@ -202,10 +206,40 @@ void MainWindow::on_GenerateButton_clicked()
 
         display_Generated_Schedule();
 
-    }else
+    }else {
+
         clear_Table();
 
+        QMessageBox messageBox;
+
+        QString error;
+
+        if(error1 == true && error2 == true)
+            error = "Invalid Department Acronym!\n\nInvalid Input Provided!";
+        else if (error1 == true)
+            error = "Invalid Department Acryonym!";
+        else
+            error = "Invalid Input Provided!";
+
+
+        messageBox.critical(0,"ERROR",error);
+
+    }
+
 }
+
+
+bool MainWindow::check_Department_Acronym(QString departmentAcronym)
+{
+
+    if(departmentAcronym.size() < 4)
+        if(departmentAcronym.size() > 1)
+            return true;
+
+    return false;
+
+}
+
 
 bool MainWindow::check_File_Extension(QString filePath)
 {
@@ -227,7 +261,15 @@ bool MainWindow::check_File_Extension(QString filePath)
 void MainWindow::on_SaveCSVButton_clicked()
 {
 
-    QString filePath = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "/", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    if(conflictCounter > 0) {
+
+        QMessageBox messageBox;
+
+        messageBox.warning(0,"WARNING","You are saving a schedule with conflicts!");
+
+    }
+
+    QString filePath = QFileDialog::getExistingDirectory(this, tr("Choose Save Location"), "/", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
     filePath = filePath + "/schedule.csv";
 
@@ -242,13 +284,21 @@ void MainWindow::on_SaveCSVButton_clicked()
 void MainWindow::on_SaveTXTButton_clicked()
 {
 
+    if(conflictCounter > 0) {
+
+        QMessageBox messageBox;
+
+        messageBox.warning(0,"WARNING","You are saving a schedule with conflicts!");
+
+    }
+
     get_Table_Data();
 
-    QStringList data = get_File_Data();
+    QStringList rowData = get_File_Data();
+
+    QString row;
 
     QStringList courses;
-
-    QString output;
 
     QString filePath = QFileDialog::getExistingDirectory(this, tr("Choose Save Location"), "/", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks) + "/schedule.txt";
 
@@ -264,13 +314,15 @@ void MainWindow::on_SaveTXTButton_clicked()
 
         stream << qSetFieldWidth(9) << "--------" << qSetFieldWidth(7) << "------" << qSetFieldWidth(11) << "----------" << qSetFieldWidth(31) << "------------------------------" << qSetFieldWidth(7) << "------" << qSetFieldWidth(9) << "--------" << qSetFieldWidth(8) << "-------" << qSetFieldWidth(9) << "--------" << qSetFieldWidth(9) << "--------" << qSetFieldWidth(6) << "-----" << qSetFieldWidth(11) << "----------" << qSetFieldWidth(35) << "-----------------------------------" << qSetFieldWidth(1) << "\n";
 
-        for(int x = 1; x < data.size(); x++) {
+        for(int x = 1; x < rowData.size(); x++) {
 
             int y = 1;
 
-            courses = data[x].split(",");
+            row = rowData[x];
 
-            stream << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(7) << courses[y++] << qSetFieldWidth(11) << courses[y++] << qSetFieldWidth(31) << courses[y++] << qSetFieldWidth(7) << courses[y++] << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(8) << courses[y++] << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(6) << courses[y++] << qSetFieldWidth(11) << courses[y++] << qSetFieldWidth(35) << courses[y++] << qSetFieldWidth(1) << "\n";
+            courses = row.split(",");
+
+            stream << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(7) << courses[y++] << qSetFieldWidth(11) << courses[y++] << qSetFieldWidth(31) << courses[y++] << qSetFieldWidth(7) << courses[y++] << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(8) << courses[y++] << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(9) << courses[y++] << qSetFieldWidth(6) << courses[y++] << qSetFieldWidth(11) << courses[y++] << qSetFieldWidth(35) << courses[y++].trimmed() << qSetFieldWidth(1) << "\n";
 
         }
 
@@ -330,7 +382,7 @@ void MainWindow::on_DepartmentButton_clicked()
 
     QLineEdit* DepartmentLine = new QLineEdit(ui->DepartmentFrame);
 
-    DepartmentLine->setPlaceholderText("Department Name");
+    DepartmentLine->setPlaceholderText("Department Acronym");
 
     DepartmentLine->setFixedHeight(24);
 
@@ -476,9 +528,13 @@ void MainWindow::on_ValidateButton_clicked() //currently broken with reliance on
 
     conflictCounter = outToIn();
 
+    QStringList rowData = get_File_Data();
+
     clear_Table();
 
-    populate_Table(get_File_Data());
+    initialize_Table(rowData.size());
+
+    populate_Table(rowData);
 
     find_Conflicts();
 
@@ -487,13 +543,15 @@ void MainWindow::on_ValidateButton_clicked() //currently broken with reliance on
 
     if(conflictCounter == 0) {
 
-        scheduleValidated = true;
-
         ui->ConflictLine->hide();
 
         ui->ValidateButton->hide();
 
     }
+
+    scheduleValidated = true;
+
+    display_Generated_Schedule();
 
 }
 
@@ -509,30 +567,31 @@ void MainWindow::on_DarkModeAction_triggered()
                                          "QLineEdit{border-width:2px; color: gainsboro; background-color: black}"
                                          "QTableWidget{border-color: dimgrey; border-width: 2px; alternate-background-color: dimgrey; gridline-color: white;}"
                                          "QHeaderView::section{background-color: black; color: gainsboro;}"
-                                         "QTableCornerButton::section{background-color: black; border-color: dimgray; border-width: 2px;}"
-                                         "QMenuBar{background-color: dimgrey; border-style: outset; border-color: dimgrey; color: gainsboro;}"
-                                         "QMenu{background-color: black;}");
+                                         "QTableCornerButton::section{background-color: black; border-color: dimgray; border-width: 2px;}");
 
-        ui->menuBar->setStyleSheet("QMenuBar{background-color: dimgrey; border-style: outset; border-color: dimgrey; color: gainsboro;}"
-                                   "QMenu{background-color: black;}");
+        ui->menuBar->setStyleSheet("QMenuBar{background-color: black; color: gainsboro;}"
+                                   "QMenuBar::item{background-color: black;}"
+                                   "QMenuBar::item:selected{background-color: rgba(115, 201, 250, 0.4);}"
+                                   "QMenu{background: dimgrey; color:gainsboro;}"
+                                   "QMenu::item:selected{background-color: rgba(115, 201, 250, 0.4);}");
 
         darkMode = true;
 
     } else {
 
-        ui->centralWidget->setStyleSheet("QWidget{background: white; border-style: outset; border-color: black; color: black;}"
+        ui->centralWidget->setStyleSheet("QWidget{background-color: white; border-style: outset; border-color: black; color: black;}"
                                          "QLineEdit{border-width:1px; color: black; background-color: white}"
                                          "QPushButton{border-width: 1px; color: black; background-color: white;}"
                                          "QPushButton::Pressed{border-width: 2px; color: gainsboro; background-color: black}"
                                          "QPlainTextEdit{border-width: 1px;}"
                                          "QTableWidget{border-color: black; border-width: 1px; alternate-background-color: lightgrey; gridline-color: black;}"
                                          "QHeaderView::section{background-color: white; color: black;}"
-                                         "QTableCornerButton::section{background-color: white; border-color: black; border-width: 1px;}"
-                                         "QMenuBar{background: white; border-style: outset; border-color: black; color: black;}"
-                                         "QMenu{background: white;}");
+                                         "QTableCornerButton::section{background-color: white; border-color: black; border-width: 1px;}");
 
-        ui->menuBar->setStyleSheet("QMenuBar{background: white; border-style: outset; border-color: black; color: black;}"
-                                   "QMenu{background: white;}");
+        ui->menuBar->setStyleSheet("QMenuBar{background-color: white; color: black;}"
+                                   "QMenuBar::item:selected{background-color: rgba(115, 201, 250, 0.4);}"
+                                   "QMenu{background: white; color:black;}"
+                                   "QMenu::item:selected{background-color: rgba(115, 201, 250, 0.4);}");
 
         darkMode = false;
 
@@ -544,21 +603,9 @@ void MainWindow::on_DarkModeAction_triggered()
 void MainWindow::display_Generated_Schedule()
 {
 
-    if(scheduleHidden) {
+    ui->SaveCSVButton->show();
 
-        ui->scheduleTable->show();
-
-        scheduleHidden = false;
-
-    }
-
-    if(scheduleGenerated || scheduleValidated) {
-
-        ui->SaveCSVButton->show();
-
-        ui->SaveTXTButton->show();
-
-    }
+    ui->SaveTXTButton->show();
 
     if(conflictCounter > 0) {
 
@@ -660,6 +707,9 @@ QStringList MainWindow::get_File_Data()
 void MainWindow::initialize_Table(int numRows)
 {
 
+    if(scheduleGenerated)
+        clear_Table();
+
     auto table = ui->scheduleTable;
 
     ComboBoxDelegate* comboSecType = new ComboBoxDelegate(table);
@@ -709,6 +759,8 @@ void MainWindow::initialize_Table(int numRows)
         }
 
     }
+
+    table->setSortingEnabled(true);
 
 }
 
@@ -766,9 +818,14 @@ void MainWindow::get_Table_Data()
 
             }
 
+            if(x+1<table->rowCount())
+                stream << "\n";
+
         }
 
     }
+
+    file.close();
 
 }
 
@@ -815,3 +872,79 @@ void MainWindow::clear_Table()
     ui->SaveTXTButton->hide();
 
 }
+
+void MainWindow::on_actionAdd_Department_triggered()
+{
+
+    on_DepartmentButton_clicked();
+
+}
+
+
+void MainWindow::on_actionGenerate_Schedule_triggered()
+{
+    if(departmentCounter > 0)
+        on_GenerateButton_clicked();
+
+}
+
+
+void MainWindow::on_actionValidate_Schedule_triggered()
+{
+
+    if(!ui->ValidateButton->isHidden())
+        on_ValidateButton_clicked();
+    else {
+
+        QMessageBox messageBox;
+
+        messageBox.critical(0, "ERROR", "No Schedule Generated!");
+
+    }
+
+}
+
+
+void MainWindow::on_actionSave_as_CSV_triggered()
+{
+
+    if(scheduleGenerated)
+        on_SaveCSVButton_clicked();
+    else {
+
+        QMessageBox messageBox;
+
+        messageBox.critical(0, "ERROR", "No Schedule Generated!");
+
+    }
+
+}
+
+
+void MainWindow::on_actionSave_to_Print_triggered()
+{
+
+    if(scheduleGenerated)
+        on_SaveTXTButton_clicked();
+    else {
+
+        QMessageBox messageBox;
+
+        messageBox.critical(0, "ERROR", "No Schedule Generated!");
+
+    }
+
+}
+
+
+void MainWindow::on_actionLegend_triggered() //Needs to have legend info provided
+{
+
+    QMessageBox messageBox;
+
+    messageBox.information(0, "Legend", "TBA - If a schedule cell contains 'TBA' after schedule generation, that could mean one of two things:\n\n\t1) The current course is listed as an Online course\n\n\t2) Information could not be assigned to the course due within\n\t    generation of the schedule"
+                                        "\n\nRed Row - If a schedule row is highlighted in red, that is signifying that said course has 1 or more conflicts that should be resolved"
+                                        "\n\nTypes of Conflicts - There are two possible types of conflicts that can occur during schedule generation:\n\n\t1) Self Conflicts - These conflicts are the result of when a course is\n\t\t               generated and certain parts of the information\n\t\t               provided is impossible\n\n\t2) Shared Conflicts - These conflicts are the result of when two or more\n\t\t                     courses share the same information after\n\t\t                     generation");
+
+}
+

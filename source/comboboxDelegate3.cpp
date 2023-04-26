@@ -31,6 +31,8 @@ QWidget *ComboBoxDelegate3::createEditor(QWidget *parent, const QStyleOptionView
 
     cb->addItem("6:00 PM");
 
+    cb->addItem("TBA");
+
     return cb;
 
 }
