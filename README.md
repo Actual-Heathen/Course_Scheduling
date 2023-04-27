@@ -59,11 +59,13 @@ If there are any conflicts the system will highlight the row in red to indicate 
 There are two possible conflicts:
 * Self - the course is lacking information or has incompatible information in it.
 * another course - the course has a conflicting schedule with another course.
-Changes can be made directly via the displayed spreadsheet. When changes are verified they can be verified via the **VERIFY** button which will check if there remain any conflicts and highlight them.
+* Both conflicts are possible at the same time
+The user can make changes directly via the displayed spreadsheet to fix any of the flaged isssues. When changes are verified they can be verified via the **VERIFY** button which will check if there remain any conflicts and highlight them.
 When a schedule is complete it can be output in a CSV format of a print-ready formatted TXT. 
 # building
 ### Dependencies
-To build the project version 6 of QT must be installed for compiling the necessary GUI features.
+* Qt version 6.4.2
+* MinGW
 ### Compiling
 The project can be compiled and run via the QT Creator IDE.
 Additionally, the project can be compiled via the command line with the use of Make and Qmake
