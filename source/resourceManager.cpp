@@ -171,7 +171,7 @@ int toOutput(outputStruct results) //conf,type,crn,couresenum,name,max,days,star
 		else if (dayTime == 2)
 		{
 			csvOutput <<"11:20 AM,";
-			csvOutput <<"12:40 AM,";
+			csvOutput <<"12:40 PM,";
 		}
 		else if (dayTime == 3)
 		{
