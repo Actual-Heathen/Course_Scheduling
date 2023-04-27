@@ -61,7 +61,7 @@ There are two possible conflicts:
 * another course - the course has a conflicting schedule with another course.
 * Both conflicts are possible at the same time
  
-The user can make changes directly via the displayed spreadsheet to fix any of the flaged isssues. When changes are verified they can be verified via the **VERIFY** button which will check if there remain any conflicts and highlight them.
+The user can make changes directly via the displayed spreadsheet to fix any of the flagged conflicts. When changes are made they can be verified via the **VALIDATE** button which will check if there are any conflicts and highlight them
 When a schedule is complete it can be output in a CSV format of a print-ready formatted TXT. 
 # building
 ### Dependencies
