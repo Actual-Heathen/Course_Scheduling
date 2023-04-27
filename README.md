@@ -60,6 +60,7 @@ There are two possible conflicts:
 * Self - the course is lacking information or has incompatible information in it.
 * another course - the course has a conflicting schedule with another course.
 * Both conflicts are possible at the same time
+ 
 The user can make changes directly via the displayed spreadsheet to fix any of the flaged isssues. When changes are verified they can be verified via the **VERIFY** button which will check if there remain any conflicts and highlight them.
 When a schedule is complete it can be output in a CSV format of a print-ready formatted TXT. 
 # building
