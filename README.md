@@ -61,12 +61,12 @@ There are two possible conflicts:
 * another course - the course has a conflicting schedule with another course.
 * Both conflicts are possible at the same time
  
-The user can make changes directly via the displayed spreadsheet to fix any of the flagged conflicts. When changes are made they can be verified via the **VALIDATE** button which will check if there are any conflicts and highlight them
+The user can make changes directly via the displayed spreadsheet to fix any of the flagged conflicts. When changes are made they can be verified via the **VALIDATE** button which will check if there are any conflicts and highlight them.
 When a schedule is complete it can be output in a CSV format of a print-ready formatted TXT. 
 # building
 ### Dependencies
-* Qt version 6.4.2
-* MinGW
+* [Qt version 6.4.2](https://www.qt.io/)
+* [MinGW version 11.2.0](https://www.mingw-w64.org/)
 ### Compiling
 The project can be compiled and run via the QT Creator IDE.
 Additionally, the project can be compiled via the command line with the use of Make and Qmake
