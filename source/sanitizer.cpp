@@ -1,7 +1,7 @@
 #include "../header/sanitizer.h"
 #include <string>
 
-bool Sanitizer::isValidDay(std::string s)
+bool Sanitizer::isValidDay(std::string s) //check if the string is a valid day format
 {
     if (s == "MW" || s == "TR")
     {
@@ -11,7 +11,7 @@ bool Sanitizer::isValidDay(std::string s)
     return false;
 }
 
-bool Sanitizer::isValidTime(std::string s)
+bool Sanitizer::isValidTime(std::string s) //check if the string is a valid time format
 {
     if (s == "8:00 AM")
     {
@@ -45,7 +45,7 @@ bool Sanitizer::isValidTime(std::string s)
     return false;
 }
 
-bool Sanitizer::isInt(std::string s)
+bool Sanitizer::isInt(std::string s) //check if the tring is an integer
 {
     for(int i = 0; i < s.length(); i++)
     {
@@ -58,7 +58,7 @@ bool Sanitizer::isInt(std::string s)
     return true;
 }
 
-bool Sanitizer::isValidSectionType(Course course)
+bool Sanitizer::isValidSectionType(Course course) //check if the section type is valid
 {
     if (course.getSectionType() == 'A' || course.getSectionType() == 'S' || course.getSectionType() == 'T')
     {

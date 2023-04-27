@@ -130,13 +130,14 @@ write generated schedule to file, return number of conflicts detected
 */
 int toOutput(outputStruct results) //conf,type,crn,couresenum,name,max,days,start,end,bld,room,instructor
 {
-	ofstream csvOutput;
+	ofstream csvOutput; //make the CSV file to output to
     csvOutput.open("output.csv");
 
-	csvOutput << "Conflict,Sec Type,CRN,Course,Title,Credit,Max Enrl,Days,Start,End,Bldg,Room,Instructor\n";
+	csvOutput << "Conflict,Sec Type,CRN,Course,Title,Credit,Max Enrl,Days,Start,End,Bldg,Room,Instructor\n"; //header to the CSV
 
-	for (long unsigned int i = 0; i < results.courseList.size(); i++)
+	for (long unsigned int i = 0; i < results.courseList.size(); i++) //loop through entire courselist object
 	{
+		//output the values to the file
 		csvOutput << results.courseList[i].conflictToString() << ",";
 		csvOutput << results.courseList[i].getSectionType() << ",";
 		csvOutput << results.courseList[i].getCRN() << ",";
@@ -145,7 +146,7 @@ int toOutput(outputStruct results) //conf,type,crn,couresenum,name,max,days,star
 		csvOutput << results.courseList[i].getCredit() << ",";
 		csvOutput << results.courseList[i].getMaxEnroll() << ",";
 		int dayTime = results.courseList[i].getDay();
-		if (dayTime == 0)
+		if (dayTime == 0) // convert the backend's integer to a string to represent day
 		{
 			csvOutput <<"MW,";
 		}
@@ -158,7 +159,7 @@ int toOutput(outputStruct results) //conf,type,crn,couresenum,name,max,days,star
 			csvOutput <<"TBA,";
 		}
 		dayTime = results.courseList[i].getTime();
-		if (dayTime == 0)
+		if (dayTime == 0) // convert backend's integer to a string to represent the appropriate times
 		{
 			csvOutput <<"8:00 AM,";
 			csvOutput <<"9:20 AM,";
@@ -193,12 +194,13 @@ int toOutput(outputStruct results) //conf,type,crn,couresenum,name,max,days,star
 			csvOutput <<"6:00 PM,";
 			csvOutput <<"7:20 PM,";
 		}
-		else
+		else //catch-all
 		{
 			csvOutput <<"TBA,";
 			csvOutput <<"TBA,";
 		}
 		//csvOutput << courseList[i].getBuilding() << ",";
+		//output room and building from room string
 		string buildingRoom = results.courseList[i].getRoom();
 		int space = buildingRoom.find(" ");
 		string building = buildingRoom.substr(0, space);
@@ -206,9 +208,9 @@ int toOutput(outputStruct results) //conf,type,crn,couresenum,name,max,days,star
 
 		csvOutput << building << ",";
 		csvOutput << room << ",";
-        csvOutput << results.courseList[i].getLastName() <<" "<< results.courseList[i].getFirstName();
+        csvOutput << results.courseList[i].getLastName() <<" "<< results.courseList[i].getFirstName(); //name output
 
-        if(i+1 < results.courseList.size())
+        if(i+1 < results.courseList.size()) //newline
             csvOutput << "\n";
 
 	}
@@ -216,31 +218,31 @@ int toOutput(outputStruct results) //conf,type,crn,couresenum,name,max,days,star
 	return results.conflictCount;
 }
 
-int outToIn()
+int outToIn() // convert output.csv to backend objects
 {
-	vector<Course> courseList;
+	vector<Course> courseList; //open CSV and prepare vector
 	ifstream csvInput;
     csvInput.open("output.csv");
 	
-	if (!csvInput)
+	if (!csvInput) //error if no CSV
 	{
 		return -1;
 	}
 	
-	string line;
+	string line; //line reader variables
 	string temp;
 	vector<string> words;
 	getline(csvInput,line); //dump header
-    while(getline(csvInput, line, '\n'))
+    while(getline(csvInput, line, '\n')) //loop the CSV
 	{
         stringstream lineS(line);
 		int counter = 0;
-        if(lineS.str() != ",,,,,,,,,,,,")
+        if(lineS.str() != ",,,,,,,,,,,,") //avoid bad lines
 		{
-            while(getline(lineS,temp,','))
+            while(getline(lineS,temp,',')) //substring based on ',' delimeter
 			{
 
-				if (counter == 3)
+				if (counter == 3) // substring the course number and section
 				{
 					stringstream tempS(temp);
 					vector<string> abToken;
@@ -267,7 +269,7 @@ int outToIn()
 					}
 					abToken.clear();
 				}
-				if (counter == 12 )
+				if (counter == 12 ) //substring the instructor's name
 				{
 					stringstream tempS(temp);
 					vector<string> abToken;
@@ -298,6 +300,7 @@ int outToIn()
 				counter++;
 			}
 
+			//add values to the backend
 			Course tempCourse;
 			tempCourse.setConflict(NONE); //changed from true 1) to match conflict enum type, 2) to start with no conflicts; conflicts determined later in validation
 			tempCourse.setSectionType(words[1].at(0));
@@ -308,6 +311,7 @@ int outToIn()
 			tempCourse.setCredit(stoi(words[6]));
 			tempCourse.setMaxEnroll(stoi(words[7]));
 			string dayTime = words[8];
+			//special day time case conversions
 			if (dayTime == "MW")
 			{
 				tempCourse.setDay(0);
@@ -350,13 +354,13 @@ int outToIn()
 				tempCourse.setTime(6);
 
 			}
-			else
+			else //catch-all
 			{
 				tempCourse.setTime(-1);
 			}
 			//no end time (words[10])	
 			//tempCourse.setBuilding(words[11]);
-			if (words[11] == "TBA")
+			if (words[11] == "TBA") //catch-all
 			{
 				tempCourse.setRoom("TBA");
 			}
